@@ -1,0 +1,168 @@
+.navbar {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  z-index: 1000;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 14px 40px;
+  background: #1f2937;
+  border-bottom: 1px solid rgba(255, 255, 255, 0.1);
+  font-family: "Poppins", sans-serif;
+  box-shadow: 0 2px 12px rgba(0, 0, 0, 0.4);
+}
+
+.navbar-brand {
+  font-size: 22px;
+  font-weight: 600;
+  color: #2563eb;
+  text-shadow: 0 0 6px rgba(37, 99, 235, 0.4);
+  animation: glowPulse 3s ease-in-out infinite;
+}
+
+@keyframes glowPulse {
+  0%, 100% {
+    text-shadow: 0 0 6px rgba(37, 99, 235, 0.3), 0 0 10px rgba(37, 99, 235, 0.2);
+  }
+  50% {
+    text-shadow: 0 0 12px rgba(37, 99, 235, 0.6), 0 0 20px rgba(37, 99, 235, 0.4);
+  }
+}
+
+.navbar-links {
+  display: flex;
+  justify-content: flex-end;
+  gap: 24px;
+  width: 60%;
+}
+
+.nav-link {
+  color: #d1d5db;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 15px;
+  transition: color 0.3s ease;
+}
+
+.nav-link:hover {
+  color: #93c5fd;
+}
+
+.nav-info {
+  color: #9ca3af;
+  font-size: 14px;
+  display: flex;
+  flex-direction: column;
+}
+
+.nav-role {
+  font-size: 11px;
+}
+
+.btn-logout {
+  background-color: #ef4444;
+  border: none;
+  color: white;
+  padding: 8px 16px;
+  border-radius: 8px;
+  font-weight: 500;
+  cursor: pointer;
+  transition: background 0.3s ease, transform 0.2s ease;
+  margin-right: 10%;
+}
+
+.btn-logout:hover {
+  background-color: #dc2626;
+  transform: scale(1.05);
+}
+
+
+/* ========================================================= */
+/*                      RESPONSIVE DESIGN                    */
+/* ========================================================= */
+
+/* TABLETTES max 1024px */
+@media (max-width: 1024px) {
+  .navbar {
+    padding: 12px 25px;
+  }
+
+  .navbar-brand {
+    font-size: 20px;
+    width: 30%;
+  }
+
+  .navbar-links {
+    display: flex;
+    flex-direction: row;
+    justify-content: flex-end;
+    gap: 16px;
+    width: 70%;
+  }
+
+  .nav-link {
+    font-size: 14px;
+  }
+
+  .btn-logout {
+    margin-right: 10px;
+    padding: 7px 14px;
+    width: 30%;
+  }
+}
+
+/* MOBILES max 768px */
+@media (max-width: 768px) {
+  .navbar {
+    flex-direction: row;
+    align-items: flex-start;
+    padding: 12px 20px;
+    gap: 10px;
+  }
+
+  .navbar-links {
+    width: 70%;
+    display: flex;
+    flex-direction: row;
+    align-items: flex-start;
+    gap: 12px;
+  }
+
+  .nav-link {
+    font-size: 15px;
+  }
+
+  .btn-logout {
+    margin-right: 10%;
+    width: 30%;
+    text-align: center;
+    padding: 10px;
+  }
+}
+
+/* PETITS MOBILES max 480px */
+@media (max-width: 480px) {
+  .navbar-brand {
+    font-size: 18px;
+  }
+
+  .nav-info {
+    font-size: 12px;
+  }
+
+  .nav-role {
+    font-size: 10px;
+  }
+
+  .navbar-links {
+    gap: 10px;
+    width: 70%;
+  }
+
+  .btn-logout {
+    padding: 10px 12px;
+    font-size: 14px;
+  }
+}

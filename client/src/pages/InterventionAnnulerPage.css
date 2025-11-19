@@ -1,0 +1,192 @@
+/* ----------- PAGE ----------- */
+.cancel-page {
+  padding: 20px;
+  font-family: "Poppins", Arial, sans-serif;
+}
+
+.page-title {
+  font-size: 24px;
+  margin-bottom: 10px;
+  margin-top: 50px;
+  text-align: center;
+}
+
+.sectionb-underlineb {
+  height: 3px;
+  background-color: #f44336;
+  width: 70%;
+  margin: 0 auto 20px auto;
+}
+
+/* ----------- TABLE VERSION DESKTOP ----------- */
+.cancel-table {
+  width: 100%;
+  border-collapse: collapse;
+  background: white;
+}
+
+.cancel-table th,
+.cancel-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  font-size: 14px;
+  text-align: center;
+}
+
+.cancel-table th {
+  background-color: #a83a32;
+  color: white;
+}
+
+.cancel-table tr:hover {
+  background-color: #f1f1f1;
+}
+
+
+
+.btn-cancel {
+  padding: 6px 12px;
+  background-color: #f44336;
+  border: none;
+  border-radius: 5px;
+  color: white;
+  font-weight: bold;
+  cursor: pointer;
+}
+
+.btn-cancel:hover {
+  background-color: #d32f2f;
+}
+
+.loading-text {
+  text-align: center;
+  margin-top: 40px;
+  font-size: 16px;
+}
+
+
+   .filters {
+    display: flex;
+    gap: 20px;
+    background: #f8fafc;
+    padding: 15px 20px;
+    border-radius: 12px;
+    margin-bottom: 25px;
+    box-shadow: 0 3px 8px rgba(0, 0, 0, 0.08);
+    flex-wrap: wrap;
+  }
+  
+  .filters > div {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .filters label {
+    font-weight: 600;
+    color: #334155;
+    margin-bottom: 4px;
+    font-size: 14px;
+  }
+  
+  .filters input,
+  .filters select {
+    padding: 8px 12px;
+    border-radius: 8px;
+    border: 1px solid #cbd5e1;
+    font-size: 14px;
+    color: #1e293b;
+    background: white;
+    transition: all 0.2s ease;
+  }
+  
+  .filters input:focus,
+  .filters select:focus {
+    border-color: #2563eb;
+    box-shadow: 0 0 0 2px rgba(37, 99, 235, 0.25);
+  }
+  
+  /* Bouton reset optionnel */
+  .btn-reset-filters {
+    background: #e11d48;
+    color: white;
+    border: none;
+    padding: 9px 14px;
+    border-radius: 8px;
+    cursor: pointer;
+    font-weight: 600;
+    transition: 0.2s ease;
+  }
+  
+  .btn-reset-filters:hover {
+    background: #be123c;
+  }
+  
+/* ========================================================= */
+/* =============== MODE MOBILE / TABLETTE ================== */
+/* ========================================================= */
+
+@media (max-width: 900px) {
+  /* Cacher l’en-tête du tableau */
+  .cancel-table thead {
+    display: none;
+  }
+  .filters {
+    flex-direction: column;
+  }
+
+  .filters > div {
+    width: 100%;
+  }
+  .cancel-table,
+  .cancel-table tbody,
+  .cancel-table tr,
+  .cancel-table td {
+    display: block;
+    width: 100%;
+  }
+
+  /* Carte */
+  .cancel-table tr {
+    margin-bottom: 15px;
+    width: 95%;
+    background: #ffffff;
+    border-radius: 12px;
+    padding: 12px;
+    box-shadow: 0 3px 8px rgba(0,0,0,0.08);
+    border: 1px solid #eee;
+    
+  }
+
+  .cancel-table td {
+    text-align: left;
+    padding: 8px 10px;
+    border: none;
+    font-size: 15px;
+    display: grid;
+    grid-template-columns: 130px 1fr;
+    gap: 5px;
+  }
+
+  /* Ajouter un label automatique devant chaque valeur */
+  .cancel-table td::before {
+    content: attr(data-label);
+    font-weight: bold;
+    font-size: 0.9rem;
+    color: #256103;
+  }
+
+  /* Bouton centré */
+  .btn-cancel {
+    
+    padding: 10px;
+    margin-top: 10px;
+    
+    margin-right: 0%;
+    font-size: 15px;
+  }
+}
+
+
+
+
+
