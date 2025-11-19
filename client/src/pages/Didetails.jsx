@@ -10,7 +10,7 @@ const Didetails = () => {
   useEffect(() => {
     const fetchInterventions = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/interventions");
+        const res = await axios.get("https://fixme-1.onrender.com/api/interventions");
         const filtered = res.data.filter(
           (i) => i.statut === "ouvert" ||
            i.statut === "en_cours"
@@ -26,7 +26,7 @@ const Didetails = () => {
 
   const handleStart = async (id) => {
     try {
-      await axios.put(`http://localhost:5000/api/interventions/${id}`, {
+      await axios.put(`https://fixme-1.onrender.com/api/interventions/${id}`, {
         statut: "en_cours",
       });
       setInterventions((prev) =>
