@@ -27,7 +27,7 @@ const ListDi = () => {
   useEffect(() => {
     const fetchInterventions = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/interventions");
+        const res = await axios.get("https://fixme-1.onrender.com/api/interventions");
         setInterventions(res.data);
         setFiltered(res.data);
       } catch (err) {
