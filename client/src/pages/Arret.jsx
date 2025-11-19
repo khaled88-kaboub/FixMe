@@ -54,9 +54,9 @@ const Arret = () => {
     const fetchData = async () => {
       try {
         const [intvRes, lignesRes, eqRes] = await Promise.all([
-          axios.get("http://localhost:5000/api/interventions"),
-          axios.get("http://localhost:5000/api/lignes"),
-          axios.get("http://localhost:5000/api/equipements"),
+          axios.get("https://fixme-1.onrender.com/api/interventions"),
+          axios.get("https://fixme-1.onrender.com/api/lignes"),
+          axios.get("https://fixme-1.onrender.com/api/equipements"),
         ]);
         setInterventions(intvRes.data);
         setLignes(lignesRes.data);
