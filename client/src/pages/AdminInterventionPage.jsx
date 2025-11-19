@@ -32,9 +32,9 @@ export default function AdminInterventionsPage() {
   const fetchAllData = async () => {
     try {
       const [intervRes, ligneRes, equipRes] = await Promise.all([
-        axios.get("http://localhost:5000/api/interventions"),
-        axios.get("http://localhost:5000/api/lignes"),
-        axios.get("http://localhost:5000/api/equipements"),
+        axios.get("https://fixme-1.onrender.com/api/interventions"),
+        axios.get("https://fixme-1.onrender.com/api/lignes"),
+        axios.get("https://fixme-1.onrender.com/api/equipements"),
       ]);
 
       setInterventions(intervRes.data);
@@ -105,7 +105,7 @@ export default function AdminInterventionsPage() {
       return;
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`http://localhost:5000/api/interventions/${id}`, {
+      await axios.delete(`https://fixme-1.onrender.com/api/interventions/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setInterventions(interventions.filter((i) => i._id !== id));
