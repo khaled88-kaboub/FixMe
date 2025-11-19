@@ -62,7 +62,7 @@ export default function NewInterventionPage() {
     setLoading(true);
     try {
       const token = localStorage.getItem("token");
-      await axios.post("http://localhost:5000/api/interventions", form, {
+      await axios.post("https://fixme-1.onrender.com/api/interventions", form, {
         headers: { Authorization: `Bearer ${token}` },
       });
       toast.success("✅ Intervention enregistrée !");
