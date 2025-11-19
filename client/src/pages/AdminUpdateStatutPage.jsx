@@ -30,7 +30,7 @@ export default function AdminUpdateStatutPage() {
 
   const fetchInterventions = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/interventions");
+      const res = await axios.get("https://fixme-1.onrender.com/api/interventions");
       setInterventions(res.data);
       setFiltered(res.data);
     } catch (err) {
@@ -42,7 +42,7 @@ export default function AdminUpdateStatutPage() {
 
   const fetchLignes = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/lignes");
+      const res = await axios.get("https://fixme-1.onrender.com/api/lignes");
       setLignes(res.data);
     } catch (err) {
       console.error("Erreur chargement lignes :", err);
@@ -51,7 +51,7 @@ export default function AdminUpdateStatutPage() {
 
   const fetchEquipements = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/equipements");
+      const res = await axios.get("https://fixme-1.onrender.com/api/equipements");
       setEquipements(res.data);
     } catch (err) {
       console.error("Erreur chargement équipements :", err);
