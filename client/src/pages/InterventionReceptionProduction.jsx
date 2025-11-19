@@ -23,7 +23,7 @@ const InterventionReceptionProduction = () => {
   useEffect(() => {
     const fetchInterventions = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/interventions");
+        const res = await axios.get("https://fixme-1.onrender.com/api/interventions");
         const onlyActive = res.data.filter(
           (i) => i.statut === "ouvert" || i.statut === "en_cours"
         );
@@ -95,7 +95,7 @@ const InterventionReceptionProduction = () => {
   // Gérer la mise à jour backend
   const handleReception = async () => {
     try {
-      await axios.put(`http://localhost:5000/api/interventions/${selected._id}`, {
+      await axios.put(`https://fixme-1.onrender.com/api/interventions/${selected._id}`, {
         receptionProduction: true,
         ligneAdemarre: selected.ligneAdemarre,
         equipementAdemarre: selected.equipementAdemarre,
