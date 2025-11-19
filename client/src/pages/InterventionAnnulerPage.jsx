@@ -24,7 +24,7 @@ const InterventionAnnulerPage = () => {
 
   const fetchLignes = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/lignes");
+      const res = await axios.get("https://fixme-1.onrender.com/api/lignes");
       setLignes(res.data || []);
     } catch (err) {
       console.error("Erreur fetchLignes", err);
@@ -34,7 +34,7 @@ const InterventionAnnulerPage = () => {
 
   const fetchInterventions = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/interventions");
+      const res = await axios.get("https://fixme-1.onrender.com/api/interventions");
       const filtered = (res.data || []).filter(
         (i) => i.statut !== "annule" && i.statut !== "termine"
       );
@@ -101,7 +101,7 @@ const InterventionAnnulerPage = () => {
       return;
 
     try {
-      await axios.put(`http://localhost:5000/api/interventions/${id}`, {
+      await axios.put(`https://fixme-1.onrender.com/api/interventions/${id}`, {
         statut: "annule",
       });
       toast.success(`Demande ${numero} annulée`);
