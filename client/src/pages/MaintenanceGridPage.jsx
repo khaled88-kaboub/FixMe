@@ -25,7 +25,7 @@ const MaintenanceGridPage = () => {
   useEffect(() => {
     const fetchInterventions = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/interventions");
+        const res = await axios.get("https://fixme-1.onrender.com/api/interventions");
         const filtered = res.data.filter(
           (i) =>
             i.statut === "ouvert" ||
@@ -80,7 +80,7 @@ const MaintenanceGridPage = () => {
   // Recevoir une DI
   const handleStart = async (id) => {
     try {
-      const res = await axios.put(`http://localhost:5000/api/interventions/${id}`, {
+      const res = await axios.put(`https://fixme-1.onrender.com/api/interventions/${id}`, {
         statut: "en_cours",
       });
   
