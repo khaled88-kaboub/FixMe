@@ -27,7 +27,7 @@ export default function InterventionEtRapport() {
 
   const loadInterventions = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/interventions");
+      const res = await axios.get("https://fixme-1.onrender.com/api/interventions");
       if (Array.isArray(res.data)) setInterventions(res.data);
     } catch (err) {
       console.error(err);
@@ -36,7 +36,7 @@ export default function InterventionEtRapport() {
 
   const loadRapports = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/rapports");
+      const res = await axios.get("https://fixme-1.onrender.com/api/rapports");
       if (Array.isArray(res.data)) setRapports(res.data);
     } catch (err) {
       console.error(err);
