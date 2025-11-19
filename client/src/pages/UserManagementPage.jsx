@@ -20,7 +20,7 @@ const UserManagementPage = () => {
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/users");
+      const res = await axios.get("https://fixme-1.onrender.com/api/users");
       setUsers(res.data);
     } catch (err) {
       console.error("Erreur de chargement :", err);
@@ -36,12 +36,12 @@ const UserManagementPage = () => {
     try {
       if (editingUser) {
         await axios.put(
-          `http://localhost:5000/api/users/${editingUser._id}`,
+          `https://fixme-1.onrender.com/api/users/${editingUser._id}`,
           formData
         );
         alert("✅ Utilisateur mis à jour !");
       } else {
-        await axios.post("http://localhost:5000/api/users", formData);
+        await axios.post("https://fixme-1.onrender.com/api/users", formData);
         alert("✅ Nouvel utilisateur ajouté !");
       }
       setFormData({ name: "", email: "", role: "demandeur", password: "" });
@@ -70,7 +70,7 @@ const UserManagementPage = () => {
 
   const confirmDelete = async () => {
     try {
-      await axios.delete(`http://localhost:5000/api/users/${userToDelete._id}`);
+      await axios.delete(`https://fixme-1.onrender.com/api/users/${userToDelete._id}`);
       setUsers(users.filter((u) => u._id !== userToDelete._id));
       closeDeleteModal();
     } catch (err) {
