@@ -30,7 +30,7 @@ export default function ListeReportPage() {
 
   const fetchRapports = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/rapports");
+      const res = await axios.get("https://fixme-1.onrender.com/api/rapports");
       setRapports(res.data || []);
     } catch (err) {
       console.error("Erreur de chargement :", err);
@@ -39,7 +39,7 @@ export default function ListeReportPage() {
 
   const fetchTechniciens = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/techniciens");
+      const res = await axios.get("https://fixme-1.onrender.com/api/techniciens");
       setTechniciens(res.data || []);
     } catch (err) {
       console.error("Erreur chargement techniciens :", err);
@@ -61,7 +61,7 @@ export default function ListeReportPage() {
     try {
       setLoading(true);
       await axios.put(
-        `http://localhost:5000/api/rapports/${selectedRapport._id}`,
+        `https://fixme-1.onrender.com/api/rapports/${selectedRapport._id}`,
         selectedRapport
       );
       setShowModal(false);
@@ -77,7 +77,7 @@ export default function ListeReportPage() {
   const handleDelete = async (id) => {
     if (!window.confirm("Voulez-vous vraiment supprimer ce rapport ?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/rapports/${id}`);
+      await axios.delete(`https://fixme-1.onrender.com/api/rapports/${id}`);
       setRapports((prev) => prev.filter((r) => r._id !== id));
     } catch (err) {
       console.error("Erreur suppression :", err);
