@@ -25,8 +25,8 @@ const InterventionReportPage = () => {
     const fetchData = async () => {
       try {
         const [intervRes, techRes] = await Promise.all([
-          axios.get("http://localhost:5000/api/interventions"),
-          axios.get("http://localhost:5000/api/techniciens")
+          axios.get("https://fixme-1.onrender.com/api/interventions"),
+          axios.get("https://fixme-1.onrender.com/api/techniciens")
         ]);
         setInterventions(intervRes.data);
         setTechniciens(techRes.data);
@@ -90,7 +90,7 @@ const InterventionReportPage = () => {
           })),
       };
 
-      await axios.post("http://localhost:5000/api/rapports", formattedData);
+      await axios.post("https://fixme-1.onrender.com/api/rapports", formattedData);
       alert("✅ Rapport enregistré avec succès !");
       window.location.reload();
     } catch (err) {
