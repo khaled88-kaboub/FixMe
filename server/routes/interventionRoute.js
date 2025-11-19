@@ -6,7 +6,7 @@ import {
   getInterventionById,
   updateIntervention,
   deleteIntervention,
-} from "../controllers/interventionController.js";
+} from "../controllers/InterventionController.js";
 //import { protect } from "../middleware/authMiddleware.js"; // si tu veux sécuriser
 
 const router = express.Router();
