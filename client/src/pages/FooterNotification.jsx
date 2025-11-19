@@ -4,7 +4,7 @@ import axios from "axios";
 import "./FooterNotification.css";
 import { FaPlay, FaSpinner, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 
-const socket = io("http://localhost:5000");
+const socket = io("https://fixme-1.onrender.com");
 
 export default function FooterNotification() {
   const [stats, setStats] = useState({
@@ -27,7 +27,7 @@ export default function FooterNotification() {
   useEffect(() => {
     // Initialisation : récupération initiale
     const fetchData = async () => {
-      const res = await axios.get("http://localhost:5000/api/interventions");
+      const res = await axios.get("https://fixme-1.onrender.com/api/interventions");
       calculerStats(res.data);
     };
     fetchData();
