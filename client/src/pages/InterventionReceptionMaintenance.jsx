@@ -23,8 +23,8 @@ const InterventionReceptionMaintenance = () => {
     const fetchData = async () => {
       try {
         const [interRes, rapportRes] = await Promise.all([
-          axios.get("http://localhost:5000/api/interventions"),
-          axios.get("http://localhost:5000/api/rapports"),
+          axios.get("https://fixme-1.onrender.com/api/interventions"),
+          axios.get("https://fixme-1.onrender.com/api/rapports"),
         ]);
 
         const intervs = interRes.data;
@@ -102,7 +102,7 @@ const InterventionReceptionMaintenance = () => {
     }
 
     try {
-      await axios.put(`http://localhost:5000/api/interventions/${item._id}`, {
+      await axios.put(`https://fixme-1.onrender.com/api/interventions/${item._id}`, {
         clotureMaintenance: true,
       });
 
