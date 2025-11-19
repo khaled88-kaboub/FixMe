@@ -26,7 +26,7 @@ export default function NewInterventionPage() {
   useEffect(() => {
     const fetchLignes = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/lignes");
+        const res = await axios.get("https://fixme-1.onrender.com/api/lignes");
         setLignes(res.data);
       } catch (err) {
         toast.error("Erreur lors du chargement des lignes");
@@ -40,7 +40,7 @@ export default function NewInterventionPage() {
     const fetchEquipements = async () => {
       if (!form.ligne) return setEquipements([]);
       try {
-        const res = await axios.get("http://localhost:5000/api/equipements");
+        const res = await axios.get("https://fixme-1.onrender.com/api/equipements");
         const filtres = res.data.filter(
           (eq) => eq.ligne && (eq.ligne._id === form.ligne || eq.ligne === form.ligne)
         );
