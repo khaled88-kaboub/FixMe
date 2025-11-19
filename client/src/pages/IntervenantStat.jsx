@@ -27,7 +27,7 @@ const IntervenantStat = () => {
 
   const fetchStats = async (startDate, endDate) => {
     try {
-      const { data } = await axios.get("http://localhost:5000/api/rapports");
+      const { data } = await axios.get("https://fixme-1.onrender.com/api/rapports");
 
       const filtered = data.filter((rapport) => {
         const dateInterv = new Date(rapport.dateIntervention);
@@ -99,7 +99,7 @@ const IntervenantStat = () => {
     setShowModal(true);
 
     try {
-      const { data } = await axios.get("http://localhost:5000/api/rapports");
+      const { data } = await axios.get("https://fixme-1.onrender.com/api/rapports");
       const filtres = data.filter((r) =>
         r.techniciens.some(
           (t) =>
