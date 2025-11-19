@@ -23,7 +23,7 @@ const TechniciensPage = () => {
   // 🔄 Charger les techniciens
   const fetchTechniciens = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/techniciens");
+      const res = await axios.get("https://fixme-1.onrender.com/api/techniciens");
       const data =
         Array.isArray(res.data)
           ? res.data
@@ -51,7 +51,7 @@ const TechniciensPage = () => {
 
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/techniciens/search?nom=${encodeURIComponent(q)}`
+        `https://fixme-1.onrender.com/api/techniciens/search?nom=${encodeURIComponent(q)}`
       );
       const data =
         Array.isArray(res.data)
@@ -91,9 +91,9 @@ const TechniciensPage = () => {
     e.preventDefault();
     try {
       if (editingId) {
-        await axios.put(`http://localhost:5000/api/techniciens/${editingId}`, formData);
+        await axios.put(`https://fixme-1.onrender.com/api/techniciens/${editingId}`, formData);
       } else {
-        await axios.post("http://localhost:5000/api/techniciens", formData);
+        await axios.post("https://fixme-1.onrender.com/api/techniciens", formData);
       }
       setShowModal(false);
       setFormData({
@@ -135,7 +135,7 @@ const TechniciensPage = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Voulez-vous vraiment supprimer ce technicien ?")) {
       try {
-        await axios.delete(`http://localhost:5000/api/techniciens/${id}`);
+        await axios.delete(`https://fixme-1.onrender.com/api/techniciens/${id}`);
         fetchTechniciens();
       } catch (err) {
         console.error("Erreur suppression :", err);
