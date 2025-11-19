@@ -18,7 +18,7 @@ export default function AdminEquipementPage() {
   // 🔹 Récupérer les lignes pour le menu déroulant
   const fetchLignes = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/lignes");
+      const res = await axios.get("https://fixme-1.onrender.com/api/lignes");
       setLignes(res.data);
     } catch (err) {
       toast.error("Erreur de chargement des lignes");
@@ -28,7 +28,7 @@ export default function AdminEquipementPage() {
   // 🔹 Récupérer les équipements
   const fetchEquipements = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/equipements");
+      const res = await axios.get("https://fixme-1.onrender.com/api/equipements");
       setEquipements(res.data);
     } catch (err) {
       toast.error("Erreur de chargement des équipements");
@@ -47,7 +47,7 @@ export default function AdminEquipementPage() {
       return toast.warn("Veuillez remplir tous les champs.");
 
     try {
-      const res = await axios.post("http://localhost:5000/api/equipements", {
+      const res = await axios.post("https://fixme-1.onrender.com/api/equipements", {
         designation,
         code,
         ligne: ligneId,
@@ -66,7 +66,7 @@ export default function AdminEquipementPage() {
   const handleDelete = async (id) => {
     if (!window.confirm("Supprimer cet équipement ?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/equipements/${id}`);
+      await axios.delete(`https://fixme-1.onrender.com/api/equipements/${id}`);
       toast.info("Équipement supprimé");
       fetchEquipements();
     } catch (err) {
