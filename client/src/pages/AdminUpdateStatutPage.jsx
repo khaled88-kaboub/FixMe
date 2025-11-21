@@ -117,7 +117,7 @@ export default function AdminUpdateStatutPage() {
     try {
       const token = localStorage.getItem("token");
       await axios.put(
-        `http://localhost:5000/api/interventions/${id}`,
+        `https://fixme-1.onrender.com/api/interventions/${id}`,
         { statut: selectedStatut },
         { headers: { Authorization: `Bearer ${token}` } }
       );
