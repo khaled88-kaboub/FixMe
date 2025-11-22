@@ -97,7 +97,7 @@ export default function AdminEquipementPage() {
       return toast.warn("Tous les champs sont obligatoires.");
 
     try {
-      await axios.put(`http://localhost:5000/api/equipements/${id}`, {
+      await axios.put(`https://fixme-1.onrender.com/api/equipements/${id}`, {
         designation,
         code,
         ligne,
