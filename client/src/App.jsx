@@ -101,6 +101,9 @@ export default function App() {
           <Route path="status" element={<AdminUpdateStatutPage/>} />
           <Route path="arret" element={<Arret/>}/>
           <Route path="intervenant-stat" element={<IntervenantStat/>}/>
+          <Route path="lignes" element={<AdminLignesPage />} />
+          <Route path="equipements" element={<AdminEquipementPage />} />
+          <Route path="techniciens" element={<TechniciensPage/>}/>
           </Route>
          {/* --- Role Production --- */}
           <Route
