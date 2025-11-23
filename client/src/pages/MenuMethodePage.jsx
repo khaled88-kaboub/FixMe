@@ -19,6 +19,21 @@ export default function MenuMethodePage() {
         <h2 className="sidebar-title">Méthodes</h2>
         <ul>
           <li >
+            <Link to="lignes" className="gestion">
+              <FaIndustry /> Gestion des lignes
+            </Link>
+          </li>
+          <li >
+            <Link to="equipements" className="gestion">
+              <FaBoxes /> Gestion des équipements
+            </Link>
+          </li>
+          <li >
+            <Link to="techniciens" className="gestion">
+              <FaUserFriends /> Gestion du personnel
+            </Link>
+          </li>
+          <li >
             <Link to="status">
               <FaTools /> Update-Status-DI
             </Link>
