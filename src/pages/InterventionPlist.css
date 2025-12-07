@@ -1,0 +1,12 @@
+.tableau {
+margin-bottom: 70px;
+}
+button.bg-red-600 {
+    transition: 0.2s;
+  }
+  
+  button.bg-red-600:hover {
+    background-color: #b91c1c;
+    transform: scale(1.05);
+  }
+  

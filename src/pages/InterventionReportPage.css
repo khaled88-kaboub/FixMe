@@ -1,0 +1,127 @@
+/* === Structure générale === */
+.intervention-container {
+  max-width: 800px;
+  margin: 40px auto;
+  padding: 20px;
+  background: #f9fafb;
+  border-radius: 16px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  font-family: "Segoe UI", Tahoma, sans-serif;
+}
+
+/* === Titre === */
+.title {
+  text-align: center;
+  font-size: 1.8rem;
+  color: #1e3a8a;
+  margin-bottom: 20px;
+}
+
+/* === Carte de formulaire === */
+.form-card {
+  background: white;
+  padding: 25px;
+  border-radius: 12px;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.05);
+}
+
+/* === Grille === */
+.form-grid {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 15px;
+}
+
+/* === Input & textarea === */
+.input,
+.textarea,
+select {
+  width: 100%;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  padding: 10px;
+  font-size: 15px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input:focus,
+.textarea:focus,
+select:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.2);
+  outline: none;
+}
+
+.textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+/* === Ligne de pièces ou techniciens === */
+.row {
+  display: flex;
+  gap: 10px;
+  margin-bottom: 8px;
+}
+
+.small {
+  width: 90px;
+}
+
+/* === Titre de section === */
+.section-title {
+  margin-top: 15px;
+  margin-bottom: 5px;
+  font-weight: 600;
+  color: #1e40af;
+}
+
+/* === Boutons === */
+.btn-link {
+  background: none;
+  border: none;
+  color: #2563eb;
+  cursor: pointer;
+  font-size: 14px;
+  margin-bottom: 10px;
+  transition: color 0.2s;
+}
+
+.btn-link:hover {
+  color: #1e3a8a;
+}
+
+.btn-submit {
+  display: block;
+  width: 80%;
+  margin-left: 10%;
+  margin-right: 10%;
+  background: #16a34a;
+  color: white;
+  border: none;
+  padding: 12px;
+  border-radius: 8px;
+  font-size: 16px;
+  cursor: pointer;
+  margin-top: 10px;
+  transition: background 0.3s ease;
+}
+
+.btn-submit:hover {
+  background: #15803d;
+}
+
+/* === Info intervention === */
+.intervention-info {
+  background: #eff6ff;
+  border: 1px solid #bfdbfe;
+  border-radius: 8px;
+  padding: 10px;
+  font-weight: 600;
+  color: #1e3a8a;
+}
+/* Empêche le contenu d'être masqué par le footer */
+.intervention-container {
+  padding-bottom: 100px; /* Ajuste selon la hauteur du footer */
+  
+}

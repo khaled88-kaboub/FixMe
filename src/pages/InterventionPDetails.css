@@ -1,0 +1,248 @@
+/* ====== PAGE GLOBALE ====== */
+.page-intervention-details {
+  background: #f5f7fa;
+  min-height: 100vh;
+  padding: 30px 20px;
+  font-family: "Poppins", sans-serif;
+}
+
+/* ====== HEADER ====== */
+.page-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin-top: 50px;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+h2.page-title {
+  font-size: 28px;
+  font-weight: 700;
+  color: #1f2937;
+  margin: 10px 0;
+}
+
+/* ====== BOUTONS ====== */
+.btn-save,
+.btn-back,
+.btn-delete {
+  transition: all 0.2s;
+}
+
+.btn-back {
+  background: #6b7280;
+  color: #fff;
+  padding: 10px 18px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 15px;
+}
+
+.btn-back:hover {
+  background: #4b5563;
+}
+
+.btn-save {
+  background: #2563eb;
+  color: #fff;
+  padding: 12px 24px;
+  border-radius: 8px;
+  border: none;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 16px;
+  font-weight: 600;
+}
+
+.btn-save:hover {
+  background: #1e4fc1;
+}
+
+.btn-delete {
+  background: #dc2626;
+  color: #fff;
+  border: none;
+  padding: 6px 8px;
+  border-radius: 6px;
+  cursor: pointer;
+}
+
+.btn-delete:hover {
+  background: #b91c1c;
+}
+
+/* ====== CARTE ====== */
+/* ====== BLOC TECHNICIENS + COMMENTAIRE SUR MÊME LIGNE ====== */
+.details-card {
+  background: #fff;
+  border-radius: 10px;
+  padding: 25px;
+  box-shadow: 0 5px 20px rgba(0, 0, 0, 0.08);
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 20px;
+}
+
+@media (min-width: 768px) {
+  /* Toutes les autres lignes restent en deux colonnes */
+  .details-card {
+      grid-template-columns: 1fr 1fr;
+  }
+}
+
+/* Bloc techniciens + commentaire spécifique */
+.techniciens-commentaire {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 20px;
+}
+
+/* Ajustement pour textarea (commentaire) */
+.techniciens-commentaire textarea.textarea-field {
+  width: 100%;
+  min-height: 100px;
+  resize: vertical;
+}
+
+/* Si mobile : empile verticalement */
+@media (max-width: 767px) {
+  .techniciens-commentaire {
+      grid-template-columns: 1fr;
+  }
+}
+
+
+/* ====== FORM GROUP ====== */
+.form-group {
+  display: flex;
+  flex-direction: column;
+}
+
+.form-group label {
+  font-weight: 600;
+  margin-bottom: 6px;
+  color: #374151;
+  font-size: 14px;
+}
+
+/* ====== CHAMPS ====== */
+.input-field,
+.textarea-field,
+.select-field {
+  width: 100%;
+  padding: 12px 14px;
+  border: 1px solid #d1d5db;
+  border-radius: 8px;
+  font-size: 14px;
+  background: #fff;
+  transition: all 0.2s;
+}
+
+.input-field:focus,
+.textarea-field:focus,
+.select-field:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 5px rgba(37, 99, 235, 0.3);
+  outline: none;
+}
+
+.input-disabled {
+  background: #f3f4f6;
+  cursor: not-allowed;
+}
+
+/* ====== TEXTAREA ====== */
+.textarea-field {
+  min-height: 80px;
+  resize: vertical;
+}
+
+/* ====== BLOC TECHNICIENS ====== */
+.details-section {
+  margin-top: 25px;
+  padding: 20px;
+  background: #f8fafc;
+  border-radius: 12px;
+  box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+}
+
+.tech-list {
+  display: flex;
+  flex-direction: column;
+  gap: 12px;
+}
+
+.tech-item {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 6px 12px;
+  background: #ffffff;
+  border: 1px solid #e5e7eb;
+  border-radius: 10px;
+  transition: all 0.2s;
+}
+
+.tech-item:hover {
+  background: #f3f4f6;
+}
+
+.tech-name {
+  font-weight: 500;
+  color: #1f2937;
+  width: 70%;
+  margin-right: 40%;
+}
+
+.duree-input {
+  width: 10%;
+  padding: 6px 6px;
+  border-radius: 6px;
+  border: 1px solid #d1d5db;
+  text-align: center;
+}
+.btn-delete {
+  
+width: 10%;
+}
+
+/* ====== AJOUT TECHNICIEN ====== */
+.tech-add {
+  margin-top: 15px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  align-items: center;
+  justify-content: space-evenly;
+}
+
+.select-field{
+  
+    font-size: 14px;
+    width: 100%;
+    
+  }
+
+.input-field {
+  font-size: 14px;
+  
+}
+
+.btn-add {
+  width: 90%;
+  font-size: 14px;
+}
+.pause {
+  width: 90%;
+  height: 3px;
+  border-width: 2px;
+}

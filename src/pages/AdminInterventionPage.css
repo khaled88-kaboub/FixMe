@@ -1,0 +1,178 @@
+.admin-interventions-container {
+    padding: 30px;
+    background-color: #f5f7fb;
+    min-height: 100vh;
+  }
+  
+  .header {
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    margin-bottom: 25px;
+  }
+  
+  .header h1 {
+    font-size: 1.8rem;
+    color: #333;
+    display: flex;
+    align-items: center;
+  }
+  
+  .header .icon {
+    color: #0078d4;
+    margin-right: 10px;
+  }
+  
+  .loading {
+    text-align: center;
+    font-size: 1.2rem;
+    color: #555;
+    margin-top: 40px;
+  }
+  
+  .no-data {
+    text-align: center;
+    color: #777;
+    font-style: italic;
+  }
+  
+  .interventions-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0, 0, 0, 0.05);
+    overflow: hidden;
+  }
+  
+  .interventions-table th,
+  .interventions-table td {
+    padding: 12px 15px;
+    text-align: left;
+    border-bottom: 1px solid #eee;
+  }
+  
+  .interventions-table th {
+    background-color: #0078d4;
+    color: white;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: 0.85rem;
+  }
+  
+  .interventions-table tr:hover {
+    background-color: #f0f8ff;
+    transition: 0.2s;
+  }
+  
+  .description {
+    max-width: 250px;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+  }
+  
+  .status {
+    padding: 5px 10px;
+    border-radius: 20px;
+    font-weight: 600;
+    text-transform: capitalize;
+    font-size: 0.85rem;
+  }
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 8px;
+    margin-bottom: 1rem;
+    align-items: center;
+  }
+  
+  .filters input,
+  .filters select {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 0.9rem;
+  }
+  
+  .filter-btn {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 6px 10px;
+    border-radius: 6px;
+    cursor: pointer;
+    display: flex;
+    align-items: center;
+    gap: 6px;
+  }
+  
+  .filter-btn:hover {
+    background-color: #0056b3;
+  }
+  
+
+  .status.ouvert {
+    background-color: #eaf2ff;
+    color: #0078d4;
+  }
+  
+  .status.en_cours {
+    background-color: #fff4e5;
+    color: #ff9800;
+  }
+  
+  .status.termine {
+    background-color: #e6f9ed;
+    color: #28a745;
+  }
+  
+  .status.annule {
+    background-color: #fdeaea;
+    color: #d32f2f;
+  }
+  .filters {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 10px;
+    margin-bottom: 1rem;
+    align-items: center;
+  }
+  
+  .filters input,
+  .filters select {
+    padding: 6px 10px;
+    border-radius: 6px;
+    border: 1px solid #ccc;
+    font-size: 0.9rem;
+  }
+  
+  .filter-btn,
+  .reset-btn {
+    display: flex;
+    align-items: center;
+    gap: 5px;
+    border: none;
+    border-radius: 6px;
+    padding: 6px 12px;
+    cursor: pointer;
+    color: white;
+    font-size: 0.9rem;
+  }
+  
+  .filter-btn {
+    background-color: #007bff;
+  }
+  
+  .reset-btn {
+    background-color: #6c757d;
+  }
+  
+  .filter-btn:hover {
+    background-color: #0056b3;
+  }
+  
+  .reset-btn:hover {
+    background-color: #555;
+  }
+  

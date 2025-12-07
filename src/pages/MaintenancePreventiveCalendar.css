@@ -1,0 +1,64 @@
+.calendar-page {
+    padding: 20px;
+    font-family: "Poppins", sans-serif;
+    margin-top: 40px;
+    margin-bottom: 40px;
+    
+  }
+  
+  .calendar-title {
+    font-size: 26px;
+    font-weight: 600;
+    margin-bottom: 20px;
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    color: #1e293b;
+  }
+  
+  /* FullCalendar styling */
+  .fc {
+    background: white;
+    border-radius: 12px;
+    padding: 15px;
+    box-shadow: 0 4px 10px rgba(0,0,0,0.08);
+  }
+  
+  .fc-button {
+    background: #3b82f6 !important;
+    border: none !important;
+    border-radius: 6px !important;
+    padding: 6px 14px !important;
+  }
+  
+  .fc-button:hover {
+    background: #2563eb !important;
+  }
+  
+  .fc-daygrid-day-number {
+    font-weight: 600;
+    color: #334155;
+  }
+  
+ /* Neutraliser FullCalendar */
+.fc-event {
+  background-color: transparent !important;
+  border: none !important;
+  padding: 0 !important; /* IMPORTANT */
+}
+
+/* Force l’affichage du background dans le "main" */
+.fc-event-main {
+  background-color: var(--event-color, #3b82f6) !important;
+  color: white !important;
+  border-radius: 4px !important;
+  padding: 2px 4px !important;
+}
+
+/* Les wrappers internes doivent être transparents */
+.fc-daygrid-event,
+.fc-daygrid-event:hover {
+  background: transparent !important;
+  border: none !important;
+}
+

@@ -1,0 +1,329 @@
+/* 🔹 Conteneur page */
+.reception-page {
+    padding: 20px;
+    font-family: Arial, sans-serif;
+    background-color: #f9f9f9;
+  }
+  
+  /* 🔹 Titre de page */
+  .titre {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 28px;
+    margin-bottom: 20px;
+    margin-top: 60px;
+    color: #333;
+    margin-left: 30%;
+    margin-right: 30%;
+  }
+  
+  /* 🔹 Ligne de séparation */
+  .sectiona-underlina {
+    height: 3px;
+    background-color: #4CAF50;
+    margin-bottom: 20px;
+    width: 60%;
+    margin-left: 20%;
+    margin-right: 20%;
+  }
+  
+  /* 🔹 Boutons export */
+  .btn-primary,
+  .btn-secondary {
+    padding: 8px 15px;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .btn-primary {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .btn-primary:hover {
+    background-color: #45a049;
+  }
+  
+  .btn-secondary {
+    background-color: #2196F3;
+    color: white;
+  }
+  
+  .btn-secondary:hover {
+    background-color: #0b7dda;
+  }
+  
+  /* 🔹 Filtres avancés */
+  .advanced-filters {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5px;
+    margin-bottom: 20px;
+  }
+  
+  
+  
+  .advanced-filters .date-range {
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap: 5px;
+    
+  }
+  
+  /* 🔹 Tableau */
+  .reception-table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-bottom: 50px;
+    background-color: white;
+  }
+  
+  .reception-table th,
+  .reception-table td {
+    border: 1px solid #ddd;
+    padding: 8px;
+    text-align: center;
+    font-size: 12px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  }
+  
+  .reception-table th {
+    background-color: #4CAF50;
+    color: white;
+  }
+  
+  .reception-table tr:hover {
+    background-color: #f1f1f1;
+    cursor: pointer;
+  }
+  
+  /* 🔹 Modale */
+  .modalo-overlayo {
+    position: fixed;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    background-color: rgba(0,0,0,0.5);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1000;
+  }
+  
+  .modalo-contento {
+    background-color: white;
+    padding: 25px;
+    border-radius: 10px;
+    width: 500px;
+    max-width: 90%;
+    max-height: 90%;
+    overflow-y: auto;
+    box-shadow: 0 5px 15px rgba(0,0,0,0.3);
+  }
+  
+  .modalo-contento h2 {
+    margin-bottom: 15px;
+    color: #333;
+  }
+  
+  .modalo-contento p {
+    margin-bottom: 8px;
+    font-size: 14px;
+  }
+  
+  .btn-close {
+    margin-top: 15px;
+    padding: 8px 15px;
+    background-color: #f44336;
+    color: white;
+    border: none;
+    border-radius: 5px;
+    cursor: pointer;
+    font-weight: bold;
+  }
+  
+  .btn-close:hover {
+    background-color: #d32f2f;
+  }
+  
+  /* 🔹 Texte de chargement */
+  .loading-text {
+    font-size: 16px;
+    color: #555;
+    text-align: center;
+    margin-top: 50px;
+  }
+  /* ============================================================
+   📱📱📱   RESPONSIVE DESIGN POUR LISTE DI
+   ============================================================ */
+
+/* --- Écrans ≤ 1200px (tablettes paysage, laptops petits) --- */
+@media (max-width: 1200px) {
+
+  .titre {
+    margin-left: 10%;
+    margin-right: 10%;
+    font-size: 24px;
+  }
+
+  .sectiona-underlina {
+    width: 80%;
+    margin-left: 10%;
+    margin-right: 10%;
+  }
+
+  .advanced-filters {
+    flex-wrap: wrap;
+    gap: 10px;
+  }
+
+  .advanced-filters input,
+  .advanced-filters select {
+    flex: 1;
+    min-width: 180px;
+  }
+
+  .advanced-filters .date-range {
+    flex-wrap: wrap;
+  }
+
+  .advanced-filters .date-range input {
+    min-width: 150px;
+  }
+}
+
+/* --- Écrans ≤ 900px (tablettes portrait) --- */
+@media (max-width: 900px) {
+  .advanced-filters {
+    flex-direction: column;
+    align-items: stretch;
+    width: 100%;
+  }
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+/* Cellule Numéro DI en vert */
+.cell-num {
+  background-color: #d1fae5;      /* vert pâle */
+  color: #065f46;                /* vert foncé */
+  font-weight: bold;
+  border-radius: 6px;
+  padding: 6px 8px;
+}
+
+  .advanced-filters input,
+  .advanced-filters select {
+    width: 100%;
+  }
+
+  .advanced-filters .date-range {
+    width: 100%;
+    justify-content: space-between;
+  }
+
+  .advanced-filters .date-range input  {
+    width: 48%;
+  }
+
+  .reception-table th,
+  .reception-table td {
+    font-size: 11px;
+    padding: 6px;
+  }
+  .advanced-filters {
+    padding: 10px;
+  }
+ .in {
+  width: 95%;
+ }
+}
+
+/* --- Écrans ≤ 700px (mobiles larges) --- */
+@media (max-width: 700px) {
+
+  .titre {
+    margin-left: 0;
+    margin-right: 0;
+    text-align: center;
+  }
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+  .sectiona-underlina {
+    width: 100%;
+    margin-left: 0;
+  }
+
+  /* Tableau scroll horizontal */
+  .reception-table {
+    display: block;
+    overflow-x: auto;
+    white-space: nowrap;
+  }
+}
+
+/* --- Écrans ≤ 500px (mobiles normaux) --- */
+@media (max-width: 500px) {
+
+  .btn-primary,
+  .btn-secondary {
+    width: 100%;
+    margin-bottom: 5px;
+  }
+
+  .advanced-filters input,
+  .advanced-filters select {
+    font-size: 13px;
+    padding: 8px;
+  }
+
+  .advanced-filters .date-range {
+    flex-direction: column;
+    gap: 5px;
+  }
+
+  .advanced-filters .date-range input {
+    width: 100%;
+  }
+
+  /* Modale */
+  .modalo-contento {
+    width: 90%;
+    padding: 15px;
+  }
+
+  .modalo-contento p {
+    font-size: 13px;
+  }
+}
+
+/* --- Écrans ≤ 360px (petits téléphones) --- */
+@media (max-width: 360px) {
+
+  .titre {
+    font-size: 20px;
+  }
+
+  .btn-primary,
+  .btn-secondary {
+    font-size: 13px;
+    padding: 6px;
+  }
+
+  .reception-table th,
+  .reception-table td {
+    font-size: 10px;
+  }
+}
