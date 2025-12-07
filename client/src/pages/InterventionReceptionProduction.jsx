@@ -6,6 +6,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./InterventionReceptionProduction.css";
 
 const InterventionReceptionProduction = () => {
+  const API_URL = import.meta.env.VITE_API_URL;
   const [interventions, setInterventions] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [selected, setSelected] = useState(null);
@@ -19,11 +20,23 @@ const InterventionReceptionProduction = () => {
     dateDebut: "",
     dateFin: "",
   });
-
+  const toLocalInputValue = (dateString) => {
+    if (!dateString) return "";
+    const d = new Date(dateString);
+  
+    const year = d.getFullYear();
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const day = String(d.getDate()).padStart(2, "0");
+    const hour = String(d.getHours()).padStart(2, "0");
+    const minute = String(d.getMinutes()).padStart(2, "0");
+  
+    return `${year}-${month}-${day}T${hour}:${minute}`;
+  };
+  
   useEffect(() => {
     const fetchInterventions = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/interventions");
+        const res = await axios.get(`${API_URL}/api/interventions`);
         const onlyActive = res.data.filter(
           (i) => i.statut === "ouvert" || i.statut === "en_cours"
         );
@@ -77,25 +90,18 @@ const InterventionReceptionProduction = () => {
   const openModal = (item) => {
     setSelected({
       ...item,
-      dateHeureDemarrageLigne: item.dateHeureDemarrageLigne
-        ? new Date(item.dateHeureDemarrageLigne).toISOString().slice(0, 16)
-        : "",
-      dateHeureDemarrageEquipement: item.dateHeureDemarrageEquipement
-        ? new Date(item.dateHeureDemarrageEquipement).toISOString().slice(0, 16)
-        : "",
-      dateHeureArretLigne: item.dateHeureArretLigne
-        ? new Date(item.dateHeureArretLigne).toISOString().slice(0, 16)
-        : "",
-      dateHeureArretEquipement: item.dateHeureArretEquipement
-        ? new Date(item.dateHeureArretEquipement).toISOString().slice(0, 16)
-        : "",
+      dateHeureDemarrageLigne: toLocalInputValue(item.dateHeureDemarrageLigne),
+      dateHeureDemarrageEquipement: toLocalInputValue(item.dateHeureDemarrageEquipement),
+      dateHeureArretLigne: toLocalInputValue(item.dateHeureArretLigne),
+      dateHeureArretEquipement: toLocalInputValue(item.dateHeureArretEquipement)
     });
   };
+  
 
   // Gérer la mise à jour backend
   const handleReception = async () => {
     try {
-      await axios.put(`http://localhost:5000/api/interventions/${selected._id}`, {
+      await axios.put(`${API_URL}/api/interventions/${selected._id}`, {
         receptionProduction: true,
         ligneAdemarre: selected.ligneAdemarre,
         equipementAdemarre: selected.equipementAdemarre,
@@ -229,9 +235,7 @@ const InterventionReceptionProduction = () => {
               <input
                 type="datetime-local"
                 value={selected.dateHeureArretLigne || ""}
-                onChange={(e) =>
-                  setSelected({ ...selected, dateHeureArretLigne: e.target.value })
-                }
+                disabled
               />
             </label>
 
@@ -271,9 +275,7 @@ const InterventionReceptionProduction = () => {
               <input
                 type="datetime-local"
                 value={selected.dateHeureArretEquipement || ""}
-                onChange={(e) =>
-                  setSelected({ ...selected, dateHeureArretEquipement: e.target.value })
-                }
+                disabled
               />
             </label>
 

@@ -4,6 +4,7 @@ import { Link, Outlet, useLocation } from "react-router-dom";
 import "./MenuProductionPage.css";
 
 export default function MenuAdminPage() {
+  const API_URL = import.meta.env.VITE_API_URL;
   const [open, setOpen] = useState(true);
   const location = useLocation();
 

@@ -3,6 +3,7 @@ import axios from "axios";
 import "./TechniciensPage.css";
 
 const TechniciensPage = () => {
+  const API_URL = import.meta.env.VITE_API_URL;
   const [techniciens, setTechniciens] = useState([]);
   const [allTechniciens, setAllTechniciens] = useState([]); // cache complet
   const [search, setSearch] = useState("");
@@ -23,7 +24,7 @@ const TechniciensPage = () => {
   // 🔄 Charger les techniciens
   const fetchTechniciens = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/techniciens");
+      const res = await axios.get(`${API_URL}/api/techniciens`);
       const data =
         Array.isArray(res.data)
           ? res.data
@@ -51,7 +52,7 @@ const TechniciensPage = () => {
 
     try {
       const res = await axios.get(
-        `http://localhost:5000/api/techniciens/search?nom=${encodeURIComponent(q)}`
+        `${API_URL}/api/techniciens/search?nom=${encodeURIComponent(q)}`
       );
       const data =
         Array.isArray(res.data)
@@ -91,9 +92,9 @@ const TechniciensPage = () => {
     e.preventDefault();
     try {
       if (editingId) {
-        await axios.put(`http://localhost:5000/api/techniciens/${editingId}`, formData);
+        await axios.put(`${API_URL}/api/techniciens/${editingId}`, formData);
       } else {
-        await axios.post("http://localhost:5000/api/techniciens", formData);
+        await axios.post(`${API_URL}/api/techniciens`, formData);
       }
       setShowModal(false);
       setFormData({
@@ -135,7 +136,7 @@ const TechniciensPage = () => {
   const handleDelete = async (id) => {
     if (window.confirm("Voulez-vous vraiment supprimer ce technicien ?")) {
       try {
-        await axios.delete(`http://localhost:5000/api/techniciens/${id}`);
+        await axios.delete(`${API_URL}/api/techniciens/${id}`);
         fetchTechniciens();
       } catch (err) {
         console.error("Erreur suppression :", err);

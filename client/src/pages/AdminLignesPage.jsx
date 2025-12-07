@@ -6,6 +6,7 @@ import { FaPlusCircle, FaTrash, FaEdit, FaSave, FaTimes } from "react-icons/fa";
 import "./AdminLignesPage.css";
 
 export default function AdminLignesPage() {
+  const API_URL = import.meta.env.VITE_API_URL;
   const [lignes, setLignes] = useState([]);
   const [nom, setNom] = useState("");
   const [editId, setEditId] = useState(null);
@@ -13,7 +14,7 @@ export default function AdminLignesPage() {
 
   const fetchLignes = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/lignes");
+      const res = await axios.get(`${API_URL}/api/lignes`);
       setLignes(res.data);
     } catch (err) {
       toast.error("Erreur de chargement des lignes");
@@ -28,7 +29,7 @@ export default function AdminLignesPage() {
     e.preventDefault();
     if (!nom.trim()) return toast.warn("Veuillez entrer un nom de ligne.");
     try {
-      const res = await axios.post("http://localhost:5000/api/lignes", { nom });
+      const res = await axios.post(`${API_URL}/api/lignes`, { nom });
       toast.success(`✅ Ligne "${res.data.nom}" ajoutée avec succès !`);
       setNom("");
       fetchLignes();
@@ -40,7 +41,7 @@ export default function AdminLignesPage() {
   const handleDelete = async (id) => {
     if (!window.confirm("Supprimer cette ligne ?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/lignes/${id}`);
+      await axios.delete(`${API_URL}/api/lignes/${id}`);
       toast.info("Ligne supprimée");
       fetchLignes();
     } catch (err) {
@@ -64,7 +65,7 @@ export default function AdminLignesPage() {
   const handleSaveEdit = async (id) => {
     if (!editNom.trim()) return toast.warn("Le nom ne peut pas être vide.");
     try {
-      await axios.put(`http://localhost:5000/api/lignes/${id}`, { nom: editNom });
+      await axios.put(`${API_URL}/api/lignes/${id}`, { nom: editNom });
       toast.success("✅ Ligne modifiée avec succès !");
       setEditId(null);
       setEditNom("");

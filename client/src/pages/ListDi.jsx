@@ -9,6 +9,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./ListDi.css";
 
 const ListDi = () => {
+  const API_URL = import.meta.env.VITE_API_URL;
   const [interventions, setInterventions] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [selected, setSelected] = useState(null);
@@ -27,7 +28,7 @@ const ListDi = () => {
   useEffect(() => {
     const fetchInterventions = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/interventions");
+        const res = await axios.get(`${API_URL}/api/interventions`);
         setInterventions(res.data);
         setFiltered(res.data);
       } catch (err) {

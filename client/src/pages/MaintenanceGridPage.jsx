@@ -7,6 +7,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./MaintenanceGridPage.css";
 
 const MaintenanceGridPage = () => {
+  const API_URL = import.meta.env.VITE_API_URL;
   const [interventions, setInterventions] = useState([]);
   const [filteredInterventions, setFilteredInterventions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -25,7 +26,7 @@ const MaintenanceGridPage = () => {
   useEffect(() => {
     const fetchInterventions = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/interventions");
+        const res = await axios.get(`${API_URL}/api/interventions`);
         const filtered = res.data.filter(
           (i) =>
             i.statut === "ouvert" ||
@@ -80,7 +81,7 @@ const MaintenanceGridPage = () => {
   // Recevoir une DI
   const handleStart = async (id) => {
     try {
-      const res = await axios.put(`http://localhost:5000/api/interventions/${id}`, {
+      const res = await axios.put(`${API_URL}/api/interventions/${id}`, {
         statut: "en_cours",
       });
   

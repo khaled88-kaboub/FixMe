@@ -4,7 +4,8 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaPlusCircle, FaTrash, FaEdit, FaSave, FaTimes } from "react-icons/fa";
 import "./AdminEquipementPage.css";
-
+const API_URL = import.meta.env.VITE_API_URL;
+ 
 export default function AdminEquipementPage() {
   const [equipements, setEquipements] = useState([]);
   const [designation, setDesignation] = useState("");
@@ -18,7 +19,7 @@ export default function AdminEquipementPage() {
   // 🔹 Récupérer les lignes pour le menu déroulant
   const fetchLignes = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/lignes");
+      const res = await axios.get(`${API_URL}/api/lignes`);
       setLignes(res.data);
     } catch (err) {
       toast.error("Erreur de chargement des lignes");
@@ -28,7 +29,7 @@ export default function AdminEquipementPage() {
   // 🔹 Récupérer les équipements
   const fetchEquipements = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/equipements");
+      const res = await axios.get(`${API_URL}/api/equipements`);
       setEquipements(res.data);
     } catch (err) {
       toast.error("Erreur de chargement des équipements");
@@ -47,7 +48,7 @@ export default function AdminEquipementPage() {
       return toast.warn("Veuillez remplir tous les champs.");
 
     try {
-      const res = await axios.post("http://localhost:5000/api/equipements", {
+      const res = await axios.post(`${API_URL}/api/equipements`, {
         designation,
         code,
         ligne: ligneId,
@@ -66,7 +67,7 @@ export default function AdminEquipementPage() {
   const handleDelete = async (id) => {
     if (!window.confirm("Supprimer cet équipement ?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/equipements/${id}`);
+      await axios.delete(`${API_URL}/api/equipements/${id}`);
       toast.info("Équipement supprimé");
       fetchEquipements();
     } catch (err) {
@@ -97,7 +98,7 @@ export default function AdminEquipementPage() {
       return toast.warn("Tous les champs sont obligatoires.");
 
     try {
-      await axios.put(`http://localhost:5000/api/equipements/${id}`, {
+      await axios.put(`${API_URL}/api/equipements/${id}`, {
         designation,
         code,
         ligne,

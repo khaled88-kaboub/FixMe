@@ -7,6 +7,7 @@ import { FaPlay, FaSpinner, FaCheckCircle, FaTimesCircle } from "react-icons/fa"
 const socket = io("http://localhost:5000");
 
 export default function FooterNotification() {
+  const API_URL = import.meta.env.VITE_API_URL;
   const [stats, setStats] = useState({
     ouvert: 0,
     en_cours: 0,
@@ -27,7 +28,7 @@ export default function FooterNotification() {
   useEffect(() => {
     // Initialisation : récupération initiale
     const fetchData = async () => {
-      const res = await axios.get("http://localhost:5000/api/interventions");
+      const res = await axios.get(`${API_URL}/api/interventions`);
       calculerStats(res.data);
     };
     fetchData();

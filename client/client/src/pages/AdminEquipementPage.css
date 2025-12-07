@@ -1,0 +1,150 @@
+.admin-equipement-container {
+    max-width: 1100px;
+    margin: 40px auto;
+    padding: 25px;
+    background: #f9f9f9;
+    border-radius: 12px;
+    box-shadow: 0 2px 8px rgba(0,0,0,0.1);
+  }
+  
+  .admin-equipement-container h2 {
+    font-size: 1.8rem;
+    
+    margin-bottom: 1.5rem;
+    font-weight: 600;
+    text-align: center;
+    color: #0078d4;
+  }
+  
+  /* --- Formulaire d’ajout --- */
+  .add-equipement-form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 0.8rem;
+    margin-bottom: 2rem;
+  }
+  
+  .add-equipement-form input,
+  .add-equipement-form select {
+    flex: 1;
+    padding: 0.6rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 8px;
+    font-size: 1rem;
+  }
+  
+  .add-equipement-form button {
+    background-color: #2563eb;
+    color: white;
+    border: none;
+    padding: 0.6rem 1.2rem;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 0.4rem;
+    cursor: pointer;
+    transition: background-color 0.2s ease;
+  }
+  
+  .add-equipement-form button:hover {
+    background-color: #1d4ed8;
+  }
+  
+  /* --- Liste --- */
+  .equipement-list ul {
+    list-style: none;
+    padding: 0;
+    margin: 0;
+  }
+  
+  .equipement-list li {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+    padding: 0.8rem 1rem;
+    margin-bottom: 0.6rem;
+    transition: all 0.2s ease-in-out;
+  }
+  
+  .equipement-list li:hover {
+    box-shadow: 0 2px 6px rgba(0, 0, 0, 0.06);
+  }
+  
+  .edit-input,
+  .equipement-list select {
+    padding: 0.5rem;
+    border: 1px solid #cbd5e1;
+    border-radius: 6px;
+    margin-right: 0.4rem;
+    font-size: 0.95rem;
+  }
+  
+  /* --- Actions --- */
+  .edit-actions {
+    display: flex;
+    gap: 0.5rem;
+  }
+  
+  .edit-btn,
+  .delete-btn,
+  .save-btn,
+  .cancel-btn {
+    border: none;
+    padding: 0.4rem 0.6rem;
+    border-radius: 6px;
+    cursor: pointer;
+    color: #fff;
+    transition: background-color 0.2s ease;
+  }
+  
+  .edit-btn {
+    background-color: #10b981;
+  }
+  
+  .edit-btn:hover {
+    background-color: #059669;
+  }
+  
+  .delete-btn {
+    background-color: #ef4444;
+  }
+  
+  .delete-btn:hover {
+    background-color: #dc2626;
+  }
+  
+  .save-btn {
+    background-color: #3b82f6;
+  }
+  
+  .save-btn:hover {
+    background-color: #2563eb;
+  }
+  
+  .cancel-btn {
+    background-color: #94a3b8;
+  }
+  
+  .cancel-btn:hover {
+    background-color: #64748b;
+  }
+  
+  /* --- Responsive --- */
+  @media (max-width: 768px) {
+    .add-equipement-form {
+      flex-direction: column;
+    }
+  
+    .equipement-list li {
+      flex-direction: column;
+      align-items: flex-start;
+    }
+  
+    .edit-actions {
+      margin-top: 0.6rem;
+    }
+  }
+  

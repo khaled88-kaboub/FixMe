@@ -4,6 +4,7 @@ import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
 
 export default function RegisterPage() {
+  const API_URL = import.meta.env.VITE_API_URL;
   const [form, setForm] = useState({
     name: "",
     email: "",
@@ -19,7 +20,7 @@ export default function RegisterPage() {
     setSuccess("");
 
     try {
-      const res = await axios.post("http://localhost:5000/api/auth/register", form);
+      const res = await axios.post(`${API_URL}/api/auth/register`, form);
 
       if (res.status === 201) {
         setSuccess("Inscription réussie ! Redirection...");

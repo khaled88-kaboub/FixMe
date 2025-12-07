@@ -3,6 +3,7 @@ import axios from "axios";
 import "./Didetails.css";
 
 const Didetails = () => {
+  const API_URL = import.meta.env.VITE_API_URL;
   const [interventions, setInterventions] = useState([]);
   const [loading, setLoading] = useState(true);
   const [selectedIntervention, setSelectedIntervention] = useState(null); // 🔹 Intervention pour modal
@@ -10,7 +11,7 @@ const Didetails = () => {
   useEffect(() => {
     const fetchInterventions = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/interventions");
+        const res = await axios.get(`${API_URL}/api/interventions`);
         const filtered = res.data.filter(
           (i) => i.statut === "ouvert" ||
            i.statut === "en_cours"
@@ -26,7 +27,7 @@ const Didetails = () => {
 
   const handleStart = async (id) => {
     try {
-      await axios.put(`http://localhost:5000/api/interventions/${id}`, {
+      await axios.put(`${API_URL}/api/interventions/${id}`, {
         statut: "en_cours",
       });
       setInterventions((prev) =>

@@ -4,6 +4,7 @@ import { FaEdit, FaSave, FaTools, FaFilter, FaUndo } from "react-icons/fa";
 import "./AdminUpdateStatutPage.css";
 
 export default function AdminUpdateStatutPage() {
+  const API_URL = import.meta.env.VITE_API_URL;
   const [interventions, setInterventions] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [editingId, setEditingId] = useState(null);
@@ -30,7 +31,7 @@ export default function AdminUpdateStatutPage() {
 
   const fetchInterventions = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/interventions");
+      const res = await axios.get(`${API_URL}/api/interventions`);
       setInterventions(res.data);
       setFiltered(res.data);
     } catch (err) {
@@ -42,7 +43,7 @@ export default function AdminUpdateStatutPage() {
 
   const fetchLignes = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/lignes");
+      const res = await axios.get(`${API_URL}/api/lignes`);
       setLignes(res.data);
     } catch (err) {
       console.error("Erreur chargement lignes :", err);
@@ -51,7 +52,7 @@ export default function AdminUpdateStatutPage() {
 
   const fetchEquipements = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/equipements");
+      const res = await axios.get(`${API_URL}/api/equipements`);
       setEquipements(res.data);
     } catch (err) {
       console.error("Erreur chargement équipements :", err);
@@ -117,7 +118,7 @@ export default function AdminUpdateStatutPage() {
     try {
       const token = localStorage.getItem("token");
       await axios.put(
-        `http://localhost:5000/api/interventions/${id}`,
+        `${API_URL}/api/interventions/${id}`,
         { statut: selectedStatut },
         { headers: { Authorization: `Bearer ${token}` } }
       );

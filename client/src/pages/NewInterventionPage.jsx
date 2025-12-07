@@ -4,8 +4,12 @@ import { toast, ToastContainer } from "react-toastify";
 //import "react-toastify/dist/ReactToastify.css";
 import { FaTools } from "react-icons/fa";
 import "./NewInterventionPage.css";
-
+import { useContext } from "react";
+import { UserContext } from "../context/UserContext";
 export default function NewInterventionPage() {
+
+  const API_URL = import.meta.env.VITE_API_URL;
+  
   const [form, setForm] = useState({
     ligne: "",
     equipement: "",
@@ -20,13 +24,19 @@ export default function NewInterventionPage() {
   const [lignes, setLignes] = useState([]);
   const [equipements, setEquipements] = useState([]);
   const [loading, setLoading] = useState(false);
+  const { user } = useContext(UserContext);
 
+  useEffect(() => {
+    if (user) {
+      setForm((prev) => ({ ...prev, demandeurNom: user.name }));
+    }
+  }, [user]);
 
   // Charger les lignes
   useEffect(() => {
     const fetchLignes = async () => {
       try {
-        const res = await axios.get("http://localhost:5000/api/lignes");
+        const res = await axios.get(`${API_URL}/api/lignes`);
         setLignes(res.data);
       } catch (err) {
         toast.error("Erreur lors du chargement des lignes");
@@ -40,7 +50,7 @@ export default function NewInterventionPage() {
     const fetchEquipements = async () => {
       if (!form.ligne) return setEquipements([]);
       try {
-        const res = await axios.get("http://localhost:5000/api/equipements");
+        const res = await axios.get(`${API_URL}/api/equipements`);
         const filtres = res.data.filter(
           (eq) => eq.ligne && (eq.ligne._id === form.ligne || eq.ligne === form.ligne)
         );
@@ -54,15 +64,23 @@ export default function NewInterventionPage() {
 
   const handleChange = (e) => {
     const { name, value, type, checked } = e.target;
-    setForm((prev) => ({ ...prev, [name]: type === "checkbox" ? checked : value }));
+  
+    setForm((prev) => {
+      let updated = { ...prev, [name]: type === "checkbox" ? checked : value };
+  
+      // 🔥 Règle auto : si la ligne a subi un arrêt → l'équipement aussi
+      if (name === "ligneAsubiArret" && checked === true) {
+        updated.equipementAsubiArret = true;
+      }
+      return updated;
+    });
   };
-
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
     try {
       const token = localStorage.getItem("token");
-      await axios.post("http://localhost:5000/api/interventions", form, {
+      await axios.post(`${API_URL}/api/interventions`, form, {
         headers: { Authorization: `Bearer ${token}` },
       });
       toast.success("✅ Intervention enregistrée !");
@@ -185,7 +203,8 @@ export default function NewInterventionPage() {
               type="text"
               name="demandeurNom"
               value={form.demandeurNom}
-              onChange={handleChange}
+              //onChange={handleChange}
+              readOnly
               required
             />
             <label>Nom du demandeur *</label>

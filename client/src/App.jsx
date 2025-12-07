@@ -28,16 +28,68 @@ import IntervenantStat from "./pages/IntervenantStat";
 import ListDi from "./pages/ListDi"
 import InterventionAnnulerPage from "./pages/InterventionAnnulerPage";
 import InterventionEtRapport from "./pages/InterventionEtRapport";
+import MaintenancePreventiveForm from "./pages/MaintenancePreventiveForm";
+import MaintenancePreventiveDashboard from "./pages/MaintenancePreventiveDashboard";
+import MaintenancePreventiveCalendar from "./pages/MaintenancePreventiveCalendar";
+import MaintenancePreventiveList from "./pages/MaintenancePreventiveList";
+import TimelineAnnuelle from "./pages/TimeLineAnnuelle";
+import GanttAnnee from "./pages/GanttAnnee";
+import React, { useEffect } from "react";
+import { io } from "socket.io-client";
+import { ToastContainer, toast } from "react-toastify";
+import InterventionPlist from "./pages/InterventionPlist";
+import InterventionPDetails from "./pages/InterventionPDetails";
+import MaintenancePreventiveCalendar2 from "./pages/MaintenancePreventiveCalendar2";
+import { UserContext } from "./context/UserContext";
 
-
+import "react-toastify/dist/ReactToastify.css";
 
 
 
 
 export default function App() {
+
+  useEffect(() => {
+    // ⚡ Connexion au backend Socket.IO
+    const socket = io("http://localhost:5000", {
+      transports: ["websocket"],
+      reconnection: true,
+      reconnectionAttempts: 10
+    });
+  
+    console.log("📡 Socket.IO connecté :", socket.id);
+  
+    // 🟡 Notification Maintenance Préventive arrivant à échéance
+    socket.on("mp_due", (data) => {
+      console.log("⚠️ Notification MP reçue :", data);
+  
+      toast.warning(
+        `⚠️ ${data.message}\nÉquipement : ${data.equipement} — Ligne : ${data.ligne}\nDate : ${data.Date}`,
+        { autoClose: 6000 }
+      );
+    });
+  
+    // 🔴 Gestion erreurs Socket (optionnel, conseillé)
+    socket.on("connect_error", (err) => {
+      console.error("❌ Erreur Socket.IO :", err.message);
+    });
+  
+    // 🧹 Cleanup (obligatoire)
+    return () => {
+      console.log("🔌 Socket.IO déconnecté");
+      socket.disconnect();
+    };
+  }, []);
+
+  const user = JSON.parse(localStorage.getItem("user"));
+
+  
+
+
   return (
     <AuthProvider>
-      
+      <ToastContainer/>
+      <UserContext.Provider value={{ user }}>
         <Navbar />
         <Routes>
           <Route path="/login" element={<LoginPage />} />
@@ -46,6 +98,17 @@ export default function App() {
           <Route path="/unauthorized" element={<UnauthorizedPage />} />
           <Route path="/users/F@sterD@y/2o2i" element={<UserManagementPage/>}/>
           <Route path="/int" element={<AdminInterventionPage/>}/>
+
+          <Route path="/mpform" element={<MaintenancePreventiveForm/>}/>
+          <Route path="/mpdash" element={<MaintenancePreventiveDashboard/>}/>
+          <Route path="/mplist" element={<MaintenancePreventiveList/>}/>
+          <Route path="/mpcalendar" element={<MaintenancePreventiveCalendar/>}/>
+          <Route path="/mpcalendar2" element={<MaintenancePreventiveCalendar2/>}/>
+          <Route path="/mptimeline" element={<TimelineAnnuelle/>}/>
+          <Route path="/mpgantt" element={<GanttAnnee/>}/>
+          <Route path="/mpinterventions" element={<InterventionPlist/>}/>
+          <Route path="/interventionP/:id" element={<InterventionPDetails />} />
+
           
           
           
@@ -132,6 +195,7 @@ export default function App() {
 
           {/* Tu pourras ajouter la liste des interventions ici */}
         </Routes>
+        </UserContext.Provider>
         <FooterNotification />
         
 

@@ -4,6 +4,9 @@ import mongoose from "mongoose";
 import dotenv from "dotenv";
 import cors from "cors";
 import http from "http";
+import startMaintenanceCron from "./cron/maintenanceCron.js";
+
+
 
 import helmet from "helmet";
 import { Server } from "socket.io";
@@ -16,6 +19,10 @@ import ligneRoutes from "./routes/ligneRoute.js";
 import equipementRoutes from "./routes/equipementRoute.js";
 import rapportInterventionRoutes from "./routes/rapportInterventionRoute.js";
 import technicienRoutes from "./routes/technicienRoute.js";
+import maintenanceRoutes from "./routes/maintenancePreventiveRoute.js";
+import interventionPRoutes from "./routes/interventionPRoute.js";
+
+
 
 
 
@@ -42,6 +49,7 @@ io.on("connection", (socket) => {
   });
 });
 
+startMaintenanceCron(io);
 
 app.use(helmet());
 app.use(cors());
@@ -57,6 +65,8 @@ app.use("/api/lignes", ligneRoutes);
 app.use("/api/equipements", equipementRoutes);
 app.use("/api/rapports", rapportInterventionRoutes);
 app.use("/api/techniciens", technicienRoutes);
+app.use("/api/maintenance-preventive", maintenanceRoutes);
+app.use("/api/interventionP", interventionPRoutes);
 
 app.set("io", io);
 

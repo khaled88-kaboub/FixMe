@@ -4,6 +4,7 @@ import "./AdminInterventionPage.css";
 import { FaTools, FaTrashAlt, FaSearch, FaSync } from "react-icons/fa";
 
 export default function AdminInterventionsPage() {
+  const API_URL = import.meta.env.VITE_API_URL;
   const [interventions, setInterventions] = useState([]);
   const [filteredInterventions, setFilteredInterventions] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -32,9 +33,9 @@ export default function AdminInterventionsPage() {
   const fetchAllData = async () => {
     try {
       const [intervRes, ligneRes, equipRes] = await Promise.all([
-        axios.get("http://localhost:5000/api/interventions"),
-        axios.get("http://localhost:5000/api/lignes"),
-        axios.get("http://localhost:5000/api/equipements"),
+        axios.get(`${API_URL}/api/interventions`),
+        axios.get(`${API_URL}/api/lignes`),
+        axios.get(`${API_URL}/api/equipements`),
       ]);
 
       setInterventions(intervRes.data);
@@ -105,7 +106,7 @@ export default function AdminInterventionsPage() {
       return;
     try {
       const token = localStorage.getItem("token");
-      await axios.delete(`http://localhost:5000/api/interventions/${id}`, {
+      await axios.delete(`${API_URL}/api/interventions/${id}`, {
         headers: { Authorization: `Bearer ${token}` },
       });
       setInterventions(interventions.filter((i) => i._id !== id));

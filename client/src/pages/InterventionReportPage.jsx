@@ -1,10 +1,12 @@
 import React, { useState, useEffect } from "react";
 import axios from "axios";
 import { useLocation } from "react-router-dom";
+import { toast, ToastContainer } from "react-toastify";
 
 import "./InterventionReportPage.css";
 
 const InterventionReportPage = () => {
+  const API_URL = import.meta.env.VITE_API_URL;
   const [interventions, setInterventions] = useState([]);
   const [techniciens, setTechniciens] = useState([]);
 
@@ -25,8 +27,8 @@ const InterventionReportPage = () => {
     const fetchData = async () => {
       try {
         const [intervRes, techRes] = await Promise.all([
-          axios.get("http://localhost:5000/api/interventions"),
-          axios.get("http://localhost:5000/api/techniciens")
+          axios.get(`${API_URL}/api/interventions`),
+          axios.get(`${API_URL}/api/techniciens`)
         ]);
         setInterventions(intervRes.data);
         setTechniciens(techRes.data);
@@ -90,9 +92,10 @@ const InterventionReportPage = () => {
           })),
       };
 
-      await axios.post("http://localhost:5000/api/rapports", formattedData);
-      alert("✅ Rapport enregistré avec succès !");
-      window.location.reload();
+      await axios.post(`${API_URL}/api/rapports`, formattedData);
+      
+      //window.location.reload();
+      toast.success("✅ Rapport Intervention enregistrée !");
     } catch (err) {
       console.error("❌ Erreur lors de l'enregistrement :", err);
       alert("Erreur lors de l'enregistrement du rapport !");
@@ -101,7 +104,7 @@ const InterventionReportPage = () => {
 
   return (
     <div className="intervention-container">
-      <h2 className="title">📋 Rapport d’Intervention</h2>
+      <h3 className="title">📋 Rapport d’Intervention</h3>
 
       <form onSubmit={handleSubmit} className="form-card">
         <div className="form-grid">
@@ -203,6 +206,7 @@ const InterventionReportPage = () => {
           💾 Enregistrer le rapport
         </button>
       </form>
+      <ToastContainer position="bottom-right" autoClose={3000} />
     </div>
   );
 };

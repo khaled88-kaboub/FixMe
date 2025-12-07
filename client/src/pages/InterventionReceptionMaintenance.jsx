@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./InterventionReceptionMaintenance.css";
 
 const InterventionReceptionMaintenance = () => {
+  const API_URL = import.meta.env.VITE_API_URL;
   const [interventions, setInterventions] = useState([]);
   const [filtered, setFiltered] = useState([]);
   const [loading, setLoading] = useState(true);
@@ -23,8 +24,8 @@ const InterventionReceptionMaintenance = () => {
     const fetchData = async () => {
       try {
         const [interRes, rapportRes] = await Promise.all([
-          axios.get("http://localhost:5000/api/interventions"),
-          axios.get("http://localhost:5000/api/rapports"),
+          axios.get(`${API_URL}/api/interventions`),
+          axios.get(`${API_URL}/api/rapports`),
         ]);
 
         const intervs = interRes.data;
@@ -102,7 +103,7 @@ const InterventionReceptionMaintenance = () => {
     }
 
     try {
-      await axios.put(`http://localhost:5000/api/interventions/${item._id}`, {
+      await axios.put(`${API_URL}/api/interventions/${item._id}`, {
         clotureMaintenance: true,
       });
 

@@ -17,6 +17,7 @@ import autoTable from "jspdf-autotable";
 import "./Arret.css";
 
 const Arret = () => {
+  const API_URL = import.meta.env.VITE_API_URL;
   const [interventions, setInterventions] = useState([]);
   const [lignes, setLignes] = useState([]);
   const [equipements, setEquipements] = useState([]);
@@ -54,9 +55,9 @@ const Arret = () => {
     const fetchData = async () => {
       try {
         const [intvRes, lignesRes, eqRes] = await Promise.all([
-          axios.get("http://localhost:5000/api/interventions"),
-          axios.get("http://localhost:5000/api/lignes"),
-          axios.get("http://localhost:5000/api/equipements"),
+          axios.get(`${API_URL}/api/interventions`),
+          axios.get(`${API_URL}/api/lignes`),
+          axios.get(`${API_URL}/api/equipements`),
         ]);
         setInterventions(intvRes.data);
         setLignes(lignesRes.data);

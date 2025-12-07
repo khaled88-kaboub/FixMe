@@ -1,0 +1,85 @@
+.timeline-container {
+    padding: 20px;
+    font-family: 'Poppins', sans-serif;
+  }
+  
+  .timeline-title {
+    margin-bottom: 20px;
+    font-size: 1.5rem;
+    font-weight: 600;
+  }
+  
+  .timeline-grid {
+    display: grid;
+    grid-template-columns: 220px repeat(12, 1fr);
+    gap: 6px;
+  }
+  
+  .timeline-header {
+    display: contents;
+  }
+  
+  .timeline-month {
+    text-align: center;
+    font-weight: bold;
+    padding: 6px 0;
+    border-bottom: 2px solid #ddd;
+    background-color: #f9fafb;
+    font-size: 0.9rem;
+  }
+  
+  .timeline-rows {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+    margin-top: 10px;
+  }
+  
+  .timeline-row {
+    display: grid;
+    grid-template-columns: 220px repeat(12, 1fr);
+    gap: 6px;
+    align-items: center;
+  }
+  
+  .timeline-info {
+    display: flex;
+    flex-direction: column;
+    gap: 2px;
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: #333;
+  }
+  
+  .timeline-ligne {
+    font-weight: 600;
+  }
+  
+  .timeline-equipement {
+    font-style: italic;
+    color: #555;
+  }
+  
+  .timeline-event {
+    padding: 6px 8px;
+    border-radius: 5px;
+    color: #fff;
+    font-size: 0.85rem;
+    cursor: pointer;
+    text-align: center;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+    transition: transform 0.2s, box-shadow 0.2s;
+  }
+  
+  .timeline-event:hover {
+    transform: scale(1.05);
+    box-shadow: 0 2px 6px rgba(0,0,0,0.15);
+  }
+  
+  /* Optionnel : scroll horizontal si timeline trop large */
+  .timeline-container {
+    overflow-x: auto;
+  }
+  

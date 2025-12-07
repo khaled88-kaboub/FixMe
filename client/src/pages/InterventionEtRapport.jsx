@@ -7,6 +7,7 @@ import autoTable from "jspdf-autotable";
 import "./InterventionEtRapport.css";
 
 export default function InterventionEtRapport() {
+  const API_URL = import.meta.env.VITE_API_URL;
   const [interventions, setInterventions] = useState([]);
   const [rapports, setRapports] = useState([]);
   const [activeTab, setActiveTab] = useState("interventions");
@@ -27,7 +28,7 @@ export default function InterventionEtRapport() {
 
   const loadInterventions = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/interventions");
+      const res = await axios.get(`${API_URL}/api/interventions`);
       if (Array.isArray(res.data)) setInterventions(res.data);
     } catch (err) {
       console.error(err);
@@ -36,7 +37,7 @@ export default function InterventionEtRapport() {
 
   const loadRapports = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/rapports");
+      const res = await axios.get(`${API_URL}/api/rapports`);
       if (Array.isArray(res.data)) setRapports(res.data);
     } catch (err) {
       console.error(err);

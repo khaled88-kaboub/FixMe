@@ -3,6 +3,7 @@ import axios from "axios";
 import "./UserManagementPage.css";
 
 const UserManagementPage = () => {
+  const API_URL = import.meta.env.VITE_API_URL;
   const [users, setUsers] = useState([]);
   const [editingUser, setEditingUser] = useState(null);
   const [formData, setFormData] = useState({
@@ -20,7 +21,7 @@ const UserManagementPage = () => {
 
   const fetchUsers = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/users");
+      const res = await axios.get(`${API_URL}/api/users`);
       setUsers(res.data);
     } catch (err) {
       console.error("Erreur de chargement :", err);
@@ -36,12 +37,12 @@ const UserManagementPage = () => {
     try {
       if (editingUser) {
         await axios.put(
-          `http://localhost:5000/api/users/${editingUser._id}`,
+          `${API_URL}/api/users/${editingUser._id}`,
           formData
         );
         alert("✅ Utilisateur mis à jour !");
       } else {
-        await axios.post("http://localhost:5000/api/users", formData);
+        await axios.post(`${API_URL}/api/users`, formData);
         alert("✅ Nouvel utilisateur ajouté !");
       }
       setFormData({ name: "", email: "", role: "demandeur", password: "" });
@@ -70,7 +71,7 @@ const UserManagementPage = () => {
 
   const confirmDelete = async () => {
     try {
-      await axios.delete(`http://localhost:5000/api/users/${userToDelete._id}`);
+      await axios.delete(`${API_URL}/api/users/${userToDelete._id}`);
       setUsers(users.filter((u) => u._id !== userToDelete._id));
       closeDeleteModal();
     } catch (err) {
@@ -177,7 +178,7 @@ const UserManagementPage = () => {
                     Mettre a jour
                   </button>
                   <button
-                    className="btn-delete"
+                    className="btna-delete"
                     onClick={() => openDeleteModal(u)}
                     title="Supprimer"
                   >
@@ -198,9 +199,9 @@ const UserManagementPage = () => {
 
       {/* Modal de suppression */}
       {showDeleteModal && (
-        <div className="modal-overlay" onClick={closeDeleteModal}>
+        <div className="modalo-overlayo" onClick={closeDeleteModal}>
           <div
-            className="modal"
+            className="modalo-content"
             onClick={(e) => e.stopPropagation()} // empêche fermeture si on clique à l'intérieur
           >
             <h3>⚠️ Confirmation</h3>
@@ -208,7 +209,7 @@ const UserManagementPage = () => {
               Voulez-vous vraiment supprimer l’utilisateur{" "}
               <strong>{userToDelete?.name}</strong> ?
             </p>
-            <div className="modal-actions">
+            <div className="modalo-actions">
               <button className="btn-cancel" onClick={closeDeleteModal}>
                 Annuler
               </button>

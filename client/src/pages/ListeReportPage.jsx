@@ -6,6 +6,7 @@ import autoTable from "jspdf-autotable";
 import * as XLSX from "xlsx";
 
 export default function ListeReportPage() {
+  const API_URL = import.meta.env.VITE_API_URL;
   const [rapports, setRapports] = useState([]);
   const [techniciens, setTechniciens] = useState([]); // techniciens importés du backend
   const [selectedRapport, setSelectedRapport] = useState(null);
@@ -30,7 +31,7 @@ export default function ListeReportPage() {
 
   const fetchRapports = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/rapports");
+      const res = await axios.get(`${API_URL}/api/rapports`);
       setRapports(res.data || []);
     } catch (err) {
       console.error("Erreur de chargement :", err);
@@ -39,7 +40,7 @@ export default function ListeReportPage() {
 
   const fetchTechniciens = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/techniciens");
+      const res = await axios.get(`${API_URL}/api/techniciens`);
       setTechniciens(res.data || []);
     } catch (err) {
       console.error("Erreur chargement techniciens :", err);
@@ -61,7 +62,7 @@ export default function ListeReportPage() {
     try {
       setLoading(true);
       await axios.put(
-        `http://localhost:5000/api/rapports/${selectedRapport._id}`,
+        `${API_URL}/api/rapports/${selectedRapport._id}`,
         selectedRapport
       );
       setShowModal(false);
@@ -77,7 +78,7 @@ export default function ListeReportPage() {
   const handleDelete = async (id) => {
     if (!window.confirm("Voulez-vous vraiment supprimer ce rapport ?")) return;
     try {
-      await axios.delete(`http://localhost:5000/api/rapports/${id}`);
+      await axios.delete(`${API_URL}/api/rapports/${id}`);
       setRapports((prev) => prev.filter((r) => r._id !== id));
     } catch (err) {
       console.error("Erreur suppression :", err);

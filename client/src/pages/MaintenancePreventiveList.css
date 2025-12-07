@@ -1,0 +1,210 @@
+/* 🎨 --- PAGE GLOBALE --- */
+.mp-container {
+    padding: 20px;
+    min-height: 100vh;
+    background: #f3f4f6;
+    font-family: "Poppins", sans-serif;
+    
+  }
+  
+  .dark .mp-container {
+    background: #1f2937;
+  }
+  
+  /* --- HEADER --- */
+  .mp-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+    margin-top: 40px;
+  }
+  
+  /* --- TITRE --- */
+  .mp-title {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    font-size: 26px;
+    font-weight: 700;
+  }
+  
+  /* --- BOUTON NOUVELLE MP --- */
+  .mp-btn-add {
+    background: #2563eb;
+    color: white;
+    padding: 10px 18px;
+    border-radius: 8px;
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    transition: 0.25s;
+  }
+  
+  .mp-btn-add:hover {
+    background: #1d4ed8;
+  }
+  
+  /* 🎚️ --- FILTRES (modern horizontal layout) --- */
+  .mp-filters {
+    background: rgba(255,255,255,0.8);
+    padding: 18px;
+    border-radius: 14px;
+    margin-bottom: 25px;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    gap: 15px;
+    align-items: center;
+    /*flex-wrap: wrap;*/
+    backdrop-filter: blur(6px);
+    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  }
+  
+  .dark .mp-filters {
+    background: rgba(31,41,55,0.8);
+  }
+  
+  /* --- Barre de recherche --- */
+  .mp-searchbox {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    background: #e5e7eb;
+    padding: 8px 12px;
+    border-radius: 8px;
+    flex: 1;
+  }
+  
+  .dark .mp-searchbox {
+    background: #374151;
+  }
+  
+  .mp-searchbox input {
+    background: transparent;
+    border: none;
+    outline: none;
+    width: 100%;
+    font-size: 15px;
+  }
+  
+  /* --- Dropdowns --- */
+  .mp-select {
+    padding: 10px;
+    border-radius: 8px;
+    border: none;
+    background: #e5e7eb;
+    font-size: 15px;
+    width: 25%;
+  }
+  
+  .dark .mp-select {
+    background: #374151;
+    color: white;
+  }
+  
+  .mp-select:focus {
+    outline: 2px solid #2563eb;
+  }
+  
+  /* 📋 --- TABLEAU --- */
+  .mp-table-container {
+    overflow-x: auto;
+  }
+  
+  .mp-table {
+    width: 100%;
+    border-collapse: collapse;
+    background: white;
+    border-radius: 12px;
+    overflow: hidden;
+    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
+  }
+  
+  .dark .mp-table {
+    background: #1f2937;
+  }
+  
+  /* --- Header --- */
+  .mp-table thead tr {
+    background: #e5e7eb;
+    font-weight: bold;
+  }
+  
+  .dark .mp-table thead tr {
+    background: #374151;
+  }
+  
+  .mp-table th {
+    padding: 12px;
+    text-align: left;
+    font-size: 15px;
+  }
+  
+  /* --- Body --- */
+  .mp-table td {
+    padding: 12px;
+    border-bottom: 1px solid #e5e7eb;
+  }
+  
+  .dark .mp-table td {
+    border-bottom: 1px solid #374151;
+  }
+  
+  /* --- Hover row --- */
+  .mp-table tbody tr:hover {
+    background: #f3f4f6;
+  }
+  
+  .dark .mp-table tbody tr:hover {
+    background: #111827;
+  }
+  
+  /* --- Actions --- */
+  .action-btns {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 12px;
+  }
+  
+  /* --- Status tag --- */
+  .status-tag {
+    padding: 4px 10px;
+    background: #6b7280;
+    color: white;
+    border-radius: 6px;
+    text-transform: capitalize;
+    font-size: 13px;
+  }
+  
+  /* --- Date next --- */
+  .date-tag {
+    padding: 5px 10px;
+    border-radius: 8px;
+    color: white;
+    font-size: 13px;
+    display: inline-flex;
+    align-items: center;
+    gap: 4px;
+  }
+  
+  .date-green {
+    background: #16a34a;
+  }
+  
+  .date-red {
+    background: #dc2626;
+  }
+  
+  /* 🌀 Message vide */
+  .mp-empty {
+    text-align: center;
+    padding: 25px;
+    color: #6b7280;
+  }
+  
+  .dark .mp-empty {
+    color: #9ca3af;
+  }
+  

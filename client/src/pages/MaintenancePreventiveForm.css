@@ -1,0 +1,167 @@
+/* MaintenancePreventiveForm.css */
+
+/* Conteneur principal du formulaire */
+#root {
+  flex: 1;
+}
+.formulaire {
+  max-width: 900px;
+  margin: 2rem auto; /* centré horizontalement avec marge verticale */
+  padding: 2rem;
+  background-color: #ffffff;
+  border-radius: 12px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.08);
+  display: flex;
+  flex-direction: column;
+  gap: 15px;
+  font-family: 'Poppins', sans-serif;
+  
+}
+.tranche1 {
+  display: flex;
+  flex-direction: row;
+  justify-content: space-between;
+
+}
+.class1 {
+  width: 30%;
+}
+
+/* Titre */
+.titre {
+  font-size: 1.8rem;
+  font-weight: 600;
+  color: #1f2937;
+  text-align: center;
+  margin-bottom: 1rem;
+  
+}
+
+/* Inputs et selects */
+.entree {
+  width: 100%;
+  padding: 0.6rem 0.8rem;
+  border: 1px solid #d1d5db; /* gris clair */
+  border-radius: 8px;
+  font-size: 1rem;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.entree:focus {
+  outline: none;
+  border-color: #3b82f6; /* bleu accent */
+  box-shadow: 0 0 0 3px rgba(59, 130, 246, 0.2);
+}
+
+/* Labels */
+label {
+  display: block;
+  margin-top: 1rem;
+  margin-bottom: 0.5rem;
+  font-weight: 500;
+  color: #374151; /* gris foncé */
+}
+
+/* Boutons principaux */
+button {
+  cursor: pointer;
+  transition:  transform 0.1s;
+}
+
+button:hover {
+  transform: translateY(-1px);
+}
+
+/* Bouton Enregistrer */
+.enregistrer {
+  background-color: #3b82f6; /* bleu */
+  color: #ffffff;
+  padding: 0.7rem 1rem;
+  border-radius: 8px;
+  font-weight: 500;
+  border: none;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.enregistrer:hover {
+  background-color: #2563eb; /* bleu plus foncé */
+}
+
+/* Bouton Ajouter tâche */
+.ajouter-tache {
+  background-color: #16a34a !important;
+}
+
+.ajouter-tache:hover  {
+  background-color : #15803d !important; 
+}
+/* Bouton Supprimer tâche */
+.supprimer-tache {
+  background-color: #ef4444 !important;
+}
+
+.supprimer-tache:hover {
+  background-color: #dc2626 !important;
+}
+
+/* Tâches individuelles */
+.formulaire > form > div.flex {
+  display: flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  margin-bottom: 0.5rem;
+}
+
+/* Responsive : petites écrans */
+@media (max-width: 640px) {
+  .formulaire {
+    padding: 1.5rem;
+  }
+
+  .formulaire > form > div.flex {
+    flex-direction: column;
+  }
+
+  button[type="submit"] {
+    font-size: 1rem;
+  }
+}
+
+/* Footer et navbar placeholders */
+body {
+  display: flex;
+  flex-direction: column;
+  max-height: 200vh;
+  
+}
+
+main {
+  flex: 1; /* pour que le formulaire pousse le footer en bas */
+  
+}
+
+/* Optionnel : si tu veux une navbar fixe */
+.navbar {
+  width: 100%;
+  background-color: #1f2937;
+  color: white;
+  padding: 1rem 2rem;
+  position: fixed;
+  top: 0;
+  left: 0;
+  z-index: 50;
+}
+
+/* Footer */
+.footer {
+  width: 100%;
+  background-color: #1f2937;
+  color: white;
+  text-align: center;
+  padding: 1rem 2rem;
+  margin-top: auto;
+}
+
+
+

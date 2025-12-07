@@ -5,6 +5,7 @@ import "react-toastify/dist/ReactToastify.css";
 import "./InterventionAnnulerPage.css";
 
 const InterventionAnnulerPage = () => {
+  const API_URL = import.meta.env.VITE_API_URL;
   const [interventions, setInterventions] = useState([]);
   const [filteredInterventions, setFilteredInterventions] = useState([]);
   const [lignes, setLignes] = useState([]);
@@ -24,7 +25,7 @@ const InterventionAnnulerPage = () => {
 
   const fetchLignes = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/lignes");
+      const res = await axios.get(`${API_URL}/api/lignes`);
       setLignes(res.data || []);
     } catch (err) {
       console.error("Erreur fetchLignes", err);
@@ -34,7 +35,7 @@ const InterventionAnnulerPage = () => {
 
   const fetchInterventions = async () => {
     try {
-      const res = await axios.get("http://localhost:5000/api/interventions");
+      const res = await axios.get(`${API_URL}/api/interventions`);
       const filtered = (res.data || []).filter(
         (i) => i.statut !== "annule" && i.statut !== "termine"
       );
@@ -101,7 +102,7 @@ const InterventionAnnulerPage = () => {
       return;
 
     try {
-      await axios.put(`http://localhost:5000/api/interventions/${id}`, {
+      await axios.put(`${API_URL}/api/interventions/${id}`, {
         statut: "annule",
       });
       toast.success(`Demande ${numero} annulée`);

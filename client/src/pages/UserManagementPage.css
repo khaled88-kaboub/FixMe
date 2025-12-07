@@ -136,7 +136,7 @@
   
   .btn-edit {
     border: none;
-    background: none;
+    background: gainsboro;
     cursor: pointer;
     font-size: 18px;
     margin-right: 5px;
@@ -145,9 +145,9 @@
   }
 
   
-  .btn-delete {
+  .btna-delete {
     border: none;
-    background: none;
+    background: red;
     cursor: pointer;
     font-size: 18px;
     margin-right: 5px;
@@ -168,7 +168,7 @@
 /* ✅ MODALE MODERNE EN COLONNE */
 /* ============================= */
 
-.modal-overlay {
+.modalo-overlayo {
   position: fixed;
   top: 0;
   left: 0;
@@ -182,7 +182,7 @@
   backdrop-filter: blur(4px); /* effet flou moderne */
 }
 
-.modal-content {
+.modalo-content {
   background: #ffffff;
   border-radius: 16px;
   padding: 25px 30px;
@@ -195,20 +195,20 @@
   animation: slideIn 0.3s ease-out;
 }
 
-.modal-content h2 {
+.modalo-content h2 {
   text-align: center;
   color: #1e3a8a;
   font-size: 1.4rem;
   margin-bottom: 15px;
 }
 
-.modal-content hr {
+.modalo-content hr {
   margin: 10px 0;
   border: none;
   border-top: 1px solid #e5e7eb;
 }
 
-.modal-content p {
+.modalo-content p {
   margin: 6px 0;
   font-size: 15px;
   color: #374151;
@@ -216,12 +216,12 @@
   justify-content: space-between;
 }
 
-.modal-content p strong {
+.modalo-content p strong {
   color: #111827;
   font-weight: 600;
 }
 
-.modal-actions {
+.modalo-actions {
   display: flex;
   justify-content: center;
   gap: 12px;

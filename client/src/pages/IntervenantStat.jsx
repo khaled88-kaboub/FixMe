@@ -9,6 +9,7 @@ import * as XLSX from "xlsx";
 import "./IntervenantStat.css";
 
 const IntervenantStat = () => {
+  const API_URL = import.meta.env.VITE_API_URL;
   const [stats, setStats] = useState([]);
   const [dateDebut, setDateDebut] = useState("");
   const [dateFin, setDateFin] = useState("");
@@ -27,7 +28,7 @@ const IntervenantStat = () => {
 
   const fetchStats = async (startDate, endDate) => {
     try {
-      const { data } = await axios.get("http://localhost:5000/api/rapports");
+      const { data } = await axios.get(`${API_URL}/api/rapports`);
 
       const filtered = data.filter((rapport) => {
         const dateInterv = new Date(rapport.dateIntervention);
@@ -99,7 +100,7 @@ const IntervenantStat = () => {
     setShowModal(true);
 
     try {
-      const { data } = await axios.get("http://localhost:5000/api/rapports");
+      const { data } = await axios.get(`${API_URL}/api/rapports`);
       const filtres = data.filter((r) =>
         r.techniciens.some(
           (t) =>
