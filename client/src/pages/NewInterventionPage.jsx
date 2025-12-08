@@ -51,10 +51,14 @@ export default function NewInterventionPage() {
       if (!form.ligne) return setEquipements([]);
       try {
         const res = await axios.get(`${API_URL}/api/equipements`);
-        const filtres = res.data.filter(
-          (eq) => eq.ligne && (eq.ligne._id === form.ligne || eq.ligne === form.ligne)
-        );
-        setEquipements(filtres);
+
+const filtres = res.data.filter((eq) =>
+  Array.isArray(eq.ligne) &&
+  eq.ligne.some((l) => (l?._id || l) === form.ligne)
+);
+
+setEquipements(filtres);
+
       } catch (err) {
         toast.error("Erreur lors du chargement des équipements");
       }
