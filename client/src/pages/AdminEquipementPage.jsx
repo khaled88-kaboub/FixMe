@@ -114,7 +114,7 @@ export default function AdminEquipementPage() {
       await axios.put(`${API_URL}/api/equipements/${id}`, {
         designation,
         code,
-        ligne,
+        ligne: ligne,
       });
 
       toast.success("Équipement modifié !");
@@ -200,7 +200,7 @@ export default function AdminEquipementPage() {
                       onChange={(e) =>
                         setEditData({
                           ...editData,
-                          lignes: Array.from(
+                          ligne: Array.from(
                             e.target.selectedOptions,
                             (o) => o.value
                           ),
