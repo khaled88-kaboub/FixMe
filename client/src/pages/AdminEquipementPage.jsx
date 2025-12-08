@@ -4,19 +4,26 @@ import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import { FaPlusCircle, FaTrash, FaEdit, FaSave, FaTimes } from "react-icons/fa";
 import "./AdminEquipementPage.css";
+
 const API_URL = import.meta.env.VITE_API_URL;
- 
+
 export default function AdminEquipementPage() {
   const [equipements, setEquipements] = useState([]);
   const [designation, setDesignation] = useState("");
   const [code, setCode] = useState("");
-  const [ligneId, setLigneId] = useState("");
+
+  // ⬅️ MULTI-LIGNES
+  const [lignesIds, setLignesIds] = useState([]);
+
   const [lignes, setLignes] = useState([]);
 
   const [editId, setEditId] = useState(null);
-  const [editData, setEditData] = useState({ designation: "", code: "", ligne: "" });
+  const [editData, setEditData] = useState({
+    designation: "",
+    code: "",
+    lignes: [],
+  });
 
-  // 🔹 Récupérer les lignes pour le menu déroulant
   const fetchLignes = async () => {
     try {
       const res = await axios.get(`${API_URL}/api/lignes`);
@@ -26,7 +33,6 @@ export default function AdminEquipementPage() {
     }
   };
 
-  // 🔹 Récupérer les équipements
   const fetchEquipements = async () => {
     try {
       const res = await axios.get(`${API_URL}/api/equipements`);
@@ -41,25 +47,31 @@ export default function AdminEquipementPage() {
     fetchEquipements();
   }, []);
 
-  // 🔹 Ajouter un équipement
+  // 🔹 Ajouter
   const handleAdd = async (e) => {
     e.preventDefault();
-    if (!designation.trim() || !code.trim() || !ligneId)
+
+    if (!designation.trim() || !code.trim() || lignesIds.length === 0)
       return toast.warn("Veuillez remplir tous les champs.");
 
     try {
       const res = await axios.post(`${API_URL}/api/equipements`, {
         designation,
         code,
-        ligne: ligneId,
+
+        // ⬅️ ENVOYER UN TABLEAU
+        lignes: lignesIds,
       });
-      toast.success(`✅ Équipement "${res.data.designation}" ajouté avec succès !`);
+
+      toast.success(`Équipement "${res.data.designation}" ajouté !`);
+
       setDesignation("");
       setCode("");
-      setLigneId("");
+      setLignesIds([]);
+
       fetchEquipements();
     } catch (err) {
-      toast.error(err.response?.data?.message || "Erreur lors de l’ajout de l’équipement");
+      toast.error(err.response?.data?.message || "Erreur lors de l’ajout");
     }
   };
 
@@ -75,35 +87,37 @@ export default function AdminEquipementPage() {
     }
   };
 
-  // 🔹 Activer le mode édition
+  // 🔹 Activer édition
   const handleEdit = (equipement) => {
     setEditId(equipement._id);
+
     setEditData({
       designation: equipement.designation,
       code: equipement.code,
-      ligne: equipement.ligne?._id || "",
+      lignes: equipement.lignes?.map((l) => l._id) || [],
     });
   };
 
-  // 🔹 Annuler l’édition
   const handleCancelEdit = () => {
     setEditId(null);
-    setEditData({ designation: "", code: "", ligne: "" });
+    setEditData({ designation: "", code: "", lignes: [] });
   };
 
-  // 🔹 Sauvegarder la modification
+  // 🔹 Sauvegarder
   const handleSaveEdit = async (id) => {
-    const { designation, code, ligne } = editData;
-    if (!designation.trim() || !code.trim() || !ligne)
+    const { designation, code, lignes } = editData;
+
+    if (!designation.trim() || !code.trim() || lignes.length === 0)
       return toast.warn("Tous les champs sont obligatoires.");
 
     try {
       await axios.put(`${API_URL}/api/equipements/${id}`, {
         designation,
         code,
-        ligne,
+        lignes,
       });
-      toast.success("✅ Équipement modifié avec succès !");
+
+      toast.success("Équipement modifié !");
       setEditId(null);
       fetchEquipements();
     } catch (err) {
@@ -113,34 +127,45 @@ export default function AdminEquipementPage() {
 
   return (
     <div className="admin-equipement-container">
-      <h2>⚙️ Gestion des Équipements de production</h2>
+      <h2>⚙️ Gestion des Équipements</h2>
 
+      {/* FORMULAIRE AJOUT */}
       <form onSubmit={handleAdd} className="add-equipement-form">
         <input
           type="text"
-          placeholder="Désignation de l’équipement"
+          placeholder="Désignation"
           value={designation}
           onChange={(e) => setDesignation(e.target.value)}
         />
+
         <input
           type="text"
           placeholder="Code équipement"
           value={code}
           onChange={(e) => setCode(e.target.value)}
         />
-        <select value={ligneId} onChange={(e) => setLigneId(e.target.value)}>
-          <option value="">-- Sélectionner une ligne --</option>
+
+        {/* MULTI SELECT */}
+        <select
+          multiple
+          value={lignesIds}
+          onChange={(e) =>
+            setLignesIds(Array.from(e.target.selectedOptions, (o) => o.value))
+          }
+        >
           {lignes.map((ligne) => (
             <option key={ligne._id} value={ligne._id}>
               {ligne.nom}
             </option>
           ))}
         </select>
+
         <button type="submit">
           <FaPlusCircle /> Ajouter
         </button>
       </form>
 
+      {/* LISTE */}
       <div className="equipement-list">
         {equipements.length === 0 ? (
           <p>Aucun équipement enregistré.</p>
@@ -158,28 +183,49 @@ export default function AdminEquipementPage() {
                       }
                       className="edit-input"
                     />
+
                     <input
                       type="text"
                       value={editData.code}
-                      onChange={(e) => setEditData({ ...editData, code: e.target.value })}
+                      onChange={(e) =>
+                        setEditData({ ...editData, code: e.target.value })
+                      }
                       className="edit-input"
                     />
+
+                    {/* MULTI SELECT */}
                     <select
-                      value={editData.ligne}
-                      onChange={(e) => setEditData({ ...editData, ligne: e.target.value })}
+                      multiple
+                      value={editData.lignes}
+                      onChange={(e) =>
+                        setEditData({
+                          ...editData,
+                          lignes: Array.from(
+                            e.target.selectedOptions,
+                            (o) => o.value
+                          ),
+                        })
+                      }
                     >
-                      <option value="">-- Ligne --</option>
                       {lignes.map((ligne) => (
                         <option key={ligne._id} value={ligne._id}>
                           {ligne.nom}
                         </option>
                       ))}
                     </select>
+
                     <div className="edit-actions">
-                      <button onClick={() => handleSaveEdit(eq._id)} className="save-btn">
+                      <button
+                        onClick={() => handleSaveEdit(eq._id)}
+                        className="save-btn"
+                      >
                         <FaSave />
                       </button>
-                      <button onClick={handleCancelEdit} className="cancel-btn">
+
+                      <button
+                        onClick={handleCancelEdit}
+                        className="cancel-btn"
+                      >
                         <FaTimes />
                       </button>
                     </div>
@@ -188,13 +234,27 @@ export default function AdminEquipementPage() {
                   <>
                     <span>
                       <strong>{eq.designation}</strong> — {eq.code}{" "}
-                      <em>({eq.ligne?.nom || "Aucune ligne"})</em>
+                      <em>
+                        (
+                        {eq.lignes && eq.lignes.length > 0
+                          ? eq.lignes.map((l) => l.nom).join(", ")
+                          : "Aucune ligne"}
+                        )
+                      </em>
                     </span>
+
                     <div className="edit-actions">
-                      <button onClick={() => handleEdit(eq)} className="edit-btn">
+                      <button
+                        onClick={() => handleEdit(eq)}
+                        className="edit-btn"
+                      >
                         <FaEdit />
                       </button>
-                      <button onClick={() => handleDelete(eq._id)} className="delete-btn">
+
+                      <button
+                        onClick={() => handleDelete(eq._id)}
+                        className="delete-btn"
+                      >
                         <FaTrash />
                       </button>
                     </div>
