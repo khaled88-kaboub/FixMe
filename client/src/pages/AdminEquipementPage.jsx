@@ -196,7 +196,7 @@ export default function AdminEquipementPage() {
                     {/* MULTI SELECT */}
                     <select
                       multiple
-                      value={editData.lignes}
+                      value={editData.ligne}
                       onChange={(e) =>
                         setEditData({
                           ...editData,
