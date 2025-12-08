@@ -51,7 +51,7 @@ export default function App() {
 
   useEffect(() => {
     // ⚡ Connexion au backend Socket.IO
-    const socket = io("http://localhost:5000", {
+    const socket = io("https://fixme-1.onrender.com", {
       transports: ["websocket"],
       reconnection: true,
       reconnectionAttempts: 10
