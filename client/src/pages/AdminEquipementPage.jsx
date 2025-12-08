@@ -94,7 +94,7 @@ export default function AdminEquipementPage() {
     setEditData({
       designation: equipement.designation,
       code: equipement.code,
-      lignes: equipement.ligne?.map((l) => l._id) || [],
+      ligne: equipement.ligne?.map((l) => l._id) || [],
     });
   };
 
