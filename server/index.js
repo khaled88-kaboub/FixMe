@@ -13,7 +13,7 @@ import { Server } from "socket.io";
 import rateLimit from "express-rate-limit";
 import userRoutes from "./routes/userRoute.js";
 import authRoutes from "./routes/authRoutes.js";
-import interventionRoutes from "./routes/interventionController.js";
+import interventionRoutes from "./routes/interventionRoute.js";
 
 import ligneRoutes from "./routes/ligneRoute.js";
 import equipementRoutes from "./routes/equipementRoute.js";
