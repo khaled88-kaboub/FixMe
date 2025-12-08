@@ -3,17 +3,17 @@ import Ligne from "../models/Ligne.js";
 
 export const createEquipement = async (req, res) => {
   try {
-    const { designation, code, lignes } = req.body;
+    const { designation, code, ligne } = req.body;
 
     // lignes doit être un tableau
-    if (!Array.isArray(lignes) || lignes.length === 0) {
+    if (!Array.isArray(ligne) || ligne.length === 0) {
       return res.status(400).json({ message: "Aucune ligne fournie." });
     }
 
     // Vérifier si toutes les lignes existent
-    const lignesExistantes = await Ligne.find({ _id: { $in: lignes } });
+    const lignesExistantes = await Ligne.find({ _id: { $in: ligne } });
 
-    if (lignesExistantes.length !== lignes.length) {
+    if (lignesExistantes.length !== ligne.length) {
       return res.status(404).json({ message: "Ligne non trouvée !" });
     }
 
@@ -21,7 +21,7 @@ export const createEquipement = async (req, res) => {
     const equipement = await Equipement.create({
       designation,
       code,
-      ligne: lignes, // <-- IMPORTANT
+      ligne: ligne, // <-- IMPORTANT
     });
 
     res.status(201).json(equipement);
@@ -55,15 +55,15 @@ export const getEquipementById = async (req, res) => {
 
 export const updateEquipement = async (req, res) => {
   try {
-    const { designation, code, lignes } = req.body;
+    const { designation, code, ligne } = req.body;
 
-    if (!Array.isArray(lignes) || lignes.length === 0) {
+    if (!Array.isArray(ligne) || ligne.length === 0) {
       return res.status(400).json({ message: "Les lignes sont obligatoires." });
     }
 
-    const lignesExistantes = await Ligne.find({ _id: { $in: lignes } });
+    const lignesExistantes = await Ligne.find({ _id: { $in: ligne } });
 
-    if (lignesExistantes.length !== lignes.length) {
+    if (lignesExistantes.length !== ligne.length) {
       return res.status(404).json({ message: "Ligne non trouvée !" });
     }
 
@@ -72,7 +72,7 @@ export const updateEquipement = async (req, res) => {
       {
         designation,
         code,
-        ligne: lignes, // <-- IMPORTANT
+        ligne: ligne, // <-- IMPORTANT
       },
       { new: true }
     );
