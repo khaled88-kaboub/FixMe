@@ -13,11 +13,14 @@ const equipementSchema = new mongoose.Schema(
       unique: true,
       trim: true,
     },
-    ligne: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Ligne", // référence à la collection 'lignes'
-      required: true,
-    },
+    ligne: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Ligne",
+        
+      }
+    ]
+    
   },
   { timestamps: true }
 );
@@ -25,3 +28,4 @@ const equipementSchema = new mongoose.Schema(
 const Equipement = mongoose.model("Equipement", equipementSchema);
 
 export default Equipement;
+
