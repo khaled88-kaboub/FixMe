@@ -1,22 +1,36 @@
 import Equipement from "../models/Equipement.js";
 import Ligne from "../models/Ligne.js";
 
-// ➕ Ajouter un équipement
 export const createEquipement = async (req, res) => {
   try {
-    const { designation, code, ligne } = req.body;
+    const { designation, code, lignes } = req.body;
 
-    const ligneExistante = await Ligne.findById(ligne);
-    if (!ligneExistante) {
-      return res.status(404).json({ message: "Ligne non trouvée" });
+    // lignes doit être un tableau
+    if (!Array.isArray(lignes) || lignes.length === 0) {
+      return res.status(400).json({ message: "Aucune ligne fournie." });
     }
 
-    const equipement = await Equipement.create({ designation, code, ligne });
+    // Vérifier si toutes les lignes existent
+    const lignesExistantes = await Ligne.find({ _id: { $in: lignes } });
+
+    if (lignesExistantes.length !== lignes.length) {
+      return res.status(404).json({ message: "Ligne non trouvée !" });
+    }
+
+    // créer avec le champ 'ligne' (ton modèle)
+    const equipement = await Equipement.create({
+      designation,
+      code,
+      ligne: lignes, // <-- IMPORTANT
+    });
+
     res.status(201).json(equipement);
+
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
+
 
 // 📋 Liste de tous les équipements
 export const getEquipements = async (req, res) => {
@@ -39,21 +53,37 @@ export const getEquipementById = async (req, res) => {
   }
 };
 
-// ✏️ Modifier un équipement
 export const updateEquipement = async (req, res) => {
   try {
-    const { designation, code, ligne } = req.body;
+    const { designation, code, lignes } = req.body;
+
+    if (!Array.isArray(lignes) || lignes.length === 0) {
+      return res.status(400).json({ message: "Les lignes sont obligatoires." });
+    }
+
+    const lignesExistantes = await Ligne.find({ _id: { $in: lignes } });
+
+    if (lignesExistantes.length !== lignes.length) {
+      return res.status(404).json({ message: "Ligne non trouvée !" });
+    }
+
     const equipement = await Equipement.findByIdAndUpdate(
       req.params.id,
-      { designation, code, ligne },
+      {
+        designation,
+        code,
+        ligne: lignes, // <-- IMPORTANT
+      },
       { new: true }
     );
-    if (!equipement) return res.status(404).json({ message: "Équipement non trouvé" });
+
     res.status(200).json(equipement);
+
   } catch (error) {
     res.status(500).json({ message: error.message });
   }
 };
+
 
 // 🗑️ Supprimer un équipement
 export const deleteEquipement = async (req, res) => {
