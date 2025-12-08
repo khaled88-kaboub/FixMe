@@ -60,7 +60,7 @@ export default function AdminEquipementPage() {
         code,
 
         // ⬅️ ENVOYER UN TABLEAU
-        lignes: lignesIds,
+        ligne: lignesIds,
       });
 
       toast.success(`Équipement "${res.data.designation}" ajouté !`);
@@ -94,27 +94,27 @@ export default function AdminEquipementPage() {
     setEditData({
       designation: equipement.designation,
       code: equipement.code,
-      lignes: equipement.lignes?.map((l) => l._id) || [],
+      lignes: equipement.ligne?.map((l) => l._id) || [],
     });
   };
 
   const handleCancelEdit = () => {
     setEditId(null);
-    setEditData({ designation: "", code: "", lignes: [] });
+    setEditData({ designation: "", code: "", ligne: [] });
   };
 
   // 🔹 Sauvegarder
   const handleSaveEdit = async (id) => {
-    const { designation, code, lignes } = editData;
+    const { designation, code, ligne } = editData;
 
-    if (!designation.trim() || !code.trim() || lignes.length === 0)
+    if (!designation.trim() || !code.trim() || ligne.length === 0)
       return toast.warn("Tous les champs sont obligatoires.");
 
     try {
       await axios.put(`${API_URL}/api/equipements/${id}`, {
         designation,
         code,
-        lignes,
+        ligne,
       });
 
       toast.success("Équipement modifié !");
@@ -236,8 +236,8 @@ export default function AdminEquipementPage() {
                       <strong>{eq.designation}</strong> — {eq.code}{" "}
                       <em>
                         (
-                        {eq.lignes && eq.lignes.length > 0
-                          ? eq.lignes.map((l) => l.nom).join(", ")
+                        {eq.ligne && eq.ligne.length > 0
+                          ? eq.ligne.map((l) => l.nom).join(", ")
                           : "Aucune ligne"}
                         )
                       </em>
