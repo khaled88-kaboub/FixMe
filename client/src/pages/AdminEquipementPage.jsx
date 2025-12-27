@@ -253,7 +253,6 @@ export default function AdminEquipementPage() {
 </small>
 </span>
 
-4f9d77f3fd7945e1ca4ddb6d4199388e60a4551
 
                     <div className="edit-actions">
                       <button
