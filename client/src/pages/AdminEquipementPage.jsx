@@ -25,8 +25,11 @@ export default function AdminEquipementPage() {
     lignes: [],
   });
 
+<<<<<<< HEAD
 
   
+=======
+>>>>>>> 94f9d77f3fd7945e1ca4ddb6d4199388e60a4551
   const fetchLignes = async () => {
     try {
       const res = await axios.get(`${API_URL}/api/lignes`);
@@ -237,6 +240,7 @@ export default function AdminEquipementPage() {
                 ) : (
                   <>
                     <span>
+<<<<<<< HEAD
   <strong>{eq.designation}</strong> — {eq.code}
   <br />
   <em>
@@ -253,6 +257,17 @@ export default function AdminEquipementPage() {
 </small>
 </span>
 
+=======
+                      <strong>{eq.designation}</strong> — {eq.code}{" "}
+                      <em>
+                        (
+                        {eq.ligne && eq.ligne.length > 0
+                          ? eq.ligne.map((l) => l.nom).join(", ")
+                          : "Aucune ligne"}
+                        )
+                      </em>
+                    </span>
+>>>>>>> 94f9d77f3fd7945e1ca4ddb6d4199388e60a4551
 
                     <div className="edit-actions">
                       <button

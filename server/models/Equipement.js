@@ -19,12 +19,13 @@ const equipementSchema = new mongoose.Schema(
         ref: "Ligne",
         
       }
+
     ],
     dernierCompteur: {
       type: Number,
       default: 0
     }
-    
+
   },
   { timestamps: true }
 );
@@ -32,3 +33,4 @@ const equipementSchema = new mongoose.Schema(
 const Equipement = mongoose.model("Equipement", equipementSchema);
 
 export default Equipement;
+
