@@ -24,7 +24,7 @@ export default function LoginPage() {
   return (
     <div className="auth-page">
       <div className="auth-container fade in">
-        <h2 className="auth-title">Connexion à FixMe-dz</h2>
+        <h4 className="auth-title">Connexion à FixMe-dz</h4>
         <form onSubmit={handleSubmit}>
           <input
             type="email"

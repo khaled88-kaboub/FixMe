@@ -4,7 +4,7 @@ import axios from "axios";
 import "./FooterNotification.css";
 import { FaPlay, FaSpinner, FaCheckCircle, FaTimesCircle } from "react-icons/fa";
 
-const socket = io("http://localhost:5000");
+const socket = io("https://fixme-1.onrender.com");
 
 export default function FooterNotification() {
   const API_URL = import.meta.env.VITE_API_URL;

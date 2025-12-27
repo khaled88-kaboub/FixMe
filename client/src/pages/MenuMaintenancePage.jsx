@@ -6,7 +6,9 @@ import "./MenuProductionPage.css";
 export default function MenuMaintenancePage() {
   const [open, setOpen] = useState(true);
   const location = useLocation();
-
+  const closeMenu = () => {
+    setOpen(false);
+  };
   return (
     <div className="menu-page">
       {/* Bouton toggle */}
@@ -16,15 +18,15 @@ export default function MenuMaintenancePage() {
 
       {/* Sidebar */}
       <aside className={`sidebar ${open ? "open" : "closed"}`}>
-        <h2 className="sidebar-title">Maintenance</h2>
+        <h3 className="sidebar-title">Maintenance</h3>
         <ul>
           <li className={location.pathname.includes("/new") ? "active" : ""}>
-            <Link to="grid">
+            <Link to="grid" onClick={() => setOpen(!open)}>
               <FaTools /> Ajouter Rapport DI
             </Link>
           </li>
           <li className={location.pathname.includes("/reception") ? "active" : ""}>
-            <Link to="maintenance-cloture">
+            <Link to="maintenance-cloture" onClick={() => setOpen(!open)}>
               <FaClipboardCheck /> Cloturer DI
             </Link>
           </li>

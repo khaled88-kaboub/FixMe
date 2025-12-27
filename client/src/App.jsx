@@ -29,7 +29,7 @@ import ListDi from "./pages/ListDi"
 import InterventionAnnulerPage from "./pages/InterventionAnnulerPage";
 import InterventionEtRapport from "./pages/InterventionEtRapport";
 import MaintenancePreventiveForm from "./pages/MaintenancePreventiveForm";
-import MaintenancePreventiveDashboard from "./pages/MaintenancePreventiveDashboard";
+import Dashboard from "./pages/Dashboard";
 import MaintenancePreventiveCalendar from "./pages/MaintenancePreventiveCalendar";
 import MaintenancePreventiveList from "./pages/MaintenancePreventiveList";
 import TimelineAnnuelle from "./pages/TimeLineAnnuelle";
@@ -41,8 +41,16 @@ import InterventionPlist from "./pages/InterventionPlist";
 import InterventionPDetails from "./pages/InterventionPDetails";
 import MaintenancePreventiveCalendar2 from "./pages/MaintenancePreventiveCalendar2";
 import { UserContext } from "./context/UserContext";
+import ReleveCompteurPage from "./pages/ReleveCompteurPage";
+import CompteurListPage from "./pages/CompteurListPage";
+import AdminFournisseursPage from "./pages/AdminFournisseurPage";
+import InterventionFournisseur from "../../server/models/InterventionFournisseur";
+
+
+
 
 import "react-toastify/dist/ReactToastify.css";
+import AdminInterventionFournisseur from "./pages/AdminInterventionFournisseur";
 
 
 
@@ -51,7 +59,7 @@ export default function App() {
 
   useEffect(() => {
     // ⚡ Connexion au backend Socket.IO
-    const socket = io("http://localhost:5000", {
+    const socket = io("http://fixme-1.onrender.com", {
       transports: ["websocket"],
       reconnection: true,
       reconnectionAttempts: 10
@@ -100,7 +108,7 @@ export default function App() {
           <Route path="/int" element={<AdminInterventionPage/>}/>
 
           <Route path="/mpform" element={<MaintenancePreventiveForm/>}/>
-          <Route path="/mpdash" element={<MaintenancePreventiveDashboard/>}/>
+          <Route path="/mpdash" element={<Dashboard/>}/>
           <Route path="/mplist" element={<MaintenancePreventiveList/>}/>
           <Route path="/mpcalendar" element={<MaintenancePreventiveCalendar/>}/>
           <Route path="/mpcalendar2" element={<MaintenancePreventiveCalendar2/>}/>
@@ -108,8 +116,9 @@ export default function App() {
           <Route path="/mpgantt" element={<GanttAnnee/>}/>
           <Route path="/mpinterventions" element={<InterventionPlist/>}/>
           <Route path="/interventionP/:id" element={<InterventionPDetails />} />
-
           
+          
+
           
           
           
@@ -134,6 +143,10 @@ export default function App() {
               <Route path="tous" element={<InterventionEtRapport/>}/>
               <Route path="rapport-interventions" element={<ListeReportPage/>}/>
               <Route path="demande-interventions" element={<AdminInterventionPage/>}/>
+              <Route path="compteurs/releve" element={<ReleveCompteurPage />} />
+              <Route path="compteurs" element={<CompteurListPage />} />
+              <Route path="fournisseurs" element={<AdminFournisseursPage />} />
+              <Route path="intervention_fournisseur" element={<AdminInterventionFournisseur />} />
              </Route>
 
         {/* --- Role Maintenance --- */} 
@@ -164,6 +177,8 @@ export default function App() {
           <Route path="status" element={<AdminUpdateStatutPage/>} />
           <Route path="arret" element={<Arret/>}/>
           <Route path="intervenant-stat" element={<IntervenantStat/>}/>
+          <Route path="compteurs/releve" element={<ReleveCompteurPage />} />
+          <Route path="compteurs" element={<CompteurListPage />} />
           </Route>
          {/* --- Role Production --- */}
           <Route

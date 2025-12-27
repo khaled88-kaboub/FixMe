@@ -40,7 +40,23 @@
     transition: transform 0.3s ease;
     z-index: 110;
     box-shadow: 2px 0 10px rgba(0, 0, 0, 0.4);
-    padding: 25px 15px;
+    padding: 25px 15px 80px;
+    overflow-y: auto;
+    scrollbar-width: thin;            /* Firefox */
+    scrollbar-color: #555592 #1e1e2f; /* Firefox */
+    
+  }
+  .sidebar::-webkit-scrollbar {
+    width: 6px;
+  }
+  
+  .sidebar::-webkit-scrollbar-track {
+    background: #1e1e2f;
+  }
+  
+  .sidebar::-webkit-scrollbar-thumb {
+    background-color: #555592;
+    border-radius: 10px;
   }
   
   .sidebar.closed {
@@ -48,9 +64,13 @@
   }
   
   .sidebar-title {
+    position: sticky;
+    top: 0;
+    background: #1e1e2f;
+    z-index: 5;
     font-size: 22px;
     font-weight: 600;
-   
+    text-align: center;
     border-bottom: 2px solid #343454;
     padding-bottom: 10px;
     color: #f3e8e8;
@@ -59,6 +79,7 @@
   .sidebar ul {
     list-style: none;
     padding: 0;
+    
   }
   
   .sidebar ul li {
@@ -71,6 +92,7 @@
     font-size: 15px;
     cursor: pointer;
     transition: background 0.3s;
+    
   }
   
   .sidebar ul li:hover {

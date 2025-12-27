@@ -13,11 +13,18 @@ const equipementSchema = new mongoose.Schema(
       unique: true,
       trim: true,
     },
-    ligne: {
-      type: mongoose.Schema.Types.ObjectId,
-      ref: "Ligne", // référence à la collection 'lignes'
-      required: true,
-    },
+    ligne: [
+      {
+        type: mongoose.Schema.Types.ObjectId,
+        ref: "Ligne",
+        
+      }
+    ],
+    dernierCompteur: {
+      type: Number,
+      default: 0
+    }
+    
   },
   { timestamps: true }
 );

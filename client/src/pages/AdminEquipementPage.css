@@ -23,6 +23,12 @@
     gap: 0.8rem;
     margin-bottom: 2rem;
   }
+  .add-equipement-form select[multiple],
+  .equipement-list select[multiple] {
+  height: 90px;
+  padding: 0.4rem;
+}
+
   
   .add-equipement-form input,
   .add-equipement-form select {
@@ -130,6 +136,10 @@
   
   .cancel-btn:hover {
     background-color: #64748b;
+  }
+  .last-compteur {
+    color: #9c2a2a;
+    margin-left: 4px;
   }
   
   /* --- Responsive --- */

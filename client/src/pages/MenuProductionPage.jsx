@@ -6,7 +6,9 @@ import "./MenuProductionPage.css";
 export default function MenuProductionPage() {
   const [open, setOpen] = useState(true);
   const location = useLocation();
-
+  const closeMenu = () => {
+    setOpen(false);
+  };
   return (
     <div className="menu-page">
       {/* Bouton toggle */}
@@ -16,25 +18,25 @@ export default function MenuProductionPage() {
 
       {/* Sidebar */}
       <aside className={`sidebar ${open ? "open" : "closed"}`}>
-        <h2 className="sidebar-title">Production</h2>
+        <h3 className="sidebar-title">Production</h3>
         <ul>
           <li>
-            <Link to="interventions">
+            <Link to="interventions" onClick={() => setOpen(!open)}>
               <FaTools /> Nouvelle Demande d'intervention
             </Link>
           </li>
           <li >
-            <Link to="production-reception">
+            <Link to="production-reception" onClick={() => setOpen(!open)}>
               <FaClipboardCheck /> Réceptionner Demande d'intervention
             </Link>
           </li>
           <li >
-            <Link to="canceldi">
+            <Link to="canceldi" onClick={() => setOpen(!open)}>
               <FaTrash /> Annuler Demande d'intervention
             </Link>
           </li>
           <li>
-            <Link to="di">
+            <Link to="di" onClick={() => setOpen(!open)}>
               <FaClipboardCheck /> Mes Demandes d'intervention
             </Link>
           </li>

@@ -7,7 +7,10 @@ export default function MenuAdminPage() {
   const API_URL = import.meta.env.VITE_API_URL;
   const [open, setOpen] = useState(true);
   const location = useLocation();
-
+  const closeMenu = () => {
+    setOpen(false);
+  };
+  
   return (
     <div className="menu-page">
       {/* Bouton toggle */}
@@ -17,41 +20,46 @@ export default function MenuAdminPage() {
 
       {/* Sidebar */}
       <aside className={`sidebar ${open ? "open" : "closed"}`}>
-        <h2 className="sidebar-title">Portail Admin</h2>
+        <h3 className="sidebar-title">Portail Admin</h3>
         <ul>
           <li >
-            <Link to="lignes" className="gestion">
+            <Link to="lignes" className="gestion" onClick={closeMenu}>
               <FaIndustry /> Gestion des lignes
             </Link>
           </li>
           <li >
-            <Link to="equipements" className="gestion">
+            <Link to="equipements" className="gestion" onClick={closeMenu}>
               <FaBoxes /> Gestion des équipements
             </Link>
           </li>
           <li >
-            <Link to="techniciens" className="gestion">
+            <Link to="fournisseurs" className="gestion" onClick={closeMenu}>
+              <FaBoxes /> Gestion des prestataires
+            </Link>
+          </li>
+          <li >
+            <Link to="techniciens" className="gestion" onClick={closeMenu}>
               <FaUserFriends /> Gestion du personnel
             </Link>
           </li>
           <li >
-            <Link to="users" className="gestion">
+            <Link to="users" className="gestion" onClick={closeMenu}>
               <FaUser /> Gestion des roles user
             </Link>
           </li>
           <li>
-            <Link to="arret">
+            <Link to="arret" onClick={closeMenu} >
               <FaChartPie /> Analyse & KPI
             </Link>
           </li>
           
           <li >
-            <Link to="intervenant-stat">
+            <Link to="intervenant-stat" onClick={closeMenu}>
               <FaChartLine/> Performance Techniciens
             </Link>
           </li>
           <li >
-            <Link to="rapport-interventions" className="last">
+            <Link to="rapport-interventions" className="last" onClick={closeMenu}>
             <FaBars /> Liste rapportd DI
             </Link>
           </li>
@@ -61,8 +69,24 @@ export default function MenuAdminPage() {
             </Link>
           </li>
           <li >
-            <Link to="demande-interventions" className="last">
+            <Link to="demande-interventions" className="last" onClick={closeMenu}>
             <FaBars /> Liste DI
+            </Link>
+          </li>
+          <li >
+            <Link to="compteurs/releve" onClick={closeMenu}>
+              <FaUser /> Ajouter Releve Compteur
+            </Link>
+          </li>
+          <li >
+            <Link to="compteurs" onClick={closeMenu}>
+              <FaUser /> Liste Releves Compteur
+            </Link>
+          </li>
+
+          <li >
+            <Link to="intervention_fournisseur" onClick={closeMenu}>
+              <FaUser /> Prestations Service
             </Link>
           </li>
         </ul>

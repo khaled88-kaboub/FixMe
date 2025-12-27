@@ -37,7 +37,7 @@ export default function RegisterPage() {
     <div className="auth-page">
          
       <div className="auth-container fade in">
-        <h2 className="auth-title">Créer un compte FixMe-dz</h2>
+        <h3 className="auth-title">Créer un compte FixMe-dz</h3>
         <form onSubmit={handleSubmit}>
           <input
             type="text"
