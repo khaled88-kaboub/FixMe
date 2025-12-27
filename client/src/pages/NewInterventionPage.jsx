@@ -52,7 +52,7 @@ export default function NewInterventionPage() {
       try {
         const res = await axios.get(`${API_URL}/api/equipements`);
 
-<<<<<<< HEAD
+
       const filtres = res.data.filter((eq) =>
       Array.isArray(eq.ligne) &&
       eq.ligne.some((l) => (l?._id || l) === form.ligne)
@@ -62,16 +62,7 @@ setEquipements(filtres);
 
       } 
       catch (err) {
-=======
-const filtres = res.data.filter((eq) =>
-  Array.isArray(eq.ligne) &&
-  eq.ligne.some((l) => (l?._id || l) === form.ligne)
-);
-
-setEquipements(filtres);
-
-      } catch (err) {
->>>>>>> 94f9d77f3fd7945e1ca4ddb6d4199388e60a4551
+f3fd7945e1ca4ddb6d4199388e60a4551
         toast.error("Erreur lors du chargement des équipements");
       }
     };
