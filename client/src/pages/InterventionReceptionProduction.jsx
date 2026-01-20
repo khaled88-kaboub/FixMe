@@ -21,17 +21,12 @@ const InterventionReceptionProduction = () => {
     dateFin: "",
   });
   const toLocalInputValue = (dateString) => {
-    if (!dateString) return "";
-    const d = new Date(dateString);
-  
-    const year = d.getFullYear();
-    const month = String(d.getMonth() + 1).padStart(2, "0");
-    const day = String(d.getDate()).padStart(2, "0");
-    const hour = String(d.getHours()).padStart(2, "0");
-    const minute = String(d.getMinutes()).padStart(2, "0");
-  
-    return `${year}-${month}-${day}T${hour}:${minute}`;
-  };
+  if (!dateString) return "";
+  // بدلاً من تحويله لـ Date object، سنتعامل معه كنص مباشرة
+  // التاريخ القادم يكون عادة: 2024-05-20T14:30:00.000Z
+  // وحقل datetime-local يحتاج: 2024-05-20T14:30
+  return dateString.slice(0, 16); 
+};
   
   useEffect(() => {
     const fetchInterventions = async () => {
@@ -231,14 +226,10 @@ const InterventionReceptionProduction = () => {
             <hr />
 
             {/* 🔹 Ligne */}
-            <label>
-              Date/heure arrêt ligne :
-              <input
-                type="datetime-local"
-                value={selected.dateHeureArretLigne || ""}
-                disabled
-              />
-            </label>
+            <p>     
+            <strong>Date/heure arrêt ligne :</strong> 
+            {selected.dateHeureArretLigne ? selected.dateHeureArretLigne.replace('T', ' ').slice(0, 16) : "-"}
+            </p>
 
             {/*{selected.ligneAsubiArret && (*/}
               
@@ -271,14 +262,13 @@ const InterventionReceptionProduction = () => {
            {/* )}*/}
 
             {/* 🔹 Équipement */}
-            <label>
-              Date/heure arrêt équipement :
-              <input
-                type="datetime-local"
-                value={selected.dateHeureArretEquipement || ""}
-                disabled
-              />
-            </label>
+
+            <p>     
+            <strong>Date/heure arrêt équipement :</strong> 
+            {selected.dateHeureArretEquipement ? selected.dateHeureArretEquipement.replace('T', ' ').slice(0, 16) : "-"}
+            </p>
+            
+           
 
             {/*{selected.equipementAsubiArret && (*/}
               
