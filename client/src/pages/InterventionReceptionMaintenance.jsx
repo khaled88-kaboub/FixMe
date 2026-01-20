@@ -209,16 +209,9 @@ const InterventionReceptionMaintenance = () => {
                 <td data-label="Equipement">{i.equipement?.designation || "-"}</td>
                 <td data-label="Nombre de rapports associés">{rapportCounts[i._id] || 0}</td>
                 <td data-label="Statut">{i.statut}</td>
-                <td data-label="Date & Heure arret de ligne">
-                  {i.dateHeureArretLigne
-                    ? new Date(i.dateHeureArretLigne).toLocaleString()
-                    : "-"}
-                </td>
-                <td data-label="Date & Heure arret de l'équipement">
-                  {i.dateHeureArretEquipement
-                    ? new Date(i.dateHeureArretEquipement).toLocaleString()
-                    : "-"}
-                </td>
+                <td data-label="Date & Heure arret Ligne">{i.dateHeureArretLigne ? i.dateHeureArretLigne.replace('T', ' ').slice(0, 16) : "-"}</td>
+                <td data-label = "Date & Heure arret Equipement">{i.dateHeureArretEquipement ? i.dateHeureArretEquipement.replace('T', ' ').slice(0, 16) : "-"}</td>
+                
                 <td data-label="Etat de validation">
                   {i.clotureMaintenance ? (
                     <span className="badge green">Validée</span>
