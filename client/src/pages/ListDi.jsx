@@ -258,10 +258,10 @@ const ListDi = () => {
                 <td data-label = "Ligne">{i.ligne?.nom || "-"}</td>
                 <td data-label = "Equipement">{i.equipement?.designation || "-"}</td>
                 <td data-label = "Code Equipement">{i.equipement?.code || "-"}</td>
-                <td data-label = "Date & Heure arret Ligne">{i.dateHeureArretLigne ? new Date(i.dateHeureArretLigne).toLocaleString() : "-"}</td>
-                <td data-label = "Date & Heure démarrage Ligne">{i.dateHeureDemarrageLigne ? new Date(i.dateHeureDemarrageLigne).toLocaleString() : "-"}</td>
-                <td data-label = "Date & Heure arret Equipement">{i.dateHeureArretEquipement ? new Date(i.dateHeureArretEquipement).toLocaleString() : "-"}</td>
-                <td data-label = "Date & Heure démarrage Equipement">{i.dateHeureDemarrageEquipement ? new Date(i.dateHeureDemarrageEquipement).toLocaleString() : "-"}</td>
+                <td data-label = "Date & Heure arret Ligne">{selected.dateHeureArretLigne ? new Date(selected.dateHeureArretLigne).toLocaleString() : "-"}</td>
+                <td data-label = "Date & Heure démarrage Ligne">{selected.dateHeureDemarrageLigne ? new Date(selected.dateHeureDemarrageLigne).toLocaleString() : "-"}</td>
+                <td data-label = "Date & Heure arret Equipement">{selected.dateHeureArretEquipement ? new Date(selected.dateHeureArretEquipement).toLocaleString() : "-"}</td>
+                <td data-label = "Date & Heure démarrage Equipement">{selected.dateHeureDemarrageEquipement ? new Date(selected.dateHeureDemarrageEquipement).toLocaleString() : "-"}</td>
                 <td data-label = "Statut ">{i.statut}</td>
                 <td data-label = "Créé le">{i.createdAt ? new Date(i.createdAt).toLocaleString() : "-"}</td>
                 <td data-label = "Demandeur">{i.demandeurNom || "-"}</td>
