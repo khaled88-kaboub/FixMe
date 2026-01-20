@@ -80,7 +80,18 @@ const ListDi = () => {
   const openModal = (item) => {
     setSelected({
       ...item,
-      
+      dateHeureDemarrageLigne: item.dateHeureDemarrageLigne
+        ? new Date(item.dateHeureDemarrageLigne).toISOString().slice(0, 16)
+        : "",
+      dateHeureDemarrageEquipement: item.dateHeureDemarrageEquipement
+        ? new Date(item.dateHeureDemarrageEquipement).toISOString().slice(0, 16)
+        : "",
+      dateHeureArretLigne: item.dateHeureArretLigne
+        ? new Date(item.dateHeureArretLigne).toISOString().slice(0, 16)
+        : "",
+      dateHeureArretEquipement: item.dateHeureArretEquipement
+        ? new Date(item.dateHeureArretEquipement).toISOString().slice(0, 16)
+        : "",
     });
   };
 
@@ -247,10 +258,10 @@ const ListDi = () => {
                 <td data-label = "Ligne">{i.ligne?.nom || "-"}</td>
                 <td data-label = "Equipement">{i.equipement?.designation || "-"}</td>
                 <td data-label = "Code Equipement">{i.equipement?.code || "-"}</td>
-                <td data-label = "Date & Heure arret Ligne">{i.dateHeureArretLigne ? new Date(i.dateHeureArretLigne).toLocaleString() : "-"}</td>
-                <td data-label = "Date & Heure démarrage Ligne">{i.dateHeureDemarrageLigne ? new Date(i.dateHeureDemarrageLigne).toLocaleString() : "-"}</td>
-                <td data-label = "Date & Heure arret Equipement">{i.dateHeureArretEquipement ? new Date(i.dateHeureArretEquipement).toLocaleString() : "-"}</td>
-                <td data-label = "Date & Heure démarrage Equipement">{i.dateHeureDemarrageEquipement ? new Date(i.dateHeureDemarrageEquipement).toLocaleString() : "-"}</td>
+                <td data-label="Date & Heure arret Ligne">{i.dateHeureArretLigne ? i.dateHeureArretLigne.replace('T', ' ').slice(0, 16) : "-"}</td>
+                <td data-label = "Date & Heure démarrage Ligne">{i.dateHeureDemarrageLigne ? i.dateHeureDemarrageLigne.replace('T', ' ').slice(0, 16) : "-"}</td>
+                <td data-label = "Date & Heure arret Equipement">{i.dateHeureArretEquipement ? i.dateHeureArretEquipement.replace('T', ' ').slice(0, 16) : "-"}</td>
+                <td data-label = "Date & Heure démarrage Equipement">{i.dateHeureDemarrageEquipement ? i.dateHeureDemarrageEquipement.replace('T', ' ').slice(0, 16) : "-"}</td>
                 <td data-label = "Statut ">{i.statut}</td>
                 <td data-label = "Créé le">{i.createdAt ? new Date(i.createdAt).toLocaleString() : "-"}</td>
                 <td data-label = "Demandeur">{i.demandeurNom || "-"}</td>
