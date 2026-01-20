@@ -195,10 +195,11 @@ const InterventionReceptionProduction = () => {
                 <td data-label="Numéro DI">{i.numero}</td>
                 <td data-label="Ligne">{i.ligne?.nom || "-"}</td>
                 <td data-label="Equipement">{i.equipement?.designation || "-"}</td>
-                <td data-label="Date & Heure arret ligne">{i.dateHeureArretLigne ? new Date(i.dateHeureArretLigne).toLocaleString() : "-"}</td>
-                <td data-label="Date & Heure démarrage ligne">{i.dateHeureDemarrageLigne ? new Date(i.dateHeureDemarrageLigne).toLocaleString() : "-"}</td>
-                <td data-label="Date & Heure arret équipement">{i.dateHeureArretEquipement ? new Date(i.dateHeureArretEquipement).toLocaleString() : "-"}</td>
-                <td data-label="Date & Heure démarrage équipement">{i.dateHeureDemarrageEquipement ? new Date(i.dateHeureDemarrageEquipement).toLocaleString() : "-"}</td>
+                <td data-label="Date & Heure arret Ligne">{i.dateHeureArretLigne ? i.dateHeureArretLigne.replace('T', ' ').slice(0, 16) : "-"}</td>
+                <td data-label = "Date & Heure démarrage Ligne">{i.dateHeureDemarrageLigne ? i.dateHeureDemarrageLigne.replace('T', ' ').slice(0, 16) : "-"}</td>
+                <td data-label = "Date & Heure arret Equipement">{i.dateHeureArretEquipement ? i.dateHeureArretEquipement.replace('T', ' ').slice(0, 16) : "-"}</td>
+                <td data-label = "Date & Heure démarrage Equipement">{i.dateHeureDemarrageEquipement ? i.dateHeureDemarrageEquipement.replace('T', ' ').slice(0, 16) : "-"}</td>
+                
                 <td data-label="Statut">{i.statut}</td>
                 <td data-label="Etat de reception">
                   {i.receptionProduction ? (
