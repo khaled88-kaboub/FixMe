@@ -194,6 +194,7 @@ export default function App() {
           <Route path="production-reception" element={<InterventionReceptionProduction/>}/>
           <Route path="canceldi" element={<InterventionAnnulerPage/>}/>
           <Route path="di" element={<ListDi/>}/>
+          <Route path="st" element={<Didetails/>}/>
           </Route>
           <Route
             path="/menumethodepage"
