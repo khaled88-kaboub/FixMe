@@ -40,6 +40,11 @@ export default function MenuProductionPage() {
               <FaClipboardCheck /> Mes Demandes d'intervention
             </Link>
           </li>
+          <li>
+            <Link to="st" onClick={() => setOpen(!open)}>
+              <FaClipboardCheck /> Status Demandes d'intervention
+            </Link>
+          </li>
         </ul>
       </aside>
 
