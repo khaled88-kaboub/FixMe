@@ -30,6 +30,11 @@ export default function MenuMaintenancePage() {
               <FaClipboardCheck /> Cloturer DI
             </Link>
           </li>
+          <li>
+            <Link to="st" onClick={() => setOpen(!open)}>
+              <FaClipboardCheck /> Status Demandes d'intervention
+            </Link>
+          </li>
 
           
         </ul>
