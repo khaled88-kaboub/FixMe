@@ -163,6 +163,7 @@ export default function App() {
           <Route path="grid" element={<MaintenanceGridPage/>} />
           <Route path="maintenance-cloture" element={<InterventionReceptionMaintenance/>}/>
           <Route path="intervention/:id" element={<InterventionReportPage/>} />
+             <Route path="st" element={<Didetails/>}/>
           </Route>
          
          {/* --- Role Méthodes --- */} 
