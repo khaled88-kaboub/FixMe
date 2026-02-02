@@ -129,3 +129,24 @@ export const getTotalDuree = async (req, res) => {
     res.status(500).json({ message: "Erreur de calcul de la durée" });
   }
 };
+
+export const getRapportsByInterventionId = async (req, res) => {
+  try {
+    const { interventionId } = req.params;
+
+    const rapports = await RapportIntervention.find({ intervention: interventionId })
+      .populate("techniciens.technicien", "nom prenom")
+      .sort({ dateIntervention: 1 });
+
+    // 💡 CHANGEMENT ICI : On renvoie un tableau vide [] au lieu d'une erreur 404
+    // Cela permet au Frontend de savoir que la route est BONNE, mais vide.
+    if (!rapports) {
+      return res.status(200).json([]);
+    }
+
+    res.json(rapports);
+  } catch (err) {
+    console.error("Erreur serveur rapports:", err);
+    res.status(500).json({ message: "Erreur serveur" });
+  }
+};
