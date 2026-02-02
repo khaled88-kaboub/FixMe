@@ -1,4 +1,4 @@
-import { useState, useEffect } from "react";
+     import { useState, useEffect } from "react";
 import axios from "axios";
 import { FaEdit, FaSave, FaTools, FaFilter, FaUndo } from "react-icons/fa";
 import "./Didetails.css";
@@ -10,6 +10,8 @@ export default function Didetails() {
   const [editingId, setEditingId] = useState(null);
   const [selectedStatut, setSelectedStatut] = useState("");
   const [loading, setLoading] = useState(true);
+  const [selectedRapport, setSelectedRapport] = useState(null);
+  const [showModal, setShowModal] = useState(false);
 
   const [lignes, setLignes] = useState([]);
   const [equipements, setEquipements] = useState([]);
@@ -138,6 +140,27 @@ export default function Didetails() {
     }
   };
 
+  const handleViewRapport = async (interventionId) => {
+    try {
+      const token = localStorage.getItem("token");
+      // On récupère TOUS les rapports
+      const res = await axios.get(`${API_URL}/api/rapports`, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+  
+      // On filtre manuellement l'intervention correspondante
+      const rapportsLies = res.data.filter(r => 
+        (r.intervention?._id === interventionId) || (r.intervention === interventionId)
+      );
+  
+      setSelectedRapport(rapportsLies);
+      setShowModal(true);
+    } catch (err) {
+      console.error("Erreur:", err);
+      alert("Impossible de charger les rapports.");
+    }
+  };
+
   if (loading) return <div className="loading">Chargement des interventions...</div>;
 
   return (
@@ -227,12 +250,13 @@ export default function Didetails() {
           <thead>
             <tr>
               <th>Numéro</th>
-              <th>Ligne</th>
-              <th>Équipement</th>
-              <th>Demandeur</th>
+              <th>Ligne/Equip</th>
+              <th>Arret</th>
+              <th>Demarrage</th>
               <th>Description</th>
-              <th>Réception Production</th>
-              <th>Clôture Maintenance</th>
+             <th>Interventions</th>
+              <th>Récep Prod</th>
+              <th>Clôture Maint</th>
               <th>Statut</th>
               
             </tr>
@@ -240,11 +264,27 @@ export default function Didetails() {
           <tbody>
             {filtered.map((interv) => (
               <tr key={interv._id}>
-                <td  data-label="">{interv.numero} <div className="arch">( {interv.demandeurNom} )</div></td>
+                <td className="tete"  data-label="">{interv.numero} <div className="arch">( {interv.demandeurNom} )</div><div className="archo"><small>-{new Date(interv.createdAt).toLocaleString()}-</small></div></td>
                 <td data-label="">{interv.ligne?.nom} <div className="arch">( {interv.equipement?.code} )</div> </td>
-                <td data-label="vide :"></td>
-                <td data-label="Demandeur :"></td>
-                <td data-label="Description :" className="description">{interv.descriptionAnomalie}</td>
+                <td data-label=""><div><small>Arret ligne: {interv.ligneAsubiArret ? "Oui " : "Non "}</small> </div>
+                                         <div><small>📅 {interv.dateHeureArretLigne ? interv.dateHeureArretLigne.replace('T', ' ').slice(0, 16): "--"}</small> </div>
+                                         <div><small>Arret Equip: {interv.equipementAsubiArret ? "Oui " : "Non "}</small> </div>
+                                         <div><small>📅 {interv.dateHeureArretEquipement ? interv.dateHeureArretEquipement.replace('T', ' ').slice(0, 16): "--"}</small> </div>
+                
+                 </td>
+                <td data-label=""><div><small>Démar ligne: {interv.ligneAdemarre ? "Oui " : "Non "}</small> </div>
+                                             <div><small>📅 {interv.dateHeureDemarrageLigne ? interv.dateHeureDemarrageLigne.replace('T', ' ').slice(0, 16): "--"}</small> </div>
+                                             <div><small>Démar Equip: {interv.equipementAdemarre ? "Oui " : "Non "}</small> </div>
+                                             <div><small>📅 {interv.dateHeureDemarrageEquipement ? interv.dateHeureDemarrageEquipement.replace('T', ' ').slice(0, 16): "--"}</small> </div>
+                
+
+                </td>
+                <td data-label="Panne : " className="description"><small>{interv.descriptionAnomalie}</small></td>
+                <td data-label="Détails">
+                <button className="view-btn" onClick={() => handleViewRapport(interv._id)}>
+                R 
+                </button>
+                </td>
                 <td data-label="Recep.Prod :">
                   {interv.receptionProduction ? (
                     <span className="badge green">Oui</span>
@@ -273,6 +313,54 @@ export default function Didetails() {
           </tbody>
         </table>
       )}
+
+
+{showModal && (
+  <div className="modal-overlay">
+    <div className="modal-content large">
+      <div className="modal-header">
+        <h3>Historique des travaux</h3>
+        <button onClick={() => setShowModal(false)}>&times;</button>
+      </div>
+      
+      <div className="modal-body">
+        {/* On vérifie si on a des rapports à afficher */}
+        {selectedRapport && selectedRapport.length > 0 ? (
+          selectedRapport.map((rap, index) => (
+            <div key={rap._id} className="rapport-card">
+              <div className="rapport-badge">Rapport #{index + 1}</div>
+              <p><strong> 📅 Date :</strong> {new Date(rap.dateIntervention).toLocaleDateString()}</p>
+              <p><strong> 🔧 Travaux :</strong> {rap.descriptionTravaux}</p>
+              <div className="tech-list">
+                <strong> 👨‍🔧 Techniciens :</strong>
+                {rap.techniciens.map((t, i) => (
+                  <span key={i} className="tech-tag">
+                    👨 {t.technicien?.nom} {t.technicien?.prenom}  📅 ({t.dureeMinutes} min)
+                  </span> 
+                ))}
+              </div>
+              <div className="tech-list">
+                <strong> 🔧🔧 Pieces :</strong>
+                {rap.piecesRemplacees.map((p, i) => (
+                  <span key={i} className="tech-tag">
+                   🔧 {p.nom} (Quantité: {p.quantite})
+                  </span> 
+                ))}
+              </div>
+              
+              <hr />
+              <p><strong> 🔧 Remarques :</strong> {rap.commentaires}</p>
+            </div>
+          ))
+        ) : (
+          <p className="no-data">Aucun rapport saisi pour le moment.</p>
+        )}
+      </div>
+    </div>
+  </div>
+)}
+
+
     </div>
   );
 }
