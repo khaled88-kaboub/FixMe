@@ -13,9 +13,154 @@
   margin-bottom: 20px;
   margin-top: 30px;
 }
+/* Fond de la modale */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.7);
+  backdrop-filter: blur(4px);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+  padding: 20px;
+}
 
+/* Conteneur principal */
+.modal-content.large {
+  background: #fff;
+  width: 100%;
+  max-width: 800px;
+  max-height: 90vh;
+  border-radius: 12px;
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.2);
+  display: flex;
+  flex-direction: column;
+  overflow: hidden;
+  animation: slideDown 0.3s ease-out;
+}
+
+@keyframes slideDown {
+  from { transform: translateY(-50px); opacity: 0; }
+  to { transform: translateY(0); opacity: 1; }
+}
+
+/* En-tête */
+.modal-header {
+  padding: 20px 25px;
+  background: #2c3e50;
+  color: white;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.modal-header h3 {
+  margin: 0;
+  font-size: 1.4rem;
+  letter-spacing: 0.5px;
+}
+
+.modal-header button {
+  background: transparent;
+  border: none;
+  color: white;
+  font-size: 2rem;
+  cursor: pointer;
+  line-height: 1;
+  transition: transform 0.2s;
+}
+
+.modal-header button:hover {
+  transform: scale(1.2);
+}
+
+/* Corps de la modale */
+.modal-body {
+  padding: 25px;
+  overflow-y: auto;
+  background: #f8f9fa;
+}
+
+/* Carte de chaque rapport */
+.rapport-card {
+  background: white;
+  border-radius: 8px;
+  padding: 20px;
+  margin-bottom: 25px;
+  border-left: 5px solid #3498db;
+  box-shadow: 0 4px 6px rgba(0,0,0,0.05);
+  position: relative;
+}
+
+.rapport-badge {
+  position: absolute;
+  top: -12px;
+  right: 20px;
+  background: #3498db;
+  color: white;
+  padding: 4px 12px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: bold;
+}
+
+.rapport-card p {
+  margin: 10px 0;
+  color: #444;
+  line-height: 1.5;
+}
+
+.rapport-card strong {
+  color: #2c3e50;
+}
+
+/* Liste des techniciens */
+.tech-list {
+  margin-top: 15px;
+  padding-top: 10px;
+  border-top: 1px dashed #ddd;
+}
+
+.tech-tag {
+  display: inline-block;
+  background: #e1f5fe;
+  color: #0288d1;
+  padding: 5px 12px;
+  border-radius: 15px;
+  margin: 5px;
+  font-size: 0.85rem;
+  font-weight: 500;
+  border: 1px solid #b3e5fc;
+}
+
+/* État vide */
+.no-data {
+  text-align: center;
+  padding: 40px;
+  color: #7f8c8d;
+  font-style: italic;
+}
+
+/* Responsive */
+@media (max-width: 600px) {
+  .modal-content.large {
+    width: 95%;
+    margin: 10px;
+  }
+}
+.tete {
+  background-color: rgba(211, 203, 203, 0.863);
+}
 .arch {
   color: red;
+  font-size: 0.7rem;
+}
+.archo {
+  color: rgb(38, 0, 255);
   font-size: 0.7rem;
 }
 .titren {
@@ -200,5 +345,3 @@ width: 30%;
   
 }
 }
-
-  
