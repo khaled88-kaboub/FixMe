@@ -314,19 +314,19 @@ export default function InterventionEtRapport() {
                   <strong>Anomalie :</strong> {i.descriptionAnomalie}<br/>
                   <strong>--------------------------------------------- </strong><br/>
                   <strong>Arret Ligne :</strong> {i.ligneAsubiArret ? "Oui " : "Non "} —
-                  <strong> Date & Heure d'arret :</strong> {i.dateHeureArretLigne ? new Date(i.dateHeureArretLigne).toLocaleString() : "......"}<br/>
+                  <strong> Date & Heure d'arret :</strong> {i.dateHeureArretLigne ? i.dateHeureArretLigne.replace('T', ' ').slice(0, 16) : "......"}<br/>
                   <strong>Démarrage Ligne :</strong> {i.ligneAdemarre ? "Oui" : "Non"} — 
-                  <strong> Date & Heure démarrage :</strong> {i.dateHeureDemarrageLigne ? new Date(i.dateHeureDemarrageLigne).toLocaleString() : "......"}<br/>
+                  <strong> Date & Heure démarrage :</strong> {i.dateHeureDemarrageLigne ? i.dateHeureDemarrageLigne.replace('T', ' ').slice(0, 16) : "......"}<br/>
                   <strong>--------------------------------------------- </strong><br/>
                   <strong>Arret Equipement :</strong> {i.equipementAsubiArret ? "Oui " : "Non "} —
-                  <strong> Date & Heure d'arret :</strong> {i.dateHeureArretEquipement ? new Date(i.dateHeureArretEquipement).toLocaleString() : "......"}<br/>
-                  <strong>Démarrage Equipement :</strong> {i.EquipementAdemarre ? "Oui" : "Non"} — 
-                  <strong> Date & Heure démarrage :</strong> {i.dateHeureDemarrageEquipement ? new Date(i.dateHeureDemarrageEquipement).toLocaleString() : "......"}<br/>
+                  <strong> Date & Heure d'arret :</strong> {i.dateHeureArretEquipement ? i.dateHeureArretEquipement.replace('T', ' ').slice(0, 16) : "......"}<br/>
+                  <strong>Démarrage Equipement :</strong> {i.equipementAdemarre ? "Oui" : "Non"} — 
+                  <strong> Date & Heure démarrage :</strong> {i.dateHeureDemarrageEquipement ? i.dateHeureDemarrageEquipement.replace('T', ' ').slice(0, 16) : "......"}<br/>
                   
                   </p>
 
               <p className="text-sm text-gray-500 mt-2">
-                📅 Créée le : {new Date(i.dateHeureArretLigne).toLocaleString()}<br />
+                📅 Créée le : {new Date(i.createdAt).toLocaleString()}<br />
                 <FaUser /> Créée par : {i.demandeurNom}
               </p>
 

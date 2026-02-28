@@ -15,12 +15,12 @@
   
   .rapport-header h2 {
     color: #1e2a47;
-    font-size: 24px;
+    font-size: 20px;
     font-weight: 600;
     margin-top: 80px;
     text-align: center;
-    width: 50%;
-    margin-left: 25%;
+    width: 100%;
+    
   }
   
   .rapport-count {
@@ -189,10 +189,11 @@
     margin-bottom: 8px;
   }
   
-  .row input,
-  .row select {
-    flex: 1;
-  }
+ .row button {
+  color: rgb(187, 156, 156);
+  background-color: #b71c1c;
+  width: 70px;
+ }
   
   .btn-mini {
     background: #ffecec;
@@ -210,7 +211,7 @@
   
   /* === PETITS BOUTONS === */
   .btn-small {
-    background: #1976d2;
+    background: #173a5c;
     color: white;
     border: none;
     padding: 7px 14px;
@@ -219,6 +220,7 @@
     font-weight: 500;
     font-size: 14px;
     margin-top: 6px;
+    width: 70%;
   }
   
   .btn-small:hover {
@@ -243,12 +245,12 @@
   }
   
   .modal-buttons button:first-child {
-    background: #f3f4f6;
-    color: #333;
+    background: #4d0509;
+    color: #e7dcdc;
   }
   
   .modal-buttons button:first-child:hover {
-    background: #e0e0e0;
+    background: #4d0909;
   }
   
   .modal-buttons button:last-child {

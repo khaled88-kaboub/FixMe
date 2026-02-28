@@ -18,7 +18,7 @@ export default function NewInterventionPage() {
     equipementAsubiArret: false,
     dateHeureArretEquipement: "",
     descriptionAnomalie: "",
-    demandeurNom: ""
+    
   });
 
   const [lignes, setLignes] = useState([]);
@@ -62,7 +62,7 @@ setEquipements(filtres);
 
       } 
       catch (err) {
-f3fd7945e1ca4ddb6d4199388e60a4551
+
         toast.error("Erreur lors du chargement des équipements");
       }
     };
@@ -85,6 +85,13 @@ f3fd7945e1ca4ddb6d4199388e60a4551
   const handleSubmit = async (e) => {
     e.preventDefault();
     setLoading(true);
+
+    // On prépare les données en incluant le nom de l'utilisateur actuel
+  const dataToSend = {
+    ...form,
+    demandeurNom: user.name // ✅ On prend le nom du user actuel du contexte
+  };
+  
     try {
       const token = localStorage.getItem("token");
       await axios.post(`${API_URL}/api/interventions`, form, {
@@ -99,7 +106,7 @@ f3fd7945e1ca4ddb6d4199388e60a4551
         equipementAsubiArret: false,
         dateHeureArretEquipement: "",
         descriptionAnomalie: "",
-        demandeurNom: ""
+        
       });
       setEquipements([]);
     } catch (error) {
@@ -206,15 +213,14 @@ f3fd7945e1ca4ddb6d4199388e60a4551
 
           {/* Nom du demandeur */}
           <div className="form-group">
-            <input
-              type="text"
-              name="demandeurNom"
-              value={form.demandeurNom}
-              //onChange={handleChange}
-              readOnly
-              required
-            />
-            <label>Nom du demandeur *</label>
+          <input
+    type="text"
+    name="demandeurNom"
+    value={user ? user.name : "Chargement..."} // ✅ Lit directement le contexte
+    disabled // ✅ Empêche la modification manuelle
+    className="input-disabled"
+  />
+  <label>Nom du demandeur (Connecté)</label>
           </div>
 
           <button type="submit" disabled={loading}>

@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaBars, FaTimes, FaRobot, FaClipboardCheck, FaUser, FaLayerGroup, FaIndustry, FaTools, FaKeyboard, FaChartArea, FaChartLine, FaChartPie, FaPersonBooth, FaUserFriends, FaBoxes } from "react-icons/fa";
+import { FaBars, FaTimes, FaClipboardCheck, FaUser, FaLayerGroup, FaIndustry, FaTools, FaKeyboard, FaChartArea, FaChartLine, FaChartPie, FaPersonBooth, FaUserFriends, FaBoxes } from "react-icons/fa";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import "./MenuProductionPage.css";
 
@@ -33,6 +33,11 @@ export default function MenuAdminPage() {
             </Link>
           </li>
           <li >
+            <Link to="fiche_equipement" className="gestion" onClick={closeMenu}>
+              <FaBoxes /> Fiches Equipements
+            </Link>
+          </li>
+          <li >
             <Link to="fournisseurs" className="gestion" onClick={closeMenu}>
               <FaBoxes /> Gestion des prestataires
             </Link>
@@ -49,7 +54,13 @@ export default function MenuAdminPage() {
           </li>
           <li>
             <Link to="arret" onClick={closeMenu} >
-              <FaChartPie /> Analyse & KPI
+              <FaChartPie /> Analyse & KPI Lignes
+            </Link>
+          </li>
+
+          <li>
+            <Link to="arret2" onClick={closeMenu} >
+              <FaChartPie /> Analyse & KPI Equipements
             </Link>
           </li>
           
@@ -64,13 +75,18 @@ export default function MenuAdminPage() {
             </Link>
           </li>
           <li >
-            <Link to="tous" className="last">
+            <Link to="tous" className="last" onClick={closeMenu}>
             <FaBars /> DI & rapports
             </Link>
           </li>
           <li >
             <Link to="demande-interventions" className="last" onClick={closeMenu}>
             <FaBars /> Liste DI
+            </Link>
+          </li>
+          <li >
+            <Link to="status" className="last" onClick={() => setOpen(!open)}>
+              <FaTools /> Update-Status-DI
             </Link>
           </li>
           <li >

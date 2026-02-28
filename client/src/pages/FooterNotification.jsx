@@ -13,17 +13,25 @@ export default function FooterNotification() {
     en_cours: 0,
     termine: 0,
     annule: 0,
+    total: 0, // Ajout du total
   });
 
   const calculerStats = (data) => {
+    const total = data.length;
     const counts = {
       ouvert: data.filter((i) => i.statut === "ouvert").length,
       en_cours: data.filter((i) => i.statut === "en_cours").length,
       termine: data.filter((i) => i.statut === "termine").length,
       annule: data.filter((i) => i.statut === "annule").length,
+      total: total,
     };
     setStats(counts);
   };
+    // Fonction utilitaire pour calculer le %
+    const getPercent = (value) => {
+    if (stats.total === 0) return "0%";
+    return `${Math.round((value / stats.total) * 100)}%`;
+    };
 
   useEffect(() => {
     // Initialisation : récupération initiale
@@ -47,22 +55,22 @@ export default function FooterNotification() {
     <footer className="footer-stats">
       <div className="footer-item ouvert">
         <FaPlay />
-        <span>Ouvert : {stats.ouvert}</span>
+        <span>Ouvert : {stats.ouvert} ({getPercent(stats.ouvert)})</span>
       </div>
 
       <div className="footer-item en_cours">
         <FaSpinner className="spin" />
-        <span>En cours : {stats.en_cours}</span>
+        <span>En cours : {stats.en_cours} ({getPercent(stats.en_cours)})</span>
       </div>
 
       <div className="footer-item termine">
         <FaCheckCircle />
-        <span>Terminé : {stats.termine}</span>
+        <span>Terminé : {stats.termine} ({getPercent(stats.termine)})</span>
       </div>
 
       <div className="footer-item annule">
         <FaTimesCircle />
-        <span>Annulé : {stats.annule}</span>
+        <span>Annulé : {stats.annule} ({getPercent(stats.annule)})</span>
       </div>
     </footer>
   );

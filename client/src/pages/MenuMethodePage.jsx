@@ -26,8 +26,18 @@ export default function MenuMethodePage() {
             </Link>
           </li>
           <li >
+            <Link to="tous" className="last" onClick={() => setOpen(!open)}>
+            <FaBars /> DI & rapports
+            </Link>
+          </li>
+          <li >
             <Link to="arret" onClick={() => setOpen(!open)}>
               <FaUser /> Analyse & KPI
+            </Link>
+          </li>
+          <li>
+            <Link to="arret2" onClick={() => setOpen(!open)} >
+              <FaChartPie /> Analyse & KPI Equipements
             </Link>
           </li>
           <li >
@@ -35,6 +45,13 @@ export default function MenuMethodePage() {
               <FaUser /> Performance Techniciens
             </Link>
           </li>
+
+          <li>
+            <Link to="rapp" onClick={() => setOpen(!open)}>
+              <FaClipboardCheck /> Rapports d'interventions
+            </Link>
+          </li>
+          
           <li >
             <Link to="compteurs/releve" onClick={() => setOpen(!open)}>
               <FaUser /> Ajouter Releve Compteur

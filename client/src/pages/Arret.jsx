@@ -323,6 +323,8 @@ const Arret = () => {
             <th>Ligne</th>
             <th>Équipement</th>
             <th>Description</th>
+            <th>Description</th>
+            <th>Description</th>
             <th>Durée arrêt ligne</th>
             <th>Durée arrêt équipement</th>
           </tr>
@@ -344,6 +346,8 @@ const Arret = () => {
                 <td>{intv.ligne?.nom || "—"}</td>
                 <td>{intv.equipement?.designation || intv.equipement?.code || "—"}</td>
                 <td>{intv.descriptionAnomalie}</td>
+                <td>{intv.dateHeureArretLigne ? intv.dateHeureArretLigne.replace('T', ' ').slice(0, 16): "--"}</td>
+                <td>{intv.dateHeureDemarrageLigne ? intv.dateHeureDemarrageLigne.replace('T', ' ').slice(0, 16): "--"}</td>
                 <td>{dureeLigne ? `${dureeLigne} min` : "—"}</td>
                 <td>{dureeEquip ? `${dureeEquip} min` : "—"}</td>
               </tr>

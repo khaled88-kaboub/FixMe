@@ -24,6 +24,7 @@ import interventionPRoutes from "./routes/interventionPRoute.js";
 import compteurRoutes from "./routes/compteurHoraireRoute.js";
 import fournisseurRoutes from "./routes/fournisseurRoute.js";
 import interventionFournisseurRoutes from "./routes/interventionFournisseurRoute.js";
+import ficheEquipementRoutes from "./routes/ficheEquipementRoute.js";
 import path from "path";
 
 
@@ -79,6 +80,7 @@ app.use("/api/maintenance-preventive", maintenanceRoutes);
 app.use("/api/interventionP", interventionPRoutes);
 app.use("/api/compteurs", compteurRoutes)
 app.use("/api/fournisseurs", fournisseurRoutes);
+app.use("/api/fiches-equipements", ficheEquipementRoutes);
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 app.set("io", io);
 

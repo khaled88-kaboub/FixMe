@@ -125,6 +125,7 @@ const UserManagementPage = () => {
           <option value="production">Production</option>
           <option value="maintenance">Maintenance</option>
           <option value="methode">Methode</option>
+          <option value="inventaire">inventaire</option>
         </select>
 
         <button type="submit" className="btn-submit">

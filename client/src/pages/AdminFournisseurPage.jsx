@@ -134,7 +134,7 @@ export default function AdminFournisseurPage() {
 
   return (
     <div className="fournisseur-page">
-      <h2>Gestion Fournisseurs & Sous-traitants</h2>
+      <h2>Sous-traitants</h2>
 
       {/* Toolbar */}
       <div className="toolbar">

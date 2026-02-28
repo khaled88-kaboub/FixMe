@@ -21,6 +21,7 @@ import MenuAdminPage from "./pages/MenuAdminPage";
 import MenuMaintenancePage from "./pages/MenuMaintenancePage";
 import MenuProductionPage from "./pages/MenuProductionPage";
 import MenuMethodePage from "./pages/MenuMethodePage";
+import MenuInventairePage from "./pages/MenuInventairePage";
 import UnauthorizedPage from "./pages/UnauthorizedPage";
 import Didetails from "./pages/Didetails"
 import Arret from "./pages/Arret";
@@ -45,7 +46,9 @@ import ReleveCompteurPage from "./pages/ReleveCompteurPage";
 import CompteurListPage from "./pages/CompteurListPage";
 import AdminFournisseursPage from "./pages/AdminFournisseurPage";
 import InterventionFournisseur from "../../server/models/InterventionFournisseur";
-
+import Arret2 from "./pages/Arret2";
+import ListeReportPage2 from "./pages/ListReportPage2";
+import FicheEquipement from "./pages/FicheEquipement";
 
 
 
@@ -117,6 +120,7 @@ export default function App() {
           <Route path="/mpgantt" element={<GanttAnnee/>}/>
           <Route path="/mpinterventions" element={<InterventionPlist/>}/>
           <Route path="/interventionP/:id" element={<InterventionPDetails />} />
+          <Route path="/arret2" element={<Arret2 />} />
           
           
 
@@ -140,6 +144,7 @@ export default function App() {
               <Route path="techniciens" element={<TechniciensPage/>}/>
               <Route path="users" element={<UserManagementPage/>}/>
               <Route path="arret" element={<Arret/>}/>
+              <Route path="arret2" element={<Arret2 />} />
               <Route path="intervenant-stat" element={<IntervenantStat/>}/>
               <Route path="tous" element={<InterventionEtRapport/>}/>
               <Route path="rapport-interventions" element={<ListeReportPage/>}/>
@@ -148,6 +153,8 @@ export default function App() {
               <Route path="compteurs" element={<CompteurListPage />} />
               <Route path="fournisseurs" element={<AdminFournisseursPage />} />
               <Route path="intervention_fournisseur" element={<AdminInterventionFournisseur />} />
+              <Route path="fiche_equipement" element={<FicheEquipement />} />
+              <Route path="status" element={<AdminUpdateStatutPage/>} />
              </Route>
 
         {/* --- Role Maintenance --- */} 
@@ -163,6 +170,8 @@ export default function App() {
           <Route path="grid" element={<MaintenanceGridPage/>} />
           <Route path="maintenance-cloture" element={<InterventionReceptionMaintenance/>}/>
           <Route path="intervention/:id" element={<InterventionReportPage/>} />
+          <Route path="st" element={<Didetails/>}/>
+          <Route path="rapp" element={<ListeReportPage2/>}/>
           </Route>
          
          {/* --- Role Méthodes --- */} 
@@ -176,11 +185,14 @@ export default function App() {
             }
           >
           <Route path="status" element={<AdminUpdateStatutPage/>} />
+          <Route path="tous" element={<InterventionEtRapport/>}/>
           <Route path="arret" element={<Arret/>}/>
+          <Route path="arret2" element={<Arret2 />} />
           <Route path="intervenant-stat" element={<IntervenantStat/>}/>
           <Route path="compteurs/releve" element={<ReleveCompteurPage />} />
           <Route path="compteurs" element={<CompteurListPage />} />
           </Route>
+
          {/* --- Role Production --- */}
           <Route
             path="/menuproductionpage"
@@ -194,15 +206,20 @@ export default function App() {
           <Route path="production-reception" element={<InterventionReceptionProduction/>}/>
           <Route path="canceldi" element={<InterventionAnnulerPage/>}/>
           <Route path="di" element={<ListDi/>}/>
+          <Route path="st" element={<Didetails/>}/>
           </Route>
+          
+          {/* --- Role Inventaire --- */}
           <Route
-            path="/menumethodepage"
+            path="/menuinventairepage"
             element={
-              <ProtectedRoute allowedRoles={["methode"]}>
-                <MenuMethodePage />
+              <ProtectedRoute allowedRoles={["inventaire"]}>
+                <MenuInventairePage />
               </ProtectedRoute>
             }
-          />
+          > 
+          <Route path="inventaire" element={<FicheEquipement />} />
+          </Route>
 
           {/* --- OPTIONNEL : PAGE PAR DÉFAUT --- */}
           <Route path="/" element={<LoginPage />} />

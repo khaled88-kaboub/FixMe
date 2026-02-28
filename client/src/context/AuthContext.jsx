@@ -30,6 +30,7 @@ export const AuthProvider = ({ children }) => {
 
       // 🔹 Redirection automatique selon le rôle
       redirectUserByRole(data.user.role);
+      return data;
     } catch (error) {
       console.error("Erreur de connexion :", error);
       alert("Échec de la connexion, vérifie ton email ou mot de passe.");
@@ -57,6 +58,9 @@ export const AuthProvider = ({ children }) => {
       case "methode":
         navigate("/menumethodepage");
         break;
+        case "inventaire":
+          navigate("/menuinventairepage");
+          break;
       default:
         navigate("/");
         break;

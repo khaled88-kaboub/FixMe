@@ -5,7 +5,7 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import * as XLSX from "xlsx";
 
-export default function ListeReportPage() {
+export default function ListeReportPage2() {
   const API_URL = import.meta.env.VITE_API_URL;
   const [rapports, setRapports] = useState([]);
   const [techniciens, setTechniciens] = useState([]); // techniciens importés du backend
@@ -375,10 +375,10 @@ const exportToPDF = () => {
                 <td data-label = "Durée (min) : ">
                   {r.techniciens?.reduce((acc, t) => acc + (Number(t.dureeMinutes) || 0), 0)} min
                 </td>
-                <td>
+                {/*<td>
                   <button className="btn-view" onClick={() => handleView(r)} title="Voir / modifier">Voir / modifier</button>
                   <button className="btn-delete" onClick={() => handleDelete(r._id)} title="Supprimer">Supprimer</button>
-                </td>
+                </td>*/}
               </tr>
             ))
           ) : (
