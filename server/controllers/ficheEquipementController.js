@@ -15,7 +15,9 @@ export const createFicheEquipement = async (req, res) => {
       fournisseur,
       etat,
       dateFab,
-      atelier
+      atelier,
+      compteur,
+      commentaire
     } = req.body;
 
 
@@ -44,7 +46,9 @@ export const createFicheEquipement = async (req, res) => {
       fournisseur,
       etat,
       dateFab,
-      atelier
+      atelier,
+      compteur,
+      commentaire
     });
 
     await fiche.save();

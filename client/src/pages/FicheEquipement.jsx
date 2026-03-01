@@ -3,6 +3,20 @@ import axios from "axios";
 import "./FicheEquipement.css";
 import * as XLSX from 'xlsx';
 
+const initialFormState = {
+  ligne: "",
+  equipement: "",
+  serial: "",
+  marque: "",
+  modele: "",
+  fournisseur: "",
+  etat: "",
+  dateFab: "",
+  atelier: "",
+  compteur: "",
+  commentaire: ""
+};
+
 const FichesEquipementPage = () => {
   const API_URL = import.meta.env.VITE_API_URL;
   const [fiches, setFiches] = useState([]);
@@ -11,19 +25,7 @@ const FichesEquipementPage = () => {
   const [showModal, setShowModal] = useState(false);
   const [editingId, setEditingId] = useState(null);
 
-  const [formData, setFormData] = useState({
-    ligne: "",
-    equipement: "",
-    serial: "",
-    marque: "",
-    modele: "",
-    fournisseur: "",
-    etat: "",
-    dateFab: "",
-    atelier: "",
-    compteur: "",
-    commentaire: ""
-  });
+  const [formData, setFormData] = useState(initialFormState);
 
 
 
@@ -72,10 +74,14 @@ useEffect(() => {
     fetchEquipements();
   }, [formData.ligne]); // <--- Très important : on surveille formData.ligne
 
+  
+  
+  
   // Ajouter / Modifier
   const handleSubmit = async (e) => {
     e.preventDefault();
-
+  // LOG DE CONTROLE : Vérifie dans la console du navigateur (F12)
+  console.log("Données envoyées au serveur :", formData);
     if (editingId) {
       await axios.put(`${API_URL}/api/fiches-equipements/${editingId}`, formData);
     } else {
@@ -89,19 +95,7 @@ useEffect(() => {
     fetchFiches();
   };
 
-  const initialFormState = {
-    ligne: "",
-    equipement: "",
-    serial: "",
-    marque: "",
-    modele: "",
-    fournisseur: "",
-    etat: "",
-    dateFab: "",
-    atelier: "",
-    compteur: "",
-    commentaire: ""
-  };
+  
 
   const handleAddNew = () => {
     setEditingId(null); // On s'assure qu'on n'est pas en mode édition
@@ -290,10 +284,10 @@ XLSX.writeFile(workbook, "Export_Fiches_Equipements.xlsx");
               <input type="date" value={formData.dateFab}
                 onChange={(e) => setFormData({...formData, dateFab: e.target.value})} />
 
-              <input placeholder="Créé par" value={formData.compteur}
+              <input placeholder="Créé par" value={formData.compteur || ""}
                 onChange={(e) => setFormData({...formData, compteur: e.target.value})} /> 
 
-              <textarea placeholder="Commentaire" value={formData.commentaire}
+              <textarea placeholder="Commentaire" value={formData.commentaire || ""}
                 onChange={(e) => setFormData({...formData, commentaire: e.target.value})} />
 
               <button  type="submit" className="btn-primary2">
