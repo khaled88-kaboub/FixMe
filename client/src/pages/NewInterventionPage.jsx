@@ -18,7 +18,7 @@ export default function NewInterventionPage() {
     equipementAsubiArret: false,
     dateHeureArretEquipement: "",
     descriptionAnomalie: "",
-    
+    demandeurNom: ""
   });
 
   const [lignes, setLignes] = useState([]);
@@ -89,12 +89,12 @@ setEquipements(filtres);
     // On prépare les données en incluant le nom de l'utilisateur actuel
   const dataToSend = {
     ...form,
-    demandeurNom: user.name // ✅ On prend le nom du user actuel du contexte
+    demandeurNom: user?.name // ✅ On prend le nom du user actuel du contexte
   };
   
     try {
       const token = localStorage.getItem("token");
-      await axios.post(`${API_URL}/api/interventions`, form, {
+      await axios.post(`${API_URL}/api/interventions`, dataToSend, {
         headers: { Authorization: `Bearer ${token}` },
       });
       toast.success("✅ Intervention enregistrée !");
@@ -106,7 +106,7 @@ setEquipements(filtres);
         equipementAsubiArret: false,
         dateHeureArretEquipement: "",
         descriptionAnomalie: "",
-        
+        demandeurNom: ""
       });
       setEquipements([]);
     } catch (error) {
@@ -119,14 +119,13 @@ setEquipements(filtres);
   return (
     <div className="page-wrapper">
       <div className="new-intervention-container">
-
-  
         <div className="section-header">
-          <h2><FaTools /> Nouvelle demande d’intervention</h2>
-          <div className="section2-underline2"></div>
+          <h3><FaTools /> Nouvelle demande d’intervention</h3>
+          <div className="section-underline"></div>
         </div>
 
         <form className="intervention-form" onSubmit={handleSubmit}>
+          
           {/* Ligne */}
           <div className="form-group">
             <select
@@ -135,12 +134,12 @@ setEquipements(filtres);
               onChange={handleChange}
               required
             >
-              <option value="">-- Sélectionnez une ligne --</option>
+              <option value="" disabled hidden></option>
               {lignes.map((ligne) => (
                 <option key={ligne._id} value={ligne._id}>{ligne.nom}</option>
               ))}
             </select>
-            <label>Ligne *</label>
+            <label className={form.ligne ? "shrink" : ""}>Ligne *</label>
           </div>
 
           {/* Équipement */}
@@ -152,52 +151,59 @@ setEquipements(filtres);
               disabled={!form.ligne || equipements.length === 0}
               required
             >
-              <option value="">-- Sélectionnez un équipement --</option>
+              <option value="" disabled hidden></option>
               {equipements.map((eq) => (
                 <option key={eq._id} value={eq._id}>{eq.designation} ({eq.code})</option>
               ))}
             </select>
-            <label>Équipement *</label>
+            <label className={form.equipement ? "shrink" : ""}>Équipement *</label>
           </div>
 
-          {/* Ligne arrêt */}
-          <div className="checkbox-group">
-            <label>
-              <input
-                type="checkbox"
-                name="ligneAsubiArret"
-                checked={form.ligneAsubiArret}
-                onChange={handleChange}
-              /> La ligne a subi un arrêt ?
-            </label>
-            {form.ligneAsubiArret && (
-              <input
-                type="datetime-local"
-                name="dateHeureArretLigne"
-                value={form.dateHeureArretLigne}
-                onChange={handleChange}
-              />
-            )}
-          </div>
+          {/* Zones d'arrêt (Groupées pour la clarté) */}
+          <div className="status-grid">
+            <div className="checkbox-card">
+              <label className="checkbox-label">
+              <span>Arrêt Ligne ?</span>
+                <input
+                  type="checkbox"
+                  name="ligneAsubiArret"
+                  checked={form.ligneAsubiArret}
+                  onChange={handleChange}
+                />
+               
+              </label>
+              {form.ligneAsubiArret && (
+                <input
+                  type="datetime-local"
+                  name="dateHeureArretLigne"
+                  className="date-input"
+                  value={form.dateHeureArretLigne}
+                  onChange={handleChange}
+                />
+              )}
+            </div>
 
-          {/* Équipement arrêt */}
-          <div className="checkbox-group">
-            <label>
-              <input
-                type="checkbox"
-                name="equipementAsubiArret"
-                checked={form.equipementAsubiArret}
-                onChange={handleChange}
-              /> L'équipement a subi un arrêt ?
-            </label>
-            {form.equipementAsubiArret && (
-              <input
-                type="datetime-local"
-                name="dateHeureArretEquipement"
-                value={form.dateHeureArretEquipement}
-                onChange={handleChange}
-              />
-            )}
+            <div className="checkbox-card">
+              <label className="checkbox-label">
+              <span>Arrêt Équip ?</span>
+                <input
+                  type="checkbox"
+                  name="equipementAsubiArret"
+                  checked={form.equipementAsubiArret}
+                  onChange={handleChange}
+                />
+                
+              </label>
+              {form.equipementAsubiArret && (
+                <input
+                  type="datetime-local"
+                  name="dateHeureArretEquipement"
+                  className="date-input"
+                  value={form.dateHeureArretEquipement}
+                  onChange={handleChange}
+                />
+              )}
+            </div>
           </div>
 
           {/* Description */}
@@ -206,25 +212,27 @@ setEquipements(filtres);
               name="descriptionAnomalie"
               value={form.descriptionAnomalie}
               onChange={handleChange}
+              placeholder=" " /* Important pour le CSS */
               required
             ></textarea>
             <label>Description de l’anomalie *</label>
           </div>
 
-          {/* Nom du demandeur */}
+          {/* Demandeur */}
           <div className="form-group">
-          <input
-    type="text"
-    name="demandeurNom"
-    value={user ? user.name : "Chargement..."} // ✅ Lit directement le contexte
-    disabled // ✅ Empêche la modification manuelle
-    className="input-disabled"
-  />
-  <label>Nom du demandeur (Connecté)</label>
+            <input
+              type="text"
+              name="demandeurNom"
+              value={form.demandeurNom}
+              onChange={handleChange}
+              placeholder=" "
+              required
+            />
+            <label>Nom du demandeur *</label>
           </div>
 
-          <button type="submit" disabled={loading}>
-            {loading ? "Envoi..." : "Envoyer"}
+          <button type="submit" className="submit-btn" disabled={loading}>
+            {loading ? "Envoi en cours..." : "Envoyer la demande"}
           </button>
         </form>
       </div>

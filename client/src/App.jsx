@@ -191,6 +191,7 @@ export default function App() {
           <Route path="intervenant-stat" element={<IntervenantStat/>}/>
           <Route path="compteurs/releve" element={<ReleveCompteurPage />} />
           <Route path="compteurs" element={<CompteurListPage />} />
+          <Route path="rapp" element={<ListeReportPage2/>}/>
           </Route>
 
          {/* --- Role Production --- */}

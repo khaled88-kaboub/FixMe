@@ -53,8 +53,8 @@ export const createIntervention = async (req, res) => {
       equipementAsubiArret,
       dateHeureArretEquipement,
       descriptionAnomalie,
-      demandeurNom: req.user.name, 
-      createdBy: req.user._id,
+      demandeurNom, 
+      createdBy: req.user ? req.user._id : null, // si token
     });
 
     const saved = await intervention.save();

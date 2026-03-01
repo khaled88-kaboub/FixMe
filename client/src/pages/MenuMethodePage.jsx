@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaBars, FaTimes, FaTools, FaClipboardCheck, FaUser } from "react-icons/fa";
+import { FaBars, FaTimes, FaTools, FaChartPie, FaClipboardCheck, FaUser } from "react-icons/fa";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import "./MenuProductionPage.css";
 
