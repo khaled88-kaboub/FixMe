@@ -133,6 +133,9 @@
   .last {
     color: wheat;
   }
+  .prev {
+    color: rgb(7, 181, 194);
+  }
   .gestion {
     color: rgb(235, 139, 70);
   }

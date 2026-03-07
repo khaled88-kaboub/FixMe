@@ -120,7 +120,7 @@ export default function InterventionPlist() {
                 <tr key={i._id} className="border-t hover:bg-gray-50">
                   <td className="p-3">{i.numero}</td>
                   <td className="p-3">{i.titre}</td>
-                  <td className="p-3">{i.equipement?.nom || "-"}</td>
+                  <td className="p-3">{i.equipement?.designation || "-"}--{i.equipement?.code || "-"}</td>
                   <td className="p-3">{i.ligne?.nom || "-"}</td>
                   <td className="p-3">
                     {i.datePlanifiee

@@ -49,15 +49,26 @@ useEffect(() => {
   fetchData();
 }, []);
 // Filtrer les équipements selon la ligne sélectionnée
+// Filtrer les équipements selon la ligne sélectionnée
 useEffect(() => {
   if (!form.ligne) {
     setFilteredEquipements([]);
     return;
   }
 
-  const filtered = equipements.filter(
-    (eq) => eq.ligne?._id === form.ligne._id || eq.ligne === form.ligne._id
-  );
+  // ID de la ligne sélectionnée (qu'il soit dans un objet ou direct)
+  const selectedLigneId = form.ligne._id || form.ligne;
+
+  const filtered = equipements.filter((eq) => {
+    // Si eq.ligne est un tableau (vu dans ton log)
+    if (Array.isArray(eq.ligne)) {
+      return eq.ligne.some(l => (l._id || l) === selectedLigneId);
+    }
+    
+    // Si eq.ligne est un objet simple ou un ID (cas classique)
+    const eqLigneId = eq.ligne?._id || eq.ligne;
+    return eqLigneId === selectedLigneId;
+  });
 
   setFilteredEquipements(filtered);
 }, [form.ligne, equipements]);

@@ -93,7 +93,7 @@ export default function MaintenancePreventiveCalendar2() {
     className="event-item"
     style={{ backgroundColor: statusColors[ev.statut]   } }
     title={`${ev.titre} (${ev.statut.replace("_", " ")})`}
-    onClick={() => navigate(`/interventionP/${ev._id}`)} // <--- redirection
+    onClick={() => navigate(`interventionP/${ev._id}`)} // <--- redirection
   >
     {ev.titre} ({ev.statut.replace("_", " ")})
   </div>

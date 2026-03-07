@@ -9,11 +9,19 @@ import { useNavigate } from "react-router-dom";
 import "./MaintenancePreventiveCalendar.css";
 
 export default function MaintenancePreventiveCalendar() {
+  
   const API_URL = import.meta.env.VITE_API_URL;
   
   const [events, setEvents] = useState([]);
+  const [isMobile, setIsMobile] = useState(window.innerWidth < 768);
   const navigate = useNavigate();
 
+  useEffect(() => {
+    const handleResize = () => setIsMobile(window.innerWidth < 768);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
+  }, []);
+  
   // Fonction pour colorer selon le statut
   const getColor = (statut) => {
     statut = (statut || "").toLowerCase().trim();
@@ -39,7 +47,9 @@ export default function MaintenancePreventiveCalendar() {
             start: new Date(ev.start),
             end: new Date(ev.end),
             allDay: true,
-            title: `${ev.title}\nLigne: ${ev.ligne?.nom || "-"}\nÉquipement: ${ev.equipement?.designation || "-"}\nStatut: ${ev.statut || "-"}`,
+            title: `${ev.title}\nLigne: ${ev.ligne?.nom || "-"}\nÉquipement: ${ev.equipement?.designation || "-"}`,
+           
+            //\nStatut: ${ev.statut || "-"}`,
             extendedProps: {
               statut: ev.statut,
               ligne: ev.ligne?.nom,
@@ -67,7 +77,7 @@ export default function MaintenancePreventiveCalendar() {
         locale="fr"
         height="85vh"
         events={events}
-        eventClick={(info) => navigate(`/maintenance-preventive/${info.event.id.split("_")[0]}`)}
+       // eventClick={(info) => navigate(`/maintenance-preventive/${info.event.id.split("_")[0]}`)}
         headerToolbar={{
           left: "prev,next today",
           center: "title",

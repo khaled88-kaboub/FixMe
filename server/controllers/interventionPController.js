@@ -7,7 +7,7 @@ export const getInterventionsP = async (req, res) => {
   try {
     const interventions = await InterventionP
       .find()
-      .populate("equipement", "nom code")
+      .populate("equipement", "designation code")
       .populate("ligne", "nom")
       .populate("technicienAffecte.technicien", "nom prenom")
       
@@ -28,7 +28,7 @@ export const getInterventionP = async (req, res) => {
   try {
     const intervention = await InterventionP
       .findById(req.params.id)
-      .populate("equipement", "nom code")
+      .populate("equipement", "designation code")
       .populate("ligne", "nom")
       .populate("technicienAffecte.technicien", "nom prenom")
       

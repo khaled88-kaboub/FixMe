@@ -181,7 +181,7 @@ export default function InterventionPDetails() {
     try {
       await axios.put(`http://localhost:5000/api/interventionP/${id}`, intervention);
       alert("Intervention mise à jour avec succès !");
-      navigate("/mpcalendar2");
+      navigate("/menuadminpage/mpcalendarR");
     } catch (err) {
       console.error("Erreur mise à jour :", err);
       alert("Erreur lors de la mise à jour");
@@ -197,7 +197,7 @@ export default function InterventionPDetails() {
   return (
     <div className="page-intervention-details">
       <div className="page-header">
-        <button onClick={() => navigate("/mpcalendar2")} className="btn-save">
+        <button onClick={() => navigate("/menuadminpage/mpcalendarR")} className="btn-save">
           <FaArrowLeft /> Retour
         </button>
         <button onClick={handleSubmit} className="btn-save">

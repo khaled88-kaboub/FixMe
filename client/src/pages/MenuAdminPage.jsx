@@ -89,6 +89,37 @@ export default function MenuAdminPage() {
               <FaTools /> Update-Status-DI
             </Link>
           </li>
+          ------------
+          <li >
+            <Link to="mpcalendarP" className="prev" onClick={() => setOpen(!open)}>
+              <FaTools /> Planing Préventif
+            </Link>
+          </li>
+
+          <li >
+            <Link to="mpcalendarR" className="prev" onClick={() => setOpen(!open)}>
+              <FaTools /> Réalisation Préventive
+            </Link>
+          </li>
+
+          <li >
+            <Link to="mplist" className="prev" onClick={() => setOpen(!open)}>
+              <FaTools /> Liste des taches MPS
+            </Link>
+          </li>
+
+          <li >
+            <Link to="mpinterventions" className="prev" onClick={() => setOpen(!open)}>
+              <FaTools /> OTPS
+            </Link>
+          </li>
+
+          <li >
+            <Link to="mpform" className="prev" onClick={() => setOpen(!open)}>
+              <FaTools /> Creer MPS
+            </Link>
+          </li>
+          ------------
           <li >
             <Link to="compteurs/releve" onClick={closeMenu}>
               <FaUser /> Ajouter Releve Compteur

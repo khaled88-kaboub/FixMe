@@ -111,16 +111,16 @@ export default function App() {
           <Route path="/users/F@sterD@y/2o2i" element={<UserManagementPage/>}/>
           <Route path="/int" element={<AdminInterventionPage/>}/>
 
-          <Route path="/mpform" element={<MaintenancePreventiveForm/>}/>
+          
           <Route path="/mpdash" element={<Dashboard/>}/>
-          <Route path="/mplist" element={<MaintenancePreventiveList/>}/>
+          
           <Route path="/mpcalendar" element={<MaintenancePreventiveCalendar/>}/>
           <Route path="/mpcalendar2" element={<MaintenancePreventiveCalendar2/>}/>
           <Route path="/mptimeline" element={<TimelineAnnuelle/>}/>
           <Route path="/mpgantt" element={<GanttAnnee/>}/>
-          <Route path="/mpinterventions" element={<InterventionPlist/>}/>
-          <Route path="/interventionP/:id" element={<InterventionPDetails />} />
-          <Route path="/arret2" element={<Arret2 />} />
+          
+         
+         
           
           
 
@@ -155,6 +155,12 @@ export default function App() {
               <Route path="intervention_fournisseur" element={<AdminInterventionFournisseur />} />
               <Route path="fiche_equipement" element={<FicheEquipement />} />
               <Route path="status" element={<AdminUpdateStatutPage/>} />
+              <Route path="mpcalendarP" element={<MaintenancePreventiveCalendar/>}/>
+              <Route path="mpcalendarR" element={<MaintenancePreventiveCalendar2/>}/>
+              <Route path="mpcalendarR/interventionP/:id" element={<InterventionPDetails />} />
+              <Route path="mpform" element={<MaintenancePreventiveForm/>}/>
+              <Route path="mplist" element={<MaintenancePreventiveList/>}/>
+              <Route path="mpinterventions" element={<InterventionPlist/>}/>
              </Route>
 
         {/* --- Role Maintenance --- */} 
