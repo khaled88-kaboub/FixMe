@@ -144,7 +144,7 @@ useEffect(() => {
       if (id) await editMP(id, payload);
       else await addMP(payload);
 
-      navigate("/mp");
+      navigate("/mplist");
     } catch (err) {
       console.error("Erreur save:", err);
     }

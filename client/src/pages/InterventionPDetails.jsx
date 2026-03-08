@@ -179,7 +179,7 @@ export default function InterventionPDetails() {
   // ------------------------------
   const handleSubmit = async () => {
     try {
-      await axios.put(`http://localhost:5000/api/interventionP/${id}`, intervention);
+      await axios.put(`${API_URL}/api/interventionP/${id}`, intervention);
       alert("Intervention mise à jour avec succès !");
       navigate("/menuadminpage/mpcalendarR");
     } catch (err) {
