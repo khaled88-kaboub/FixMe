@@ -71,6 +71,23 @@ export default function MaintenancePreventiveCalendar() {
     <div className="calendar-page">
       <h2 className="calendar-title">📅 Calendrier des Maintenances Préventives</h2>
 
+     
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
+      
       <FullCalendar
         plugins={[dayGridPlugin, timeGridPlugin, interactionPlugin]}
         initialView="dayGridMonth"

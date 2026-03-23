@@ -4,13 +4,17 @@ import {
   getInterventionP,
   createInterventionP,
   updateInterventionP,
-  deleteInterventionP
+  deleteInterventionP,
+  generateOtpPdf
 } from "../controllers/interventionPController.js";
 
 const router = express.Router();
 
 // Liste
 router.get("/", getInterventionsP);
+
+//OT PDF
+router.get("/pdf/:id", generateOtpPdf);
 
 // Une seule
 router.get("/:id", getInterventionP);

@@ -96,14 +96,11 @@ export default function AdminInterventionsPage() {
   return (
     <div className="admin-interventions-container">
       <div className="header">
-        <h1><FaTools /> Liste des interventions</h1>
+        <h1><FaTools/>Liste des demandes d'interventions</h1>
       </div>
 
       {/* Barre de Filtres (inchangée mais simplifiée ici pour la lecture) */}
-      <div className="filters">
-         {/* ... vos inputs de filtres existants ... */}
-         <button onClick={() => setFilters({date:"", statut:"", ligne:"", codeEquipement:"", numero:"", demandeur:""})} className="reset-btn"><FaSync /> Reset</button>
-      </div>
+     
 
       <table className="interventions-table">
         <thead>
@@ -133,14 +130,14 @@ export default function AdminInterventionsPage() {
 
       {/* 🟦 MODALE DE MODIFICATION */}
       {isModalOpen && (
-        <div className="modal-overlay">
-          <div className="modal-content">
-            <div className="modal-header">
-              <h2>Modifier l'intervention {selectedIntervention.numero}</h2>
-              <button onClick={() => setIsModalOpen(false)}><FaTimes /></button>
+        <div className="modalo-overlayo">
+          <div className="modalo-contento">
+            <div className="modalo-headero">
+              <h3>Modifier la demande d'intervention {selectedIntervention.numero}</h3>
+              {/* <button onClick={() => setIsModalOpen(false)}><FaTimes /></button> */}
             </div>
             <form onSubmit={handleUpdate}>
-              <div className="form-group">
+              <div className="forma-group">
                 <label>Statut</label>
                 <select 
                   value={selectedIntervention.statut}
@@ -153,7 +150,7 @@ export default function AdminInterventionsPage() {
                 </select>
               </div>
 
-              <div className="form-group">
+              <div className="forma-group">
                 <label>Description Anomalie</label>
                 <textarea 
                   value={selectedIntervention.descriptionAnomalie}
@@ -161,28 +158,87 @@ export default function AdminInterventionsPage() {
                 />
               </div>
 
-              <div className="form-row">
-                <div className="form-group">
-                    <label>Ligne démarrée ?</label>
+              <div className="forma-row">
+                <div className="forma-group">
+                    <label>Ligne a subi Arret ?</label>
+                    
+                    <input 
+                        type="checkbox" 
+                        checked={selectedIntervention.ligneAsubiArret}
+                        onChange={(e) => setSelectedIntervention({...selectedIntervention, ligneAsubiArret: e.target.checked})}
+                    />
+                   
+                    
+                </div>
+
+
+                <div className="forma-group">
+                    <label>Date d'arret ligne</label>
+                    <input 
+                        type="datetime-local" 
+                        value={selectedIntervention.dateHeureArretLigne ? selectedIntervention.dateHeureArretLigne.replace('T', ' ').slice(0, 16) : "-" }
+                        onChange={(e) => setSelectedIntervention({...selectedIntervention, dateHeureArretLigne: e.target.value})}
+                    />
+                </div>
+                <div className="forma-group">
+                    <label>Equipement a subi arret ?</label>
+                    <input 
+                        type="checkbox" 
+                        checked={selectedIntervention.equipementAsubiArret}
+                        onChange={(e) => setSelectedIntervention({...selectedIntervention, equipementAsubiArret: e.target.checked})}
+                    />
+                </div>
+
+                <div className="forma-group">
+                    <label>Date d'arret Equipement</label>
+                    <input 
+                        type="datetime-local" 
+                        value={selectedIntervention.dateHeureArretEquipement ? selectedIntervention.dateHeureArretEquipement.replace('T', ' ').slice(0, 16) : "-" }
+                        onChange={(e) => setSelectedIntervention({...selectedIntervention, dateHeureArretEquipement: e.target.value})}
+                    />
+                </div>
+
+                <div className="forma-group">
+                    <label>Ligne a redmarré ?</label>
                     <input 
                         type="checkbox" 
                         checked={selectedIntervention.ligneAdemarre}
                         onChange={(e) => setSelectedIntervention({...selectedIntervention, ligneAdemarre: e.target.checked})}
                     />
                 </div>
-                <div className="form-group">
-                    <label>Clôture Maintenance ?</label>
+
+                <div className="forma-group">
+                    <label>Date démarrage ligne</label>
+                    <input 
+                        type="datetime-local" 
+                
+                        value={selectedIntervention.dateHeureDemarrageLigne ? selectedIntervention.dateHeureDemarrageLigne.replace('T', ' ').slice(0, 16) : "-" }
+                        onChange={(e) => setSelectedIntervention({...selectedIntervention, dateHeureDemarrageLigne: e.target.value})}
+                    />
+                </div>
+                
+                <div className="forma-group">
+                    <label>Equipement a redémarré ?</label>
                     <input 
                         type="checkbox" 
-                        checked={selectedIntervention.clotureMaintenance}
-                        onChange={(e) => setSelectedIntervention({...selectedIntervention, clotureMaintenance: e.target.checked})}
+                        checked={selectedIntervention.equipementAdemarre}
+                        onChange={(e) => setSelectedIntervention({...selectedIntervention, equipementAdemarre: e.target.checked})}
+                    />
+                </div>
+
+                <div className="forma-group">
+                    <label>Date démarrage equipement</label>
+                    <input 
+                        type="datetime-local" 
+                        value={selectedIntervention.dateHeureDemarrageEquipement ? selectedIntervention.dateHeureDemarrageEquipement.replace('T', ' ').slice(0, 16) : "-" }
+                        onChange={(e) => setSelectedIntervention({...selectedIntervention, dateHeureDemarrageEquipement: e.target.value})}
                     />
                 </div>
               </div>
 
-              <div className="modal-footer">
+              <div className="modalo-footero">
                 <button type="button" className="cancel-btn" onClick={() => setIsModalOpen(false)}>Annuler</button>
-                <button type="submit" className="save-btn">Enregistrer les modifications</button>
+                <button type="submit" className="cancel-btn">Enregistrer les modifications</button>
               </div>
             </form>
           </div>

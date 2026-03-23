@@ -188,6 +188,15 @@ export default function InterventionPDetails() {
     }
   };
 
+  const openOT = (id) => {
+    window.open(
+      `${API_URL}/api/interventionP/pdf/${id}`,
+      "_blank"
+    );
+  };
+ 
+  
+
   if (loading) return <div>Chargement...</div>;
   if (!intervention) return <div>Intervention introuvable.</div>;
 
@@ -203,6 +212,9 @@ export default function InterventionPDetails() {
         <button onClick={handleSubmit} className="btn-save">
           <FaSave /> Enregistrer les modifications
         </button>
+        <button onClick={() => openOT(intervention._id)}>
+        📄 Genere OT
+        </button>
       </div>
 
       <h2 className="page-title">Détails Intervention – {intervention.numero}</h2>
@@ -214,7 +226,19 @@ export default function InterventionPDetails() {
             type="text"
             name="titre"
             value={intervention.titre || ""}
-            onChange={handleChange}
+            readOnly
+            className="input-field"
+            
+          />
+        </div>
+
+        <div className="form-group">
+          <label>Ligne & Equipement</label>
+          <input
+            type="text"
+            name="ligne"
+            value={`${intervention.ligne?.nom || ""} - ${intervention.equipement?.designation || ""} ( ${intervention.equipement?.code || ""} )`}
+           readOnly
             className="input-field"
             
           />
@@ -265,6 +289,20 @@ export default function InterventionPDetails() {
             value={intervention.dureeReelle || ""}
             onChange={handleChange}
             className="input-field"
+          />
+        </div>
+
+        <div className="form-group" style={{ gridColumn: "1 / -1" }}>
+          <label>Taches</label>
+          <textarea
+            name="taches"
+            value={
+              intervention.maintenanceLiee?.taches
+                ?.map((t, index) => `${index + 1}. ${t.description} (${t.dureeEstimee} min)`)
+                .join("\n") || ""
+            }
+            readOnly
+            className="textarea-field"
           />
         </div>
         <div className="form-group" style={{ gridColumn: "1 / -1" }}>
