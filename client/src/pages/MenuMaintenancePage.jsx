@@ -43,7 +43,7 @@ export default function MenuMaintenancePage() {
           </li>
 
           <li >
-            <Link to="compteurs" onClick={() => setOpen(!open)}>
+            <Link to="compteurs2" onClick={() => setOpen(!open)}>
               <FaUser /> Liste Releves Compteur
             </Link>
           </li>

@@ -44,11 +44,13 @@ import MaintenancePreventiveCalendar2 from "./pages/MaintenancePreventiveCalenda
 import { UserContext } from "./context/UserContext";
 import ReleveCompteurPage from "./pages/ReleveCompteurPage";
 import CompteurListPage from "./pages/CompteurListPage";
+import CompteurListPage2 from "./pages/CompteurListPage2";
 import AdminFournisseursPage from "./pages/AdminFournisseurPage";
 import InterventionFournisseur from "../../server/models/InterventionFournisseur";
 import Arret2 from "./pages/Arret2";
 import ListeReportPage2 from "./pages/ListReportPage2";
 import FicheEquipement from "./pages/FicheEquipement";
+
 
 
 
@@ -178,7 +180,7 @@ export default function App() {
           <Route path="intervention/:id" element={<InterventionReportPage/>} />
           <Route path="st" element={<Didetails/>}/>
           <Route path="rapp" element={<ListeReportPage2/>}/>
-          <Route path="compteurs" element={<CompteurListPage />} />
+          <Route path="compteurs2" element={<CompteurListPage2 />} />
           </Route>
          
          {/* --- Role Méthodes --- */} 
