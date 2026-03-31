@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaBars, FaTimes, FaTools, FaClipboardCheck } from "react-icons/fa";
+import { FaBars, FaTimes, FaTools, FaClipboardCheck, FaUser } from "react-icons/fa";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import "./MenuProductionPage.css";
 
@@ -41,7 +41,7 @@ export default function MenuMaintenancePage() {
               <FaClipboardCheck /> Rapports d'interventions
             </Link>
           </li>
-          
+
           <li >
             <Link to="compteurs" onClick={() => setOpen(!open)}>
               <FaUser /> Liste Releves Compteur
