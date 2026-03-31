@@ -178,6 +178,7 @@ export default function App() {
           <Route path="intervention/:id" element={<InterventionReportPage/>} />
           <Route path="st" element={<Didetails/>}/>
           <Route path="rapp" element={<ListeReportPage2/>}/>
+          <Route path="compteurs" element={<CompteurListPage />} />
           </Route>
          
          {/* --- Role Méthodes --- */} 
@@ -198,6 +199,9 @@ export default function App() {
           <Route path="compteurs/releve" element={<ReleveCompteurPage />} />
           <Route path="compteurs" element={<CompteurListPage />} />
           <Route path="rapp" element={<ListeReportPage2/>}/>
+          <Route path="mpcalendarP" element={<MaintenancePreventiveCalendar/>}/>
+          <Route path="mpcalendarR" element={<MaintenancePreventiveCalendar2/>}/>
+          <Route path="mpcalendarR/interventionP/:id" element={<InterventionPDetails />} />
           </Route>
 
          {/* --- Role Production --- */}

@@ -62,6 +62,17 @@ export default function MenuMethodePage() {
               <FaUser /> Liste Releves Compteur
             </Link>
           </li>
+          <li >
+            <Link to="mpcalendarP" className="prev" onClick={() => setOpen(!open)}>
+              <FaTools /> Planing Préventif
+            </Link>
+          </li>
+
+          <li >
+            <Link to="mpcalendarR" className="prev" onClick={() => setOpen(!open)}>
+              <FaTools /> Réalisation Préventive
+            </Link>
+          </li>
         </ul>
         
       </aside>

@@ -41,7 +41,12 @@ export default function MenuMaintenancePage() {
               <FaClipboardCheck /> Rapports d'interventions
             </Link>
           </li>
-
+          
+          <li >
+            <Link to="compteurs" onClick={() => setOpen(!open)}>
+              <FaUser /> Liste Releves Compteur
+            </Link>
+          </li>
         </ul>
       </aside>
 
