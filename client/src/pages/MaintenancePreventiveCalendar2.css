@@ -100,4 +100,44 @@
     transform: translateY(-1px);
   }
   
+
+  .calendar-legend {
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 15px;
+    margin-bottom: 20px;
+    padding: 10px;
+    background-color: #f9fafb;
+    border-radius: 8px;
+  }
+  
+  .legend-item {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    font-size: 0.9rem;
+    color: #374151;
+  }
+  
+  .legend-dot {
+    width: 12px;
+    height: 12px;
+    border-radius: 50%; /* Cercle */
+    display: inline-block;
+  }
+  
+  .legend-text {
+    text-transform: capitalize;
+  }
+  
+  /* Optionnel : Responsivité pour mobile */
+  @media (max-width: 600px) {
+    .calendar-legend {
+      gap: 10px;
+    }
+    .legend-text {
+      font-size: 0.8rem;
+    }
+  }
   

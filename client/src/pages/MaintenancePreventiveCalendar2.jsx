@@ -2,6 +2,8 @@ import { useState, useEffect } from "react";
 import axios from "axios";
 import { useNavigate } from "react-router-dom";
 import "./MaintenancePreventiveCalendar2.css"; // tu peux créer un fichier CSS ou utiliser le style fourni plus bas
+import * as XLSX from 'xlsx'; // Importez la bibliothèque en haut
+
 
 export default function MaintenancePreventiveCalendar2() {
   const API_URL = import.meta.env.VITE_API_URL;
@@ -58,16 +60,87 @@ export default function MaintenancePreventiveCalendar2() {
 
   const calendarDays = getCalendarDays();
 
+
+ 
+// ... dans votre composant MaintenancePreventiveCalendar2 ...
+
+const exportToExcel = () => {
+  // 1. Filtrer les interventions du mois actuellement affiché
+  const month = currentDate.getMonth();
+  const year = currentDate.getFullYear();
+
+  const dataToExport = interventions.filter(inter => {
+    const d = new Date(inter.datePlanifiee);
+    return d.getMonth() === month && d.getFullYear() === year;
+  });
+
+  if (dataToExport.length === 0) {
+    alert("Aucune donnée à exporter pour ce mois.");
+    return;
+  }
+
+  // 2. Formater les données pour le tableau Excel
+  const formattedData = dataToExport.map(inter => ({
+    "N° Intervention": inter.numero,
+    "Titre": inter.titre,
+    "Type": inter.type,
+    "Date Planifiée": new Date(inter.datePlanifiee).toLocaleDateString('fr-FR'),
+    "Statut": inter.statut.replace("_", " "),
+    "Durée Réelle (min)": inter.dureeReelle || "N/A",
+    "Commentaire": inter.commentaire || ""
+  }));
+
+  // 3. Création du fichier Excel
+  const worksheet = XLSX.utils.json_to_sheet(formattedData);
+  const workbook = XLSX.utils.book_new();
+  XLSX.utils.book_append_sheet(workbook, worksheet, "Maintenance");
+
+  // 4. Téléchargement
+  const fileName = `Maintenance_${month + 1}_${year}.xlsx`;
+  XLSX.writeFile(workbook, fileName);
+};
   return (
     <div className="calendar-container">
       <h2 className="calendar-title">
         {currentDate.toLocaleString("fr-FR", { month: "long", year: "numeric" })}
       </h2>
-
+{/*
       <div className="calendar-controls">
         <button onClick={prevMonth}>◀</button>
         <button onClick={nextMonth}>▶</button>
       </div>
+ */}
+
+{/* ... reste du code au dessus ... */}
+
+<div className="calendar-controls">
+  <button onClick={prevMonth}>◀</button>
+  <button onClick={nextMonth}>▶</button>
+  
+  {/* Bouton d'extraction */}
+  <button onClick={exportToExcel} className="btn-export">
+    📥 Exporter le mois (.xlsx)
+  </button>
+</div>
+
+      {/* AJOUT DE LA LÉGENDE ICI */}
+      <div className="calendar-legend">
+        {Object.entries(statusColors).map(([status, color]) => (
+          <div key={status} className="legend-item">
+            <span 
+              className="legend-dot" 
+              style={{ backgroundColor: color }}
+            ></span>
+            <span className="legend-text">
+              {status.replace("_", " ").charAt(0).toUpperCase() + status.replace("_", " ").slice(1)}
+            </span>
+          </div>
+        ))}
+      </div>
+
+     
+        {/* ... reste du code (jours et événements) ... */}
+
 
       <div className="calendar-grid">
         {["Dim", "Lun", "Mar", "Mer", "Jeu", "Ven", "Sam"].map((d) => (
@@ -104,6 +177,8 @@ export default function MaintenancePreventiveCalendar2() {
           );
         })}
       </div>
+
+      
     </div>
   );
 }
