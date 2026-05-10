@@ -83,10 +83,13 @@ const exportToExcel = () => {
   const formattedData = dataToExport.map(inter => ({
     "N° Intervention": inter.numero,
     "Titre": inter.titre,
-    "Type": inter.type,
+    "Ligne": inter.ligne?.nom,
+    "Equipement": inter.equipement?.code,
+    //"Type": inter.type,
     "Date Planifiée": new Date(inter.datePlanifiee).toLocaleDateString('fr-FR'),
+    "Date Realisation": new Date(inter.dateRealisation).toLocaleDateString('fr-FR') || "--",
     "Statut": inter.statut.replace("_", " "),
-    "Durée Réelle (min)": inter.dureeReelle || "N/A",
+    "Durée Réelle (min)": inter.dureeReelle || "--",
     "Commentaire": inter.commentaire || ""
   }));
 
@@ -99,6 +102,32 @@ const exportToExcel = () => {
   const fileName = `Maintenance_${month + 1}_${year}.xlsx`;
   XLSX.writeFile(workbook, fileName);
 };
+//calcul des pourcentages
+// À placer juste avant le return du composant
+const getStats = () => {
+  const month = currentDate.getMonth();
+  const year = currentDate.getFullYear();
+
+  // On ne prend que les interventions du mois en cours
+  const currentMonthInterventions = interventions.filter(inter => {
+    const d = new Date(inter.datePlanifiee);
+    return d.getMonth() === month && d.getFullYear() === year;
+  });
+
+  const total = currentMonthInterventions.length;
+  const stats = {};
+
+  Object.keys(statusColors).forEach(status => {
+    const count = currentMonthInterventions.filter(inter => inter.statut === status).length;
+    stats[status] = total > 0 ? ((count / total) * 100).toFixed(1) : 0;
+  });
+
+  return { stats, total };
+};
+
+const { stats, total } = getStats();
+
+
   return (
     <div className="calendar-container">
       <h2 className="calendar-title">
@@ -125,18 +154,23 @@ const exportToExcel = () => {
 
       {/* AJOUT DE LA LÉGENDE ICI */}
       <div className="calendar-legend">
-        {Object.entries(statusColors).map(([status, color]) => (
-          <div key={status} className="legend-item">
-            <span 
-              className="legend-dot" 
-              style={{ backgroundColor: color }}
-            ></span>
-            <span className="legend-text">
-              {status.replace("_", " ").charAt(0).toUpperCase() + status.replace("_", " ").slice(1)}
-            </span>
-          </div>
-        ))}
-      </div>
+  {Object.entries(statusColors).map(([status, color]) => (
+    <div key={status} className="legend-item">
+      <span 
+        className="legend-dot" 
+        style={{ backgroundColor: color }}
+      ></span>
+      <span className="legend-text">
+        {status.replace("_", " ").charAt(0).toUpperCase() + status.replace("_", " ").slice(1)} :
+        <strong style={{ marginLeft: '5px' }}>{stats[status]}%</strong>
+      </span>
+    </div>
+  ))}
+  <div className="legend-total">
+    | Total du mois : <strong>{total}</strong>
+  </div>
+</div>
+
 
      
         {/* ... reste du code (jours et événements) ... */}
