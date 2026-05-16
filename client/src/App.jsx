@@ -50,6 +50,7 @@ import InterventionFournisseur from "../../server/models/InterventionFournisseur
 import Arret2 from "./pages/Arret2";
 import ListeReportPage2 from "./pages/ListReportPage2";
 import FicheEquipement from "./pages/FicheEquipement";
+import DashboardMaintenance from "./pages/DashboardMaintenance";
 
 
 
@@ -163,6 +164,7 @@ export default function App() {
               <Route path="mpform" element={<MaintenancePreventiveForm/>}/>
               <Route path="mplist" element={<MaintenancePreventiveList/>}/>
               <Route path="mpinterventions" element={<InterventionPlist/>}/>
+              <Route path="dashboard-maintenance" element={<DashboardMaintenance />} />
              </Route>
 
         {/* --- Role Maintenance --- */} 
@@ -181,6 +183,7 @@ export default function App() {
           <Route path="st" element={<Didetails/>}/>
           <Route path="rapp" element={<ListeReportPage2/>}/>
           <Route path="compteurs2" element={<CompteurListPage2 />} />
+          <Route path="dashboard-maintenance" element={<DashboardMaintenance />} />
           </Route>
          
          {/* --- Role Méthodes --- */} 
@@ -204,6 +207,7 @@ export default function App() {
           <Route path="mpcalendarP" element={<MaintenancePreventiveCalendar/>}/>
           <Route path="mpcalendarR" element={<MaintenancePreventiveCalendar2/>}/>
           <Route path="mpcalendarR/interventionP/:id" element={<InterventionPDetails />} />
+          <Route path="dashboard-maintenance" element={<DashboardMaintenance />} />
           </Route>
 
          {/* --- Role Production --- */}
@@ -220,6 +224,7 @@ export default function App() {
           <Route path="canceldi" element={<InterventionAnnulerPage/>}/>
           <Route path="di" element={<ListDi/>}/>
           <Route path="st" element={<Didetails/>}/>
+          <Route path="dashboard-maintenance" element={<DashboardMaintenance />} />
           </Route>
           
           {/* --- Role Inventaire --- */}

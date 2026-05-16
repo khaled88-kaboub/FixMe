@@ -73,6 +73,12 @@ export default function MenuMethodePage() {
               <FaTools /> Réalisation Préventive
             </Link>
           </li>
+
+          <li>
+            <Link to="dashboard-maintenance" onClick={closeMenu} >
+              <FaChartPie /> Dashboard
+            </Link>
+          </li>
         </ul>
         
       </aside>

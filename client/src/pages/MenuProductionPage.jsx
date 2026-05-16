@@ -1,5 +1,5 @@
 import { useState } from "react";
-import { FaBars, FaTimes, FaTools, FaClipboardCheck, FaTrash, FaBeer } from "react-icons/fa";
+import { FaBars, FaTimes, FaTools, FaClipboardCheck, FaTrash, FaBeer, FaChartPie } from "react-icons/fa";
 import { Link, Outlet, useLocation } from "react-router-dom";
 import "./MenuProductionPage.css";
 
@@ -45,6 +45,13 @@ export default function MenuProductionPage() {
               <FaClipboardCheck /> Status Demandes d'intervention
             </Link>
           </li>
+
+          <li>
+            <Link to="dashboard-maintenance" onClick={closeMenu} >
+              <FaChartPie /> Dashboard
+            </Link>
+          </li>
+
         </ul>
       </aside>
 

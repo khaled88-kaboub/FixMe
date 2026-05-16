@@ -190,24 +190,24 @@ const TechniciensPage = () => {
           {Array.isArray(techniciens) && techniciens.length > 0 ? (
             techniciens.map((t) => (
               <tr key={t._id}>
-                <td>{t.nom}</td>
-                <td>{t.prenom}</td>
-                <td>{t.matricule}</td>
-                <td>{t.specialite}</td>
-                <td>{t.telephone}</td>
-                <td>{t.email}</td>
-                <td>{t.actif ? "✅" : "❌"}</td>
-                <td>
+                <td data-label = "Nom :" >{t.nom}</td>
+                <td data-label = "Prénom :">{t.prenom}</td>
+                <td data-label = "Matricule :">{t.matricule}</td>
+                <td data-label = "Spécialité :">{t.specialite}</td>
+                <td data-label = "Téléphone :">{t.telephone}</td>
+                <td data-label = "Email :">{t.email}</td>
+                <td data-label = "Actif ? :">{t.actif ? "✅" : "❌"}</td>
+                <td data-label = "Date d'embauche :">
                   {t.dateEmbauche
                     ? new Date(t.dateEmbauche).toLocaleDateString("fr-FR")
                     : "-"}
                 </td>
                 <td>
-                  <button className="btn-edit" onClick={() => handleEdit(t)}>
+                  <button className="btn-edito" onClick={() => handleEdit(t)}>
                     ✏️
                   </button>
                   <button
-                    className="btn-delete"
+                    className="btn-deleto"
                     onClick={() => handleDelete(t._id)}
                   >
                     🗑️
@@ -226,8 +226,8 @@ const TechniciensPage = () => {
       </table>
 
       {showModal && (
-        <div className="modalo">
-          <div className="modalo-contento">
+        <div className="modal">
+          <div className="modal-content">
             <h2>
               {editingId
                 ? "Modifier le technicien"

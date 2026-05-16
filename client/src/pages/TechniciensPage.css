@@ -140,7 +140,7 @@
   }
   
   /* ==== MODAL ==== */
-  .modalo {
+  .modal {
     position: fixed;
     inset: 0;
     background-color: rgba(0, 0, 0, 0.45);
@@ -151,7 +151,7 @@
     animation: fadeIn 0.3s ease-in-out;
   }
   
-  .modalo-contento {
+  .modal-content {
     background: white;
     border-radius: 12px;
     padding: 25px 30px;
@@ -161,7 +161,7 @@
     animation: slideIn 0.3s ease;
   }
   
-  .modalo-contento h2 {
+  .modal-content h2 {
     margin-bottom: 20px;
     font-size: 1.3rem;
     color: #1f2937;

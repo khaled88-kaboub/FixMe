@@ -63,7 +63,14 @@ export default function MenuAdminPage() {
               <FaChartPie /> Analyse & KPI Equipements
             </Link>
           </li>
-          
+
+          <li>
+            <Link to="dashboard-maintenance" onClick={closeMenu} >
+              <FaChartPie /> Dashboard
+            </Link>
+          </li>
+
+      
           <li >
             <Link to="intervenant-stat" onClick={closeMenu}>
               <FaChartLine/> Performance Techniciens
