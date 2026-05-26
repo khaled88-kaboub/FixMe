@@ -3,7 +3,7 @@
    
   }
   
-  .headero {
+  .header {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -13,7 +13,7 @@
   h2 {
     width: 50%;
   }
-  .btno-add {
+  .btn-add {
     background: #1976d2;
     color: white;
     border: none;
@@ -339,4 +339,129 @@
     padding: 12px;
     font-size: 16px;
   }
+}
+
+
+.filters-container {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+
+  margin-bottom: 20px;
+  padding: 14px 16px;
+
+  background: #fff;
+  border-radius: 14px;
+
+  box-shadow: 0 2px 10px rgba(0,0,0,0.06);
+
+  overflow-x: auto;
+}
+
+.filters-container select,
+.filters-container input {
+  height: 42px;
+  min-width: 180px;
+
+  padding: 0 12px;
+
+  border: 1px solid #dcdcdc;
+  border-radius: 10px;
+
+  font-size: 14px;
+  outline: none;
+
+  transition: 0.2s;
+}
+
+.filters-container select:focus,
+.filters-container input:focus {
+  border-color: #2563eb;
+  box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
+}
+
+.btn-reset-filter {
+  height: 42px;
+
+  padding: 0 18px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: #1e293b;
+  color: white;
+
+  font-weight: 500;
+  cursor: pointer;
+
+  white-space: nowrap;
+
+  transition: 0.2s;
+}
+
+.btn-reset-filter:hover {
+  opacity: 0.9;
+}
+
+.count-badge {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+
+  margin-left: 12px;
+  padding: 4px 12px;
+
+  background: #1e293b;
+  color: white;
+
+  border-radius: 999px;
+
+  font-size: 14px;
+  font-weight: 600;
+
+  min-width: 32px;
+
+  box-shadow: 0 2px 8px rgba(0,0,0,0.12);
+}
+
+.titre {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+}
+
+.table-separator {
+  height: 1px;
+  background: linear-gradient(
+    to right,
+    transparent,
+    rgba(197, 15, 15, 0.8),
+    transparent
+  );
+
+  margin: 18px 0 24px 0;
+}
+
+.btn-export-pdf {
+  display: flex;
+  align-items: center;
+  gap: 8px;
+
+  padding: 10px 16px;
+
+  border: none;
+  border-radius: 10px;
+
+  background: #dc2626;
+  color: white;
+
+  font-weight: 600;
+  cursor: pointer;
+
+  transition: 0.2s;
+}
+
+.btn-export-pdf:hover {
+  opacity: 0.9;
+  transform: translateY(-1px);
 }

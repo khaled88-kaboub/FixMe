@@ -2,6 +2,7 @@
 
 import React, { useEffect, useState } from "react";
 import axios from "axios";
+import * as XLSX from "xlsx";
 import {
   BarChart,
   Bar,
@@ -84,8 +85,120 @@ const [selectedLigne, setSelectedLigne] = useState("");
     }
   
   };
+// ======================================
+// 📊 EXPORT TABLEAU PRINCIPAL
+// ======================================
 
+// ======================================
+// 📄 EXPORT DETAILS LIGNE
+// ======================================
 
+const exportDetailsExcel = () => {
+
+  const data = detailsLigne.map((item, index) => ({
+
+    "N°": index + 1,
+
+    "Numéro DI": item.numero,
+
+    "Équipement": item.equipement,
+
+    "Description": item.description,
+
+    "Date arrêt":
+      new Date(item.dateArret)
+        .toLocaleString("fr-FR"),
+
+    "Date démarrage":
+      new Date(item.dateDemarrage)
+        .toLocaleString("fr-FR"),
+
+    "Durée (min)": item.dureeMinutes,
+
+    "Demandeur": item.demandeur
+
+  }));
+
+  const ws = XLSX.utils.json_to_sheet(data);
+
+  const wb = XLSX.utils.book_new();
+
+  XLSX.utils.book_append_sheet(
+    wb,
+    ws,
+    "Details_Arrets"
+  );
+
+  XLSX.writeFile(
+    wb,
+    `Arrets_${selectedLigne}.xlsx`
+  );
+
+};
+const exportDashboardTable = () => {
+
+  const data = stats.statsLignes.map((ligne, index) => ({
+
+    "N°": index + 1,
+
+    "Ligne": ligne.ligne,
+
+    "Nombre arrêts": ligne.nombreArrets,
+
+    "Temps arrêt total (min)": ligne.tempsTotalArret
+
+  }));
+
+  const ws = XLSX.utils.json_to_sheet(data);
+
+  const wb = XLSX.utils.book_new();
+
+  XLSX.utils.book_append_sheet(
+    wb,
+    ws,
+    "Stats_Lignes"
+  );
+
+  XLSX.writeFile(
+    wb,
+    "Dashboard_Arrets_Lignes.xlsx"
+  );
+
+};
+// ======================================
+// 📈 EXPORT SYNTHESE EQUIPEMENTS
+// ======================================
+
+const exportSyntheseEquipements = () => {
+
+  const data = statsEquipements.map((eq, index) => ({
+
+    "N°": index + 1,
+
+    "Équipement": eq.equipement,
+
+    "Nombre arrêts": eq.nombreArrets,
+
+    "Temps arrêt total (min)": eq.tempsArret
+
+  }));
+
+  const ws = XLSX.utils.json_to_sheet(data);
+
+  const wb = XLSX.utils.book_new();
+
+  XLSX.utils.book_append_sheet(
+    wb,
+    ws,
+    "Synthese_Equipements"
+  );
+
+  XLSX.writeFile(
+    wb,
+    `Synthese_${selectedLigne}.xlsx`
+  );
+
+};
   // =========================
   // KPI
   // =========================
@@ -125,6 +238,41 @@ const [selectedLigne, setSelectedLigne] = useState("");
     "#845EC2",
     "#2C73D2",
   ];
+
+
+  // ======================================
+// 📊 STATS PAR EQUIPEMENT
+// ======================================
+
+const statsEquipements = Object.values(
+
+  detailsLigne.reduce((acc, item) => {
+
+    const equipement = item.equipement || "Non défini";
+
+    if (!acc[equipement]) {
+
+      acc[equipement] = {
+
+        equipement,
+
+        nombreArrets: 0,
+
+        tempsArret: 0
+
+      };
+
+    }
+
+    acc[equipement].nombreArrets += 1;
+
+    acc[equipement].tempsArret += item.dureeMinutes || 0;
+
+    return acc;
+
+  }, {})
+
+);
 
   if (loading) {
     return (
@@ -322,6 +470,16 @@ const [selectedLigne, setSelectedLigne] = useState("");
 
         </table>
 
+        <div className="export-actions">
+
+<button
+  className="btn-export"
+  onClick={exportDashboardTable}
+>
+  📊 Export Excel
+</button>
+
+</div>
       </div>
 
 
@@ -352,7 +510,144 @@ const [selectedLigne, setSelectedLigne] = useState("");
 
             <p>Chargement...</p>
 
-          ) : (
+            ) : (
+
+              <>
+            
+                {/* =========================
+                    TABLEAU RESUME
+                ========================== */}
+            
+                <div className="resume-card">
+            
+                  <h3>
+                    📊 Synthèse arrêts par équipement
+                  </h3>
+            
+                  <table className="resume-table">
+            
+                    <thead>
+            
+                      <tr>
+            
+                        <th>Équipement</th>
+            
+                        <th>Nombre arrêts</th>
+            
+                        <th>Temps arrêt total</th>
+            
+                      </tr>
+            
+                    </thead>
+            
+                    <tbody>
+            
+                      {
+                        statsEquipements.map((eq, index) => (
+            
+                          <tr key={index}>
+            
+                            <td>{eq.equipement}</td>
+            
+                            <td>{eq.nombreArrets}</td>
+            
+                            <td>{eq.tempsArret} min</td>
+            
+                          </tr>
+            
+                        ))
+                      }
+            
+                    </tbody>
+            
+                  </table>
+            
+                  <div className="export-actions">
+
+<button
+  className="btn-export"
+  onClick={exportSyntheseEquipements}
+>
+  📊 Export Synthèse
+</button>
+
+</div>
+                </div>
+            
+                {/* =========================
+                    GRAPHIQUE
+                ========================== */}
+            
+
+            <div className="chart-card modal-chart">
+
+  <h3>
+    📊 Nombre d'arrêts par équipement
+  </h3>
+
+  <ResponsiveContainer width="100%" height={320}>
+
+    <BarChart data={statsEquipements}>
+
+      <CartesianGrid strokeDasharray="3 3" />
+
+      <XAxis dataKey="equipement" />
+
+      <YAxis />
+
+      <Tooltip />
+
+      <Bar
+        dataKey="nombreArrets"
+        fill="#00C49F"
+        radius={[8,8,0,0]}
+      />
+
+    </BarChart>
+
+  </ResponsiveContainer>
+
+</div>
+
+
+                <div className="chart-card modal-chart">
+            
+                  <h3>
+                    📈 Temps arrêt par équipement
+                  </h3>
+            
+                  <ResponsiveContainer width="100%" height={320}>
+            
+                    <BarChart data={statsEquipements}>
+            
+                      <CartesianGrid strokeDasharray="3 3" />
+            
+                      <XAxis dataKey="equipement" />
+            
+                      <YAxis />
+            
+                      <Tooltip />
+            
+                      <Bar
+                        dataKey="tempsArret"
+                        fill="#2563eb"
+                        radius={[8,8,0,0]}
+                      />
+            
+                    </BarChart>
+            
+                  </ResponsiveContainer>
+            
+                </div>
+            
+                {/* =========================
+                    TABLE DETAILS
+                ========================== */}
+            
+                
+
+
+            
 
             <table className="details-table">
 
@@ -387,20 +682,16 @@ const [selectedLigne, setSelectedLigne] = useState("");
                       <td data-label = "Equipement :">{item.equipement}</td>
                      
 
-                      <td data-label = "Date :">{item.description}</td>
+                      <td data-label = "Description anomalie :">{item.description}</td>
 
                       <td data-label = "Date arret :">
-                        {
-                          new Date(item.dateArret)
-                            .toLocaleString("fr-FR")
-                        }
+                        
+                      {item.dateArret ? item.dateArret.replace('T', ' ').slice(0, 16) : "-"}
                       </td >
 
                       <td data-label = "Date démarrage :">
-                        {
-                          new Date(item.dateDemarrage)
-                            .toLocaleString("fr-FR")
-                        }
+                      {item.dateDemarrage ? item.dateDemarrage.replace('T', ' ').slice(0, 16) : "-"}
+                       
                       </td>
 
                       <td data-label = "Durée :">
@@ -417,7 +708,17 @@ const [selectedLigne, setSelectedLigne] = useState("");
               </tbody>
 
             </table>
+            <div className="export-actions">
 
+  <button
+    className="btn-export"
+    onClick={exportDetailsExcel}
+  >
+    📄 Export Détails
+  </button>
+
+</div>
+            </>
           )
         }
 

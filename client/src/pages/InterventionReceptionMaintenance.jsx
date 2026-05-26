@@ -15,6 +15,7 @@ const InterventionReceptionMaintenance = () => {
     ligne: "",
     equipement: "",
     numero: "",
+    demandeurNom: "",
     dateDebut: "",
     dateFin: "",
   });
@@ -66,6 +67,11 @@ const InterventionReceptionMaintenance = () => {
         i.equipement?.designation
           ?.toLowerCase()
           .includes(filters.equipement.toLowerCase())
+      );
+
+      if (filters.demandeurNom)
+      temp = temp.filter((i) =>
+        i.demandeurNom?.toLowerCase().includes(filters.demandeurNom.toLowerCase())
       );
 
     if (filters.numero)
@@ -150,6 +156,16 @@ const InterventionReceptionMaintenance = () => {
         <div className="toto">
         <input
           type="text"
+          placeholder="Filtrer par demandeur..."
+          value={filters.demandeurNom}
+          onChange={(e) =>
+            setFilters({ ...filters, demandeurNom: e.target.value })
+          }
+        />
+        </div>
+        <div className="toto">
+        <input
+          type="text"
           placeholder="Numéro d’intervention..."
           value={filters.numero}
           onChange={(e) => setFilters({ ...filters, numero: e.target.value })}
@@ -184,9 +200,11 @@ const InterventionReceptionMaintenance = () => {
         <thead>
           <tr>
             <th>Numéro</th>
+            <th>Demandeur</th>
+            <th>Créé le</th>
             <th>Ligne</th>
             <th>Équipement</th>
-            <th>Nombre de rapports</th>
+            <th>Rapports</th>
             <th>Statut</th>
             <th>Date arrêt ligne</th>
             <th>Date arrêt équipement</th>
@@ -204,7 +222,10 @@ const InterventionReceptionMaintenance = () => {
           ) : (
             filtered.map((i) => (
               <tr key={i._id}>
+
                 <td className="DI-decor" data-label="Numéro DI">{i.numero}</td>
+                <td data-label="Demandeur">{i.demandeurNom || "-"}</td>
+                <td data-label="Créé le">{new Date(i.createdAt).toLocaleString()}</td>
                 <td data-label="Ligne">{i.ligne?.nom || "-"}</td>
                 <td data-label="Equipement">{i.equipement?.designation || "-"}</td>
                 <td data-label="Nombre de rapports associés">{rapportCounts[i._id] || 0}</td>

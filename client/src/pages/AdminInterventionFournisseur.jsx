@@ -4,6 +4,8 @@ import {  FaFilePdf, FaTrash, FaPlus, FaEdit } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 import "./AdminInterventionFournisseur.css";
+import jsPDF from "jspdf";
+import autoTable from "jspdf-autotable";
 
 const API_URL = import.meta.env.VITE_API_URL;
 
@@ -16,7 +18,11 @@ export default function AdminInterventionFournisseur() {
   const [editMode, setEditMode] = useState(false);
   const [currentId, setCurrentId] = useState(null);
   const [pdfPreviewUrl, setPdfPreviewUrl] = useState(null);
-
+  const [filters, setFilters] = useState({
+    fournisseur: "",
+    dateDebut: "",
+    dateFin: "",
+  });
 
   const [showModal, setShowModal] = useState(false);
 
@@ -194,13 +200,207 @@ export default function AdminInterventionFournisseur() {
   };
 
   
+  const interventionsFiltrees = interventions.filter((i) => {
+    // filtre fournisseur
+    const matchFournisseur =
+      !filters.fournisseur ||
+      i.fournisseur?._id === filters.fournisseur;
   
+    // date intervention
+    const dateIntervention = new Date(i.dateIntervention);
+  
+    // filtre date début
+    const matchDateDebut =
+      !filters.dateDebut ||
+      dateIntervention >= new Date(filters.dateDebut);
+  
+    // filtre date fin
+    const matchDateFin =
+      !filters.dateFin ||
+      dateIntervention <= new Date(filters.dateFin + "T23:59:59");
+  
+    return (
+      matchFournisseur &&
+      matchDateDebut &&
+      matchDateFin
+    );
+  });
+
+
+
+  const exportPDF = () => {
+    const doc = new jsPDF({
+      orientation: "landscape",
+    });
+  
+    // ================= HEADER =================
+  
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(20);
+  
+    doc.text("Prestations / Sous-traitances", 14, 20);
+  
+    doc.setFontSize(10);
+    doc.setFont("helvetica", "normal");
+  
+    const today = new Date().toLocaleDateString();
+  
+    doc.text(`Date génération : ${today}`, 14, 28);
+  
+    // ================= FILTERS =================
+  
+    let filtreText = "Filtres : ";
+  
+    if (filters.fournisseur) {
+      const fournisseurNom =
+        fournisseurs.find(
+          (f) => f._id === filters.fournisseur
+        )?.nom || "";
+  
+      filtreText += `Prestataire: ${fournisseurNom}   `;
+    }
+  
+    if (filters.dateDebut) {
+      filtreText += `Du: ${filters.dateDebut}   `;
+    }
+  
+    if (filters.dateFin) {
+      filtreText += `Au: ${filters.dateFin}`;
+    }
+  
+   /// doc.text(filtreText, 14, 35);
+  
+    // ================= TABLE DATA =================
+  
+    const rows = interventionsFiltrees.map((i) => [
+      i.fournisseur?.nom || "-",
+    
+      new Date(i.dateIntervention).toLocaleDateString(),
+    
+      i.ligne?.nom || "-",
+    
+      i.equipement?.designation || "-",
+    
+      i.detail || "-",
+    
+      `${i.duree || 0} h`,
+    
+      `${i.montant || 0} DA`,
+    ]);
+    // ================= TABLE =================
+  
+    autoTable(doc, {
+      startY: 45,
+  
+      head: [[
+        "Prestataire",
+        "Date",
+        "Ligne",
+        "Équipement",
+        "Description",
+        "Durée",
+        "Montant",
+      ]],
+  
+      body: rows,
+  
+      theme: "grid",
+  
+      styles: {
+        fontSize: 9,
+        cellPadding: 4,
+        valign: "middle",
+      
+        overflow: "linebreak",
+        cellWidth: "wrap",
+      },
+  
+      headStyles: {
+        fillColor: [30, 41, 59],
+        textColor: 255,
+        fontStyle: "bold",
+        halign: "center",
+      },
+  
+      bodyStyles: {
+        textColor: 50,
+      },
+  
+      alternateRowStyles: {
+        fillColor: [245, 247, 250],
+      },
+  
+      columnStyles: {
+        0: { cellWidth: 35 },
+        1: { cellWidth: 25 },
+        2: { cellWidth: 30 },
+        3: { cellWidth: 38 },
+      
+        // description
+        4: { cellWidth: 95 },
+      
+        5: {
+          halign: "center",
+          cellWidth: 22,
+        },
+      
+        6: {
+          halign: "right",
+          cellWidth: 30,
+        },
+      },
+    });
+  
+    // ================= TOTAL =================
+  
+    const total = interventionsFiltrees.reduce(
+      (sum, i) => sum + Number(i.montant || 0),
+      0
+    );
+  
+    const finalY = doc.lastAutoTable.finalY + 12;
+  
+    doc.setFont("helvetica", "bold");
+    doc.setFontSize(12);
+  
+    //doc.text(
+    //  `Montant total : ${total.toLocaleString()} DA`,
+    //  14,
+     // finalY
+   // );
+  
+    // ================= FOOTER =================
+  
+    const pageCount = doc.internal.getNumberOfPages();
+  
+    for (let i = 1; i <= pageCount; i++) {
+      doc.setPage(i);
+  
+      doc.setFontSize(9);
+  
+      doc.text(
+        `Page ${i} / ${pageCount}`,
+        180,
+        290
+      );
+    }
+  
+    // ================= SAVE =================
+  
+    doc.save("prestations.pdf");
+  };
+
 
   return (
     <div className="intervention-containero">
       <ToastContainer />
-      <div className="headero">
-        <h2 className="titre" >Prestations/Sous_traitances</h2>
+      <div className="header">
+      <h2 className="titre">
+  Prestations 
+  <span className="count-badge">
+  {interventionsFiltrees.length}
+  </span>
+</h2>
         <button
   className="btno-add"
   onClick={() => {
@@ -221,9 +421,81 @@ export default function AdminInterventionFournisseur() {
   }}
 >
 
-<FaPlus /> Ajouter Intervention
+ Ajouter 
         </button>
+
+
+        <button
+  className="btn-export-pdf"
+  onClick={exportPDF}
+>
+  <FaFilePdf />
+   PDF
+</button>
       </div>
+
+
+{/* ===================== FILTRES ===================== */}
+
+<div className="filters-container">
+
+  <select
+    value={filters.fournisseur}
+    onChange={(e) =>
+      setFilters({
+        ...filters,
+        fournisseur: e.target.value,
+      })
+    }
+  >
+    <option value="">-- Tous les prestataires --</option>
+
+    {fournisseurs.map((f) => (
+      <option key={f._id} value={f._id}>
+        {f.nom}
+      </option>
+    ))}
+  </select>
+
+  <input
+    type="date"
+    value={filters.dateDebut}
+    onChange={(e) =>
+      setFilters({
+        ...filters,
+        dateDebut: e.target.value,
+      })
+    }
+  />
+
+  <input
+    type="date"
+    value={filters.dateFin}
+    onChange={(e) =>
+      setFilters({
+        ...filters,
+        dateFin: e.target.value,
+      })
+    }
+  />
+
+  <button
+    className="btn-reset-filter"
+    onClick={() =>
+      setFilters({
+        fournisseur: "",
+        dateDebut: "",
+        dateFin: "",
+      })
+    }
+  >
+    Réinitialiser
+  </button>
+</div>
+
+<div className="table-separator"></div>
+
+
 
       {/* ===================== TABLE ===================== */}
       <table>
@@ -240,7 +512,7 @@ export default function AdminInterventionFournisseur() {
           </tr>
         </thead>
         <tbody>
-          {interventions.map((i) => (
+        {interventionsFiltrees.map((i) => (
             
             <tr key={i._id}>
               <td data-label="Prestataire:">{i.fournisseur?.nom}</td>

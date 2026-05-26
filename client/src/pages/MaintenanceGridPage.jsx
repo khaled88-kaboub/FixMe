@@ -286,16 +286,16 @@ const MaintenanceGridPage = () => {
             <p><strong>Statut :</strong> {selected.statut || "-"}</p>
             <p><strong>Créée le :</strong> {selected.createdAt ? new Date(selected.createdAt).toLocaleString() : "-"}</p>
             <p><strong>Arrêt ligne :</strong> {String(selected.ligneAsubiArret ?? "false")}</p>
-            <p><strong>Date & Heure Arrêt ligne :</strong> {selected.dateHeureArretLigne ? new Date(selected.dateHeureArretLigne).toLocaleString() : "-"}</p>
+            <p><strong>Date & Heure Arrêt ligne :</strong> {selected.dateHeureArretLigne ? selected.dateHeureArretLigne.replace('T', ' ').slice(0, 16) : "-"}</p>
             <p><strong>Arrêt equipement :</strong> {String(selected.equipementAsubiArret ?? "false")}</p>
-            <p><strong>Date & Heure Arrêt equipement :</strong> {selected.dateHeureArretEquipement ? new Date(selected.dateHeureArretEquipement).toLocaleString() : "-"}</p>
+            <p><strong>Date & Heure Arrêt equipement :</strong> {selected.dateHeureArretEquipement ? selected.dateHeureArretEquipement.replace('T', ' ').slice(0, 16) : "-"}</p>
       <button className="btn-mod" onClick={() => setSelected(null)}>Fermer</button>
     </div>
   </div>
 )}
 <ToastContainer position="top-center" autoClose={2000} />
 
-    </div>
+    </div> 
   );
 };
 

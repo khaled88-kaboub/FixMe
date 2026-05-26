@@ -17,6 +17,8 @@ export default function AdminEquipementPage() {
   const [lignesIds, setLignesIds] = useState([]);
 
   const [lignes, setLignes] = useState([]);
+  const [filterDesignation, setFilterDesignation] = useState("");
+  const [filterLigne, setFilterLigne] = useState("");
 
   const [editId, setEditId] = useState(null);
   const [editData, setEditData] = useState({
@@ -128,10 +130,45 @@ export default function AdminEquipementPage() {
     }
   };
 
+
+  const filteredEquipements = equipements
+  .filter((eq) => {
+    // filtre designation
+    const matchDesignation = eq.designation
+      .toLowerCase()
+      .includes(filterDesignation.toLowerCase());
+
+    // filtre ligne
+    const matchLigne =
+      filterLigne === "" ||
+      eq.ligne?.some((l) => l._id === filterLigne);
+
+    return matchDesignation && matchLigne;
+  })
+
+  // TRI ALPHABÉTIQUE
+  .sort((a, b) =>
+    a.designation.localeCompare(b.designation, "fr", {
+      sensitivity: "base",
+    })
+  );
+
+
   return (
     <div className="admin-equipement-container">
       <h2>⚙️ Gestion des Équipements</h2>
+{/* STATS */}
+<div className="equipement-stats">
+  <div className="stat-card">
+    <span className="stat-number">
+      {filteredEquipements.length}
+    </span>
 
+    <span className="stat-label">
+      Équipement{filteredEquipements.length > 1 ? "s" : ""}
+    </span>
+  </div>
+</div>
       {/* FORMULAIRE AJOUT */}
       <form onSubmit={handleAdd} className="add-equipement-form">
         <input
@@ -168,13 +205,42 @@ export default function AdminEquipementPage() {
         </button>
       </form>
 
+
+{/* FILTRES */}
+<div className="filters-container">
+  <input
+    type="text"
+    placeholder="🔍 Filtrer par désignation..."
+    value={filterDesignation}
+    onChange={(e) => setFilterDesignation(e.target.value)}
+    className="filter-input"
+  />
+
+  <select
+    value={filterLigne}
+    onChange={(e) => setFilterLigne(e.target.value)}
+    className="filter-select"
+  >
+    <option value="">Toutes les lignes</option>
+
+    {lignes.map((ligne) => (
+      <option key={ligne._id} value={ligne._id}>
+        {ligne.nom}
+      </option>
+    ))}
+  </select>
+</div>
+
+
+
+
       {/* LISTE */}
       <div className="equipement-list">
         {equipements.length === 0 ? (
           <p>Aucun équipement enregistré.</p>
         ) : (
           <ul>
-            {equipements.map((eq) => (
+            {filteredEquipements.map((eq) => (
               <li key={eq._id}>
                 {editId === eq._id ? (
                   <>
