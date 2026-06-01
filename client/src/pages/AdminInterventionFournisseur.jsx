@@ -238,7 +238,7 @@ export default function AdminInterventionFournisseur() {
     doc.setFont("helvetica", "bold");
     doc.setFontSize(20);
   
-    doc.text("Prestations / Sous-traitances", 14, 20);
+    doc.text("Prestations & Sous-traitances", 14, 20);
   
     doc.setFontSize(10);
     doc.setFont("helvetica", "normal");
@@ -279,7 +279,9 @@ export default function AdminInterventionFournisseur() {
     
       i.ligne?.nom || "-",
     
-      i.equipement?.designation || "-",
+      i.equipement
+  ? `${i.equipement.designation} -- ${i.equipement.code}` 
+  : "-",
     
       i.detail || "-",
     
@@ -518,7 +520,7 @@ export default function AdminInterventionFournisseur() {
               <td data-label="Prestataire:">{i.fournisseur?.nom}</td>
               <td data-label="Date:">{new Date(i.dateIntervention).toLocaleDateString()}</td>
               <td data-label="Ligne:">{i.ligne?.nom || "-"}</td>
-              <td data-label="Euipement:">{i.equipement?.designation || "-"}</td>
+              <td data-label="Euipement:">{i.equipement?.designation || "-"}({i.equipement?.code || "-"})</td>
               <td data-label="Durée:">{i.duree} h</td>
               <td data-label="Montant:">{i.montant} DA</td>
               <td data-label="Rapport:">

@@ -4,24 +4,31 @@ import Intervention from "../models/Intervention.js";
 import mongoose from "mongoose";
 
 export const getDashboardStats = async (req, res) => {
-  try {
-
-    // 📅 Début du mois actuel
-    const startMonth = new Date(
-      new Date().getFullYear(),
-      new Date().getMonth(),
-      1
-    );
-
-    // 📅 Fin du mois
-    const endMonth = new Date(
-      new Date().getFullYear(),
-      new Date().getMonth() + 1,
-      0,
-      23,
-      59,
-      59
-    );
+  
+    try {
+  
+      const mois =
+        parseInt(req.query.mois) ||
+        new Date().getMonth() + 1;
+  
+      const annee =
+        parseInt(req.query.annee) ||
+        new Date().getFullYear();
+  
+      const startMonth = new Date(
+        annee,
+        mois - 1,
+        1
+      );
+  
+      const endMonth = new Date(
+        annee,
+        mois,
+        0,
+        23,
+        59,
+        59
+      );
 
     // ===============================
     // 📊 INTERVENTIONS PAR DEMANDEUR
@@ -191,22 +198,28 @@ export const getDetailsLigne = async (req, res) => {
   
       const { ligneId } = req.params;
   
-     // 📅 Début mois actuel
-const startMonth = new Date(
-    new Date().getFullYear(),
-    new Date().getMonth(),
-    1
-  );
-  
-  // 📅 Fin mois actuel
-  const endMonth = new Date(
-    new Date().getFullYear(),
-    new Date().getMonth() + 1,
-    0,
-    23,
-    59,
-    59
-  );
+      const mois =
+      parseInt(req.query.mois) ||
+      new Date().getMonth() + 1;
+    
+    const annee =
+      parseInt(req.query.annee) ||
+      new Date().getFullYear();
+    
+    const startMonth = new Date(
+      annee,
+      mois - 1,
+      1
+    );
+    
+    const endMonth = new Date(
+      annee,
+      mois,
+      0,
+      23,
+      59,
+      59
+    );
   
   const details = await Intervention.find({
   

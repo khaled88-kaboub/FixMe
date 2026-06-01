@@ -1,6 +1,6 @@
 import { useContext } from "react";
 import { Link, useNavigate } from "react-router-dom";
-import { FaEdit, FaSave, FaTools, FaFilter, FaUndo } from "react-icons/fa";
+import { FaEdit, FaSave, FaTools, FaFilter, FaUndo, FaSignOutAlt, FaPowerOff } from "react-icons/fa";
 import { AuthContext } from "../context/AuthContext";
 import "./Navbar.css";
 
@@ -27,7 +27,7 @@ export default function Navbar() {
           <span className="nav-role"> {user.role }</span>
           </div>
           <button className="btn-logout" onClick={handleLogout}>
-            Déconnexion
+           <FaPowerOff  />
           </button>
         </div>
       )}

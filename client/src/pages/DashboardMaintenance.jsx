@@ -38,24 +38,44 @@ const [detailsLigne, setDetailsLigne] = useState([]);
 const [loadingDetails, setLoadingDetails] = useState(false);
 
 const [selectedLigne, setSelectedLigne] = useState("");
+const currentDate = new Date();
 
-  useEffect(() => {
-    fetchDashboard();
-  }, []);
+const [mois, setMois] = useState(
+  currentDate.getMonth() + 1
+);
 
-  const fetchDashboard = async () => {
-    try {
+const [annee, setAnnee] = useState(
+  currentDate.getFullYear()
+);
 
-      const res = await axios.get(`${API_URL}/api/dashboard`);
+useEffect(() => {
+  fetchDashboard();
+}, [mois, annee]);
 
-      setStats(res.data);
+const fetchDashboard = async () => {
+  try {
 
-    } catch (error) {
-      console.error("Erreur dashboard :", error);
-    } finally {
-      setLoading(false);
-    }
-  };
+    const res = await axios.get(
+      `${API_URL}/api/dashboard`,
+      {
+        params: {
+          mois,
+          annee
+        }
+      }
+    );
+
+    setStats(res.data);
+
+  } catch (error) {
+    console.error(error);
+  }
+  finally {
+
+    setLoading(false);
+
+  }
+};
 
 
   const handleShowDetails = async (ligne) => {
@@ -69,7 +89,13 @@ const [selectedLigne, setSelectedLigne] = useState("");
       setShowModal(true);
   
       const res = await axios.get(
-        `${API_URL}/api/dashboard/ligne/${ligne.ligneId}`
+        `${API_URL}/api/dashboard/ligne/${ligne.ligneId}`,
+        {
+          params: {
+            mois,
+            annee
+          }
+        }
       );
   
       setDetailsLigne(res.data);
@@ -294,6 +320,39 @@ const statsEquipements = Object.values(
 
       {/* KPI */}
 
+      <div className="dashboard-filters">
+      <div className="filter-group">
+<select
+  value={mois}
+  onChange={(e) => setMois(Number(e.target.value))}
+>
+  <option value={1}>Janvier</option>
+  <option value={2}>Février</option>
+  <option value={3}>Mars</option>
+  <option value={4}>Avril</option>
+  <option value={5}>Mai</option>
+  <option value={6}>Juin</option>
+  <option value={7}>Juillet</option>
+  <option value={8}>Août</option>
+  <option value={9}>Septembre</option>
+  <option value={10}>Octobre</option>
+  <option value={11}>Novembre</option>
+  <option value={12}>Décembre</option>
+</select>
+</div>
+
+<div className="filter-group">
+<select
+  value={annee}
+  onChange={(e) => setAnnee(Number(e.target.value))}
+>
+  <option value={2024}>2024</option>
+  <option value={2025}>2025</option>
+  <option value={2026}>2026</option>
+  <option value={2027}>2027</option>
+</select>
+</div>
+</div>
       <div className="kpi-grid">
 
         <div className="kpi-card">
@@ -447,7 +506,7 @@ const statsEquipements = Object.values(
 
               <tr key={index}>
 
-                <td data-label = "Line :">{ligne.ligne}</td>
+                <td data-label = "Ligne :">{ligne.ligne}</td>
 
                 <td data-label = "Nombre des arrets :">{ligne.nombreArrets}</td>
 
@@ -492,9 +551,9 @@ const statsEquipements = Object.values(
 
         <div className="modal-header">
 
-          <h3>
-            📋 Liste des Arrêts — {selectedLigne}
-          </h3>
+        <h3>
+  📋 Liste des Arrêts — {selectedLigne} -- ({mois}/{annee})
+</h3>
 
           <button
             className="closed-btno"
@@ -547,11 +606,11 @@ const statsEquipements = Object.values(
             
                           <tr key={index}>
             
-                            <td>{eq.equipement}</td>
+                            <td data-label = "Equipement :">{eq.equipement}</td>
             
-                            <td>{eq.nombreArrets}</td>
+                            <td data-label = "Nombre d'arrets :">{eq.nombreArrets}</td>
             
-                            <td>{eq.tempsArret} min</td>
+                            <td data-label = "Durée des arrets">{eq.tempsArret} min</td>
             
                           </tr>
             

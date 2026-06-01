@@ -455,3 +455,33 @@
     0 8px 20px rgba(34,197,94,0.4);
 
 }
+
+
+.dashboard-filters {
+  display: flex;
+  justify-content: center; /* centre horizontalement */
+  gap: 20px;
+  align-items: end;
+  margin-bottom: 25px;
+  flex-wrap: wrap;
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.filter-group label {
+  font-size: 13px;
+  font-weight: 600;
+  color: #64748b;
+}
+
+.filter-group select {
+  min-width: 180px;
+  padding: 10px 14px;
+  border: 1px solid #dbe3ec;
+  border-radius: 12px;
+  background: white;
+}
