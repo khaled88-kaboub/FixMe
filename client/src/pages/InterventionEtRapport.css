@@ -276,3 +276,389 @@ body {
   
  
   
+  /* ---------------------------------------------- */
+/* 🎨 STYLE INDUSTRIEL + TAGS ICONES + TIMELINE   */
+/* ---------------------------------------------- */
+
+body {
+  background-color: #f2f4f7;
+  font-family: "Poppins", sans-serif;
+  font-weight: 600;
+  font-size: 0.9rem;
+}
+
+.textes {
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+  margin-top: 25px;
+  margin-left: 20px;
+}
+
+.ens {
+  padding-bottom: 60px;
+  gap: 10px;
+}
+
+/* ---- CARD ---- */
+.cardo {
+  background: #ffffff;
+  border: 2px solid #d0d7df;
+  border-radius: 8px;
+  padding: 18px;
+  box-shadow: 0 2px 6px rgba(0,0,0,0.05);
+  transition: 0.2s ease-in-out;
+  margin-bottom: 6px;
+  margin-left: 0 !important;
+  align-self: flex-start;
+}
+
+.cardo:hover {
+  border-color: #1e3b60;
+  box-shadow: 0 4px 10px rgba(0,0,0,0.10);
+}
+
+/* ---- TITRES ---- */
+.cardo h2 {
+  font-weight: 700;
+  color: #1e3b60;
+}
+
+/* ---- TAGS DE STATUT AVEC ICONES ---- */
+.statut-tag {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  padding: 7px 15px;
+  border-radius: 20px;
+  font-weight: 700;
+  color: white;
+  text-transform: capitalize;
+  font-size: 1.5rem;
+}
+
+.statut-ouvert { background: #d7263d; }
+.statut-ouvert::before { content: "🔧"; }
+
+.statut-en_cours { background: #d6a300; }
+.statut-en_cours::before { content: "⏳"; }
+
+.statut-termine { background: #1f8a3f; }
+.statut-termine::before { content: "✔️"; }
+
+.statut-annule { background: #ad1e04; }
+.statut-inconnu::before { content: "X "; }
+
+/* ---- BOUTONS ---- */
+.button {
+  padding: 8px 14px;
+  border-radius: 6px;
+  font-size: 14px;
+  font-weight: 600;
+  cursor: pointer;
+  border: none;
+  transition: 0.2s ease-in-out;
+}
+
+.button-blue {
+  background: #1e3b60;
+  color: white;
+}
+.button-blue:hover {
+  background: #162c49;
+}
+
+.button-toggle {
+  background: #e5e9ef;
+  border: 1px solid #c3c7cd;
+  color: #1e3b60;
+}
+.button-toggle:hover {
+  background: #d4d9e0;
+}
+
+/* ---- ACCORDION ---- */
+.accordion-content {
+  max-height: 0;
+  overflow: hidden;
+  transition: max-height 0.25s ease-out;
+  margin-top: 8px;
+}
+.accordion-content.show {
+  max-height: 600px;
+}
+
+/* ---- TIMELINE DES RAPPORTS ---- */
+.timeline {
+  margin-top: 15px;
+  border-left: 3px solid #1e3b60;
+  padding-left: 18px;
+  position: relative;
+}
+
+.timeline-item {
+  margin-bottom: 18px;
+  padding-bottom: 10px;
+  position: relative;
+}
+
+.timeline-item::before {
+  content: "⚙️";
+  position: absolute;
+  left: -14px;
+  top: 0;
+  background: #1e3b60;
+  color: white;
+  width: 22px;
+  height: 22px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  font-size: 11px;
+}
+
+.timeline-item p {
+  margin: 3px 0;
+  margin-left: 14px;
+}
+
+/* ---- FILTRES (MIS À JOUR) ---- */
+.filters-container {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap; /* Permet un retour à la ligne propre avec tous les filtres */
+  padding: 15px;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+  margin-bottom: 20px;
+  align-items: flex-end; /* Aligne les inputs et labels en bas */
+}
+
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.filter-label {
+  font-size: 12px;
+  color: #556b82;
+  font-weight: 700;
+}
+
+.filter-input,
+.filter-select {
+  padding: 10px 14px;
+  border-radius: 10px;
+  border: 1px solid #d0d0d0;
+  font-size: 15px;
+  background: #f7f7f7;
+  transition: 0.2s ease;
+}
+
+.filter-input:focus,
+.filter-select:focus {
+  border-color: #3b82f6;
+  background: #fff;
+  box-shadow: 0 0 4px rgba(59, 130, 246, 0.4);
+}
+
+.filters-container input,
+.filters-container select {
+  min-width: 170px;
+}
+
+/* Largeur spécifique pour les filtres de numéros min/max */
+.filter-input.sub-num {
+  min-width: 100px !important;
+  width: 110px;
+}
+
+.export {
+  width: 20%;
+  margin-left: 40%;
+  margin-bottom: 18px;
+}
+
+/* ---- MODAL ---- */
+.modalo-overlayo {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0,0,0,0.55);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 2000;
+}
+
+.modalo-contento {
+  background: #ffffff;
+  width: 780px;
+  max-height: 85vh;
+  border-radius: 10px;
+  padding: 20px;
+  overflow-y: auto;
+  box-shadow: 0 0 20px rgba(0,0,0,0.25);
+  border: 2px solid #1e3a5f;
+}
+
+.modalo-contento button {
+  width: 100%;
+}
+
+.modal-content::-webkit-scrollbar {
+  width: 8px;
+}
+.modal-content::-webkit-scrollbar-track {
+  background: #e9ecef;
+}
+.modal-content::-webkit-scrollbar-thumb {
+  background: #1e3a5f;
+  border-radius: 4px;
+}
+
+h1 {
+  color: #1e3b60;
+  padding-bottom: 8px;
+  border-left: 6px solid #1e3b60;
+  padding-left: 12px;
+  padding-top: 40px;
+}
+
+/* ------------------------------------------------------ */
+/* 📊 COMPTEUR DE RECHERCHE ÉLÉGANT                      */
+/* ------------------------------------------------------ */
+.search-summary {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin: 25px 0 15px 0;
+}
+
+.summary-badge {
+  display: inline-flex;
+  align-items: center;
+  background: #1e3b60; /* Bleu acier comme vos titres */
+  color: #ffffff;
+  border-radius: 30px;
+  padding: 6px 16px;
+  box-shadow: 0 3px 8px rgba(30, 59, 96, 0.15);
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+.summary-count {
+  font-size: 1.1rem;
+  font-weight: 800;
+  background: rgba(255, 255, 255, 0.2);
+  padding: 2px 10px;
+  border-radius: 20px;
+  margin-right: 8px;
+}
+
+.summary-label {
+  font-size: 0.9rem;
+  font-weight: 600;
+  letter-spacing: 0.3px;
+}
+
+/* Ligne fine de séparation qui s'étend sur la droite */
+.summary-line {
+  flex: 1;
+  height: 2px;
+  background: linear-gradient(to right, #d0d7df, rgba(208, 215, 223, 0));
+  border-radius: 2px;
+}
+
+/* ------------------------------------------------------ */
+/* 🔍 CONTENEUR GLOBAL DES FILTRES                       */
+/* ------------------------------------------------------ */
+.filters-container {
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  padding: 20px;
+  background: #ffffff;
+  border-radius: 14px;
+  box-shadow: 0 4px 12px rgba(0, 0, 0, 0.06);
+  margin-bottom: 10px;
+  border: 1px solid #e2e8f0;
+}
+
+/* 1️⃣ LIGNE PRINCIPALE (4 colonnes égales sur une seule ligne) */
+.filters-main-row {
+  display: grid;
+  grid-template-columns: repeat(7, 1fr); /* Divise la ligne en 4 parts strictement égales */
+  gap: 16px;
+  width: 100%;
+}
+
+/* Ligne subtile de séparation interne */
+.filters-separator {
+  height: 1px;
+  background-color: #e2e8f0;
+  margin: 4px 0;
+}
+
+/* 2️⃣ LIGNE SECONDAIRE (Dates et Plages) */
+.filters-secondary-row {
+  display: flex;
+  gap: 16px;
+  flex-wrap: wrap;
+  align-items: flex-end;
+}
+
+/* Structure des blocs internes */
+.filter-group {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  width: 100%; /* Important pour que Grid gère la taille */
+}
+
+.filter-label {
+  font-size: 13px;
+  color: #4a5568;
+  font-weight: 700;
+  font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+}
+
+/* Inputs & Selects qui occupent toute la largeur de leur colonne */
+.filter-input-full,
+.filter-select-full,
+.filter-input,
+.filter-select {
+  width: 100%;
+  box-sizing: border-box;
+  padding: 10px 14px;
+  border-radius: 8px;
+  border: 1px solid #cbd5e1;
+  font-size: 14px;
+  background: #f8fafc;
+  color: #1e293b;
+  transition: all 0.2s ease;
+  font-weight: 500;
+}
+
+.filter-input-full:focus,
+.filter-select-full:focus,
+.filter-input:focus,
+.filter-select:focus {
+  border-color: #1e3b60;
+  background: #fff;
+  box-shadow: 0 0 0 3px rgba(30, 59, 96, 0.15);
+  outline: none;
+}
+
+/* Ajustements pour les petits inputs numériques en bas */
+.filters-secondary-row .filter-input {
+  min-width: 160px;
+}
+.filters-secondary-row .filter-input.sub-num {
+  min-width: 100px;
+}
+.couleur {
+  color: rgb(168, 37, 37);
+}

@@ -217,13 +217,17 @@ const MaintenanceGridPage = () => {
             <div className={`status-badge ${item.statut?.replace(" ", "_") || "unknown"}`}>
               {String(item.statut).toUpperCase()}
             </div>
-
-            <h3>{item.equipement?.code || "Équipement inconnu"}</h3>
+            <h5 className="col2">{item.demandeurNom}</h5>
+            <h3 className="col1">{item.numero || "-"}</h3>
+            <h3 className="col1">{item.ligne?.nom || "Équipement inconnu"}</h3>
+            <h4 className="col2">{item.equipement?.code || "Équipement inconnu"}</h4>
+           
             <p><strong>Désignation :</strong> {item.equipement?.designation || "-"}</p>
-            <p><strong>Ligne :</strong> {item.ligne?.nom || "-"}</p>
+            
             <p><strong>DI Créée le :</strong> {item.createdAt ? new Date(item.createdAt).toLocaleString() : "-"}</p>
-            <p><strong>Demandeur :</strong> {item.demandeurNom || item.demandeur || "-"}</p>
-            <p><strong>Numéro DI :</strong> {item.numero || "-"}</p>
+          
+            
+           
 
             <div className="btn-group1">
               <button type="button" className="bouton-detail" onClick={() => handleOpenModal(item)}>

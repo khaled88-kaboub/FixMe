@@ -21,6 +21,20 @@
   text-align: center;
   color: #28a745;
   font-size: 1.5rem;
+  
+}
+.intervention-card h4 {
+  text-align: center;
+  color: #058d82;
+  font-size: 1.2rem;
+  
+}
+.intervention-card h5 {
+  margin-top: 20px;
+  text-align: center;
+  color: #be3a06;
+  font-size: 1.0rem;
+  
 }
 
 
@@ -48,6 +62,7 @@
   color: #fff;
   font-weight: bold;
   font-size: 12px;
+  
 }
 
 .status-badge.ouvert { background: #ff9800; }
@@ -153,4 +168,9 @@
 
 .filters1 button:hover {
   background: #00bcd4;
+}
+
+.col2 h2 {
+  color: #ff5722;
+  margin-top: 10px;
 }

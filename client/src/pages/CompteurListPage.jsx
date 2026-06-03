@@ -98,12 +98,20 @@ export default function CompteurListPage() {
       return;
     }
   
-    const data = filteredReleves.map((r) => ({
-      Equipement: `${r.equipement?.designation || ""} ${r.equipement?.code || ""}`,
-      "Date relevé": new Date(r.dateReleve).toLocaleDateString(),
-      "Compteur (h)": r.valeurCompteur,
-      Remarque: r.remarque || ""
-    }));
+    const data = filteredReleves.map((r) => {
+      // On récupère le nom de la ligne s'il existe
+      const nomLigne = r.equipement?.ligne?.nom ? `[${r.equipement.ligne.nom}] ` : "";
+      const designation = r.equipement?.designation || "";
+      const code = r.equipement?.code ? `(${r.equipement.code})` : "";
+  
+      return {
+        // Combinaison : [Nom Ligne] Désignation (Code)
+        Équipement: `${nomLigne}${designation} ${code}`.trim(),
+        "Date relevé": new Date(r.dateReleve).toLocaleDateString(),
+        "Compteur (h)": r.valeurCompteur,
+        Remarque: r.remarque || ""
+      };
+    });
   
     const worksheet = XLSX.utils.json_to_sheet(data);
     const workbook = XLSX.utils.book_new();
@@ -164,7 +172,8 @@ export default function CompteurListPage() {
             {filteredReleves.map((r) => (
               <tr key={r._id} className={editingId === r._id ? "editing" : ""}>
 
-                <td>{r.equipement?.designation || "-"} --- {r.equipement?.code || "-"}</td>
+                <td>{r.equipement?.ligne?.nom ? `[${r.equipement.ligne.nom}] ` : ""} 
+  {r.equipement?.designation || "-"} ({r.equipement?.code || "-"})</td>
                 <td>{new Date(r.dateReleve).toLocaleDateString()}</td>
 
                 {editingId === r._id ? (

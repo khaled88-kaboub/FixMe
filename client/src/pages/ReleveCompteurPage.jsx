@@ -14,11 +14,32 @@ export default function ReleveCompteurPage() {
     fetchEquipements();
   }, []);
 
+ 
   const fetchEquipements = async () => {
     try {
       const res = await axios.get(`${API_URL}/api/equipements`);
-      setEquipements(res.data);
+      
+      // 1. On crée une copie propre du tableau avec [...res.data]
+      const equipementsTries = [...res.data].sort((a, b) => {
+        const nomLigneA = a.ligne?.nom || ""; 
+        const nomLigneB = b.ligne?.nom || "";
+  
+        // 2. Comparaison des lignes
+        const comparaisonLigne = nomLigneA.localeCompare(nomLigneB);
+  
+        // 3. Si c'est la même ligne (comparaison === 0), on trie par désignation de la machine
+        if (comparaisonLigne === 0) {
+          const desA = a.designation || "";
+          const desB = b.designation || "";
+          return desA.localeCompare(desB);
+        }
+  
+        return comparaisonLigne;
+      });
+  
+      setEquipements(equipementsTries);
     } catch (error) {
+      console.error(error); // Pour voir le vrai problème dans la console de votre navigateur
       toast.error("Erreur chargement équipements");
     }
   };
@@ -64,8 +85,12 @@ export default function ReleveCompteurPage() {
             <option value="">-- Sélectionner --</option>
             {equipements.map((eq) => (
               <option key={eq._id} value={eq._id}>
-                {eq.designation} ({eq.code}) 
-              </option>
+              {eq.ligne && eq.ligne.length > 0 
+                ? `[${eq.ligne.map(l => l.nom).join(", ")}] ` 
+                : ""
+              } 
+              {eq.designation} ({eq.code})
+            </option>
             ))}
           </select>
         </div>
