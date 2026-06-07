@@ -3,7 +3,7 @@ import axios from "axios";
 import { FaTools, FaChevronDown, FaChevronUp, FaUser } from "react-icons/fa";
 import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
-
+import Chart from "chart.js/auto";
 import "./InterventionEtRapport.css";
 
 export default function InterventionEtRapport() {
@@ -63,6 +63,84 @@ export default function InterventionEtRapport() {
     }));
   };
 
+  //-- graphisme
+  const createArretsChart = (statsLignes) => {
+    return new Promise((resolve) => {
+  
+      const canvas = document.createElement("canvas");
+      canvas.width = 900;
+      canvas.height = 450;
+  
+      const ctx = canvas.getContext("2d");
+  
+      const labels = Object.keys(statsLignes);
+  
+      const durees = Object.values(statsLignes).map(
+        l => +(l.dureeMinutes / 60).toFixed(2)
+      );
+  
+      const nbArrets = Object.values(statsLignes).map(
+        l => l.nbArrets
+      );
+  
+      new Chart(ctx, {
+        type: "bar",
+        data: {
+          labels,
+          datasets: [
+            {
+              label: "Durée totale (h)",
+              data: durees,
+              backgroundColor: "#3498db",
+              yAxisID: "y"
+            },
+            {
+              label: "Nombre d'arrêts",
+              data: nbArrets,
+              type: "line",
+              borderColor: "#e74c3c",
+              borderWidth: 3,
+              yAxisID: "y1"
+            }
+          ]
+        },
+        options: {
+          responsive: false,
+          plugins: {
+            title: {
+              display: true,
+              text: "Analyse des arrêts par ligne"
+            }
+          },
+          scales: {
+            y: {
+              position: "left",
+              title: {
+                display: true,
+                text: "Durée (heures)"
+              }
+            },
+            y1: {
+              position: "right",
+              grid: {
+                drawOnChartArea: false
+              },
+              title: {
+                display: true,
+                text: "Nombre d'arrêts"
+              }
+            }
+          }
+        }
+      });
+  
+      setTimeout(() => {
+        resolve(canvas.toDataURL("image/png"));
+      }, 500);
+    });
+  };
+
+  //--- fin graphisme
   // ---------------------------------------
   // 🔍 APPLICATION DES FILTRES
   // ---------------------------------------
@@ -126,26 +204,257 @@ export default function InterventionEtRapport() {
 
   const getRapportsByIntervention = (id) =>
     rapports.filter((r) => r.intervention?._id === id);
-
-  const exportPDF = () => {
+    
+    const exportPDF = async () => {
     const doc = new jsPDF({
       orientation: "portrait",
       unit: "pt",
       format: "A4",
     });
   
+
+      // =========================
+  // CALCUL DES STATISTIQUES
+  // =========================
+
+  const statsStatut = filteredInterventions.reduce((acc, i) => {
+    acc[i.statut] = (acc[i.statut] || 0) + 1;
+    return acc;
+  }, {});
+
+  const totalInterventions = filteredInterventions.length;
+
+  const totalRapports = rapports.filter(r =>
+    filteredInterventions.some(i => i._id === r.intervention?._id)
+  ).length;
+
+  const statsLignes = {};
+
+  filteredInterventions.forEach((i) => {
+    const ligne = i.ligne?.nom || "Non définie";
+
+    if (!statsLignes[ligne]) {
+      statsLignes[ligne] = {
+        nbArrets: 0,
+        dureeMinutes: 0,
+      };
+    }
+
+    if (
+      i.dateHeureArretLigne &&
+      i.dateHeureDemarrageLigne
+    ) {
+      const debut = new Date(i.dateHeureArretLigne);
+      const fin = new Date(i.dateHeureDemarrageLigne);
+
+      statsLignes[ligne].nbArrets += 1;
+      statsLignes[ligne].dureeMinutes +=
+        (fin - debut) / (1000 * 60);
+    }
+  });
+
+  const statsDemandeurs = {};
+
+filteredInterventions.forEach((i) => {
+  const demandeur = i.demandeurNom || "Non renseigné";
+
+  if (!statsDemandeurs[demandeur]) {
+    statsDemandeurs[demandeur] = {
+      nbInterventions: 0,
+      nbRapports: 0,
+    };
+  }
+
+  statsDemandeurs[demandeur].nbInterventions++;
+
+  const rapportsAssocies = rapports.filter(
+    (r) => r.intervention?._id === i._id
+  );
+
+  statsDemandeurs[demandeur].nbRapports += rapportsAssocies.length;
+});
+
     // ---------- HEADER ----------
-    doc.setFontSize(20);
-    doc.text("Rapport complet – Interventions & Rapports", 40, 40);
+    const titre = "Demandes Interventions & Rapports";
+
+doc.setFontSize(20);
+
+doc.setFont("helvetica", "bold");
+doc.setTextColor(31, 78, 121);
+
+const pageWidth = doc.internal.pageSize.getWidth();
+const textWidth = doc.getTextWidth(titre);
+
+const x = (pageWidth - textWidth) / 2;
+
+doc.text(titre, x, 40);
   
     doc.setFontSize(12);
+    doc.setTextColor(31, 78, 121);
     doc.text("Date d’export : " + new Date().toLocaleString(), 40, 60);
-  
+    
     let y = 90;
   
+
+
+    doc.setFontSize(18);
+doc.setTextColor(0, 0, 0);
+//doc.text("TABLEAU DE BORD MAINTENANCE", 40, y);
+
+y += 20;
+
+doc.setFontSize(12);
+doc.text("1. Nombre d'interventions VS Nombre de rapports :", 40, y);
+doc.setFontSize(18);
+y += 20;
+
+
+autoTable(doc, {
+  startY: y,
+  head: [["Indicateur", "Valeur"]],
+  body: [
+    ["Nombre total demandes d'interventions", totalInterventions],
+    ["Nombre total de rapports", totalRapports],
+  ],
+  headStyles: {
+    fillColor: [41, 128, 185],
+  },
+});
+
+
+
+y = doc.lastAutoTable.finalY + 25;
+doc.setFontSize(12);
+doc.text("2. DI & Rapports part shift :", 40, y);
+
+y += 20;
+doc.setFontSize(18);
+autoTable(doc, {
+  startY: y,
+  head: [[
+    "Demandeur",
+    "Nb DI",
+    "Nb Rapports",
+    "% DI",
+    "Taux Rapport"
+  ]],
+  body: Object.entries(statsDemandeurs)
+  .sort((a, b) => b[1].nbInterventions - a[1].nbInterventions)
+  .map(([demandeur, data]) => [
+    demandeur,
+    data.nbInterventions,
+    data.nbRapports,
+    (
+      (data.nbInterventions / totalInterventions) *
+      100
+    ).toFixed(1) + "%",
+    data.nbInterventions > 0
+      ? (
+          (data.nbRapports /
+            data.nbInterventions) *
+          100
+        ).toFixed(1) + "%"
+      : "0%"
+  ]),
+  theme: "grid",
+  headStyles: {
+    fillColor: [52, 73, 94],
+  },
+});
+
+
+y = doc.lastAutoTable.finalY + 25;
+doc.setFontSize(12);
+doc.text("3. Rpartition DI par status :", 40, y);
+y += 20;
+doc.setFontSize(18);
+
+
+
+autoTable(doc, {
+  startY: y,
+  head: [["Statut", "Nombre"]],
+  body: Object.entries(statsStatut).map(
+    ([statut, nb]) => [statut, nb]
+  ),
+  headStyles: {
+    fillColor: [39, 174, 96],
+  },
+});
+
+
+y = doc.lastAutoTable.finalY + 25;
+doc.setFontSize(12);
+doc.text("4. Tableau des arrets des lignes :", 40, y);
+y += 20;
+doc.setFontSize(18);
+
+
+
+
+autoTable(doc, {
+  startY: y,
+  head: [
+    [
+      "Ligne",
+      "Nombre arrêts",
+      "Durée totale (min)",
+      "Durée totale (h)"
+    ]
+  ],
+  body: Object.entries(statsLignes).map(
+    ([ligne, data]) => [
+      ligne,
+      data.nbArrets,
+      data.dureeMinutes.toFixed(0),
+      (data.dureeMinutes / 60).toFixed(2)
+    ]
+  ),
+  headStyles: {
+    fillColor: [192, 57, 43],
+  },
+});
+
+
+
+
+doc.addPage();
+
+y = 40;
+
+//y = doc.lastAutoTable.finalY + 25;
+doc.setFontSize(12);
+doc.text("5. Graphique combiné (nombre et durée) :", 40, y);
+y += 20;
+doc.setFontSize(18);
+//doc.addPage();
+
+const chartImage = await createArretsChart(statsLignes);
+
+doc.addImage(
+  chartImage,
+  "PNG",
+  40,
+  y,
+  500,
+  250
+);
+
+y += 280;
+
+doc.addPage();
+y = 40;
     // ----------------------------
     // POUR CHAQUE INTERVENTION
     // ----------------------------
+    
+    doc.setFontSize(12);
+    doc.text("6. Détail complet des interventions :)", 40, y);
+    y += 30;
+    doc.setFontSize(18);
+
+    
+    
     filteredInterventions.forEach((i, index) => {
       const rapportsAssocies = getRapportsByIntervention(i._id);
   
@@ -166,9 +475,9 @@ export default function InterventionEtRapport() {
           ["Statut", i.statut || ""],
           ["Anomalie", i.descriptionAnomalie || ""],
           ["Date & Heure arrêt ligne", i.dateHeureArretLigne ? new Date(i.dateHeureArretLigne).toLocaleString() : ""],
-          ["Date & Heure démarrage ligne", i.dateHeureDémarrageLigne ? new Date(i.dateHeureDémarrageLigne).toLocaleString() : ""],
+          ["Date & Heure démarrage ligne", i.dateHeureDemarrageLigne ? new Date(i.dateHeureDemarrageLigne).toLocaleString() : ""],
           ["Date & Heure arrêt équipement", i.dateHeureArretEquipement ? new Date(i.dateHeureArretEquipement).toLocaleString() : ""],
-          ["Date & Heure démarrage équipement", i.dateHeureDémarrageEquipement ? new Date(i.dateHeureDémarrageEquipement).toLocaleString() : ""],
+          ["Date & Heure démarrage équipement", i.dateHeureDemarrageEquipement ? new Date(i.dateHeureDemarrageEquipement).toLocaleString() : ""],
           ["Date création", new Date(i.createdAt).toLocaleString()],
         ],
         theme: "striped",
@@ -248,6 +557,28 @@ export default function InterventionEtRapport() {
       }
     });
   
+//numerotation
+
+    const pageCount = doc.internal.getNumberOfPages();
+
+for (let i = 1; i <= pageCount; i++) {
+  doc.setPage(i);
+
+  const pageWidth = doc.internal.pageSize.getWidth();
+  const pageHeight = doc.internal.pageSize.getHeight();
+
+  doc.setFontSize(10);
+  doc.setTextColor(120, 120, 120);
+
+  doc.text(
+    `Rapport Maintenance • Page ${i} sur ${pageCount}`,
+    pageWidth / 2,
+    pageHeight - 20,
+    { align: "center" }
+  );
+}
+
+
     // EXPORT
     doc.save("Rapport_Interventions_Detaille.pdf");
   };
