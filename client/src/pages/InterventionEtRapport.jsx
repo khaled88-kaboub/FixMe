@@ -5,6 +5,7 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import Chart from "chart.js/auto";
 import "./InterventionEtRapport.css";
+import logo from "../assets/rmc.png";
 
 export default function InterventionEtRapport() {
   const API_URL = import.meta.env.VITE_API_URL;
@@ -205,6 +206,163 @@ export default function InterventionEtRapport() {
   const getRapportsByIntervention = (id) =>
     rapports.filter((r) => r.intervention?._id === id);
     
+
+  
+  //function:
+  const drawHeader = (doc, intervention, pageNumber = 1) => {
+
+    const startX = 40;
+    const startY = 20;
+
+    const tableWidth = 515;
+    const rowHeight = 30;
+
+    const colLogo = 100;
+    const colTitre = 265;
+    const colInfo = 150;
+
+    // ====================================
+    // Cadre extérieur
+    // ====================================
+
+    doc.setDrawColor(0);
+    doc.setLineWidth(0.5);
+
+    doc.rect(startX, startY, tableWidth, rowHeight * 2);
+
+    // Colonnes
+
+    doc.line(
+        startX + colLogo,
+        startY,
+        startX + colLogo,
+        startY + rowHeight * 2
+    );
+
+    doc.line(
+        startX + colLogo + colTitre,
+        startY,
+        startX + colLogo + colTitre,
+        startY + rowHeight * 2
+    );
+
+    // Séparation infos droite
+
+    doc.line(
+        startX + colLogo + colTitre,
+        startY + rowHeight,
+        startX + tableWidth,
+        startY + rowHeight
+    );
+
+    // Séparation du titre
+
+    doc.line(
+        startX + colLogo,
+        startY + rowHeight,
+        startX + colLogo + colTitre,
+        startY + rowHeight
+    );
+
+    // ====================================
+    // Logo
+    // ====================================
+
+    doc.addImage(
+        logo,
+        "PNG",
+        startX + 8,
+        startY + 5,
+        85,
+        50
+    );
+
+    // ====================================
+    // Titre
+    // ====================================
+
+    doc.setFont("helvetica", "bold");
+
+    doc.setFontSize(12);
+
+    doc.text(
+        "MAINTENANCE",
+        startX + colLogo + colTitre / 2,
+        startY + 15,
+        {
+            align: "center"
+        }
+    );
+
+    doc.setFontSize(14);
+
+    doc.text(
+      "Demande Intervention ",
+        startX + colLogo + colTitre / 2,
+        startY + 45,
+        {
+            align: "center"
+        }
+    );
+
+    // ====================================
+    // Partie droite
+    // ====================================
+
+    doc.setFontSize(10);
+
+    const today = new Date().toLocaleDateString("fr-FR");
+
+    doc.text(
+        `Date : ${today}`,
+        startX + colLogo + colTitre + 10,
+        startY + 15
+    );
+
+    doc.text(
+        "Version : 02",
+        startX + colLogo + colTitre + 10,
+        startY + 45
+    );
+
+    doc.text(
+        //`Page : ${pageNumber}`,
+        "Page :  1",
+        startX + colLogo + colTitre + 80,
+        startY + 45
+    );
+
+    // ====================================
+    // Informations intervention
+    // ====================================
+
+   // doc.setFontSize(11);
+
+   // doc.setFont("helvetica", "bold");
+
+   // doc.text(
+   //     `N° Intervention : ${intervention.numero}`,
+    //    40,
+     //   105
+    // );
+
+   // doc.text(
+      //  `Ligne : ${intervention.ligne?.nom || ""}`,
+      //  240,
+     //   105
+    //);
+
+    //doc.text(
+      //  `Statut : ${intervention.statut}`,
+      //  420,
+      //  105
+   // );
+
+};
+
+// fin de function
+
+
     const exportPDF = async () => {
     const doc = new jsPDF({
       orientation: "portrait",
@@ -442,22 +600,38 @@ doc.addImage(
 
 y += 280;
 
-doc.addPage();
-y = 40;
+
     // ----------------------------
     // POUR CHAQUE INTERVENTION
     // ----------------------------
     
     doc.setFontSize(12);
-    doc.text("6. Détail complet des interventions :)", 40, y);
+    doc.text("6. Détail complet des interventions :", 40, y);
     y += 30;
     doc.setFontSize(18);
+
+    doc.addPage();
+y = 40;
 
     
     
     filteredInterventions.forEach((i, index) => {
+
+
+      if (index > 0) {
+        doc.addPage();
+        y = 40;
+      }
+
+      drawHeader(doc, i, doc.internal.getCurrentPageInfo().pageNumber);
+
+      y = 125;
+
       const rapportsAssocies = getRapportsByIntervention(i._id);
   
+
+    
+
       // TITRE INTERVENTION
       doc.setFontSize(15);
       doc.setTextColor(0, 0, 150);
@@ -545,16 +719,7 @@ y = 40;
         });
       }
   
-      // Séparation
-      doc.setDrawColor(180);
-      doc.line(30, y, 580, y);
-      y += 20;
-  
-      // NOUVELLE PAGE SI BESOIN
-      if (y > 700) {
-        doc.addPage();
-        y = 40;
-      }
+     
     });
   
 //numerotation
