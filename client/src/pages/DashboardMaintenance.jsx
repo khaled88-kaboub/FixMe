@@ -27,6 +27,12 @@ export default function DashboardMaintenance() {
     interventionsParDemandeur: [],
     statsLignes: [],
     interventionsParStatut: [],
+  
+    // 👨‍🔧 Techniciens
+    statsTechniciens: [],
+    nombreIntervenants: 0,
+    nombreParticipations: 0,
+    dureeTotaleInterventions: 0
   });
 
   const [loading, setLoading] = useState(true);
@@ -161,6 +167,57 @@ const exportDetailsExcel = () => {
   );
 
 };
+
+const exportTechniciensExcel = () => {
+
+  const data = stats.statsTechniciens.map((tech, index) => ({
+
+    "N°": index + 1,
+
+    "Technicien":
+      tech.technicien || "—",
+
+    "Matricule":
+       "—",
+
+    "Spécialité":
+       "—",
+
+    "Nombre interventions":
+      tech.nombreInterventions || 0,
+
+    "Durée totale (min)":
+      tech.dureeTotaleMinutes || 0,
+
+    "Durée moyenne (min)":
+      tech.nombreInterventions
+        ? Math.round(
+            tech.dureeTotaleMinutes /
+            tech.nombreInterventions
+          )
+        : 0
+
+  }));
+
+  const ws =
+    XLSX.utils.json_to_sheet(data);
+
+  const wb =
+    XLSX.utils.book_new();
+
+  XLSX.utils.book_append_sheet(
+    wb,
+    ws,
+    "Intervenants"
+  );
+
+  XLSX.writeFile(
+    wb,
+    `Intervenants_${mois}_${annee}.xlsx`
+  );
+};
+
+
 const exportDashboardTable = () => {
 
   const data = stats.statsLignes.map((ligne, index) => ({
@@ -353,29 +410,41 @@ const statsEquipements = Object.values(
 </select>
 </div>
 </div>
-      <div className="kpi-grid">
+<div className="kpi-grid">
 
-        <div className="kpi-card">
-          <h3>Total interventions</h3>
-          <p>{totalInterventions}</p>
-        </div>
+<div className="kpi-card">
+  <h3>Total interventions</h3>
+  <p>{totalInterventions}</p>
+</div>
 
-        <div className="kpi-card">
-          <h3>Total arrêts</h3>
-          <p>{totalArrets}</p>
-        </div>
+<div className="kpi-card">
+  <h3>Total arrêts</h3>
+  <p>{totalArrets}</p>
+</div>
 
-        <div className="kpi-card">
-          <h3>Temps arrêt total</h3>
-          <p>{tempsTotalArret} min</p>
-        </div>
+<div className="kpi-card">
+  <h3>Temps arrêt total</h3>
+  <p>{tempsTotalArret} min</p>
+</div>
 
-        <div className="kpi-card">
-          <h3>Ligne critique</h3>
-          <p>{ligneCritique}</p>
-        </div>
+<div className="kpi-card">
+  <h3>Ligne critique</h3>
+  <p>{ligneCritique}</p>
+</div>
 
-      </div>
+{/* 👨‍🔧 NOUVEAU */}
+
+<div className="kpi-card">
+  <h3>Intervenants</h3>
+  <p>{stats.nombreIntervenants}</p>
+</div>
+
+<div className="kpi-card">
+  <h3>Temps d'intervention</h3>
+  <p>{stats.dureeTotaleInterventions} min</p>
+</div>
+
+</div>
 
       {/* CHARTS */}
 
@@ -480,7 +549,84 @@ const statsEquipements = Object.values(
 
 </div>
 
+<div className="chart-card">
 
+  <h2>👨‍🔧 Interventions par technicien</h2>
+
+  <ResponsiveContainer
+    width="100%"
+    height={350}
+  >
+
+    <BarChart
+      data={stats.statsTechniciens}
+    >
+
+      <CartesianGrid
+        strokeDasharray="3 3"
+      />
+
+      <XAxis
+        dataKey="technicien"
+      />
+
+      <YAxis />
+
+      <Tooltip />
+
+      <Bar
+        dataKey="nombreInterventions"
+        fill="#2563eb"
+        radius={[8, 8, 0, 0]}
+      />
+
+    </BarChart>
+
+  </ResponsiveContainer>
+
+</div>
+
+<div className="chart-card">
+
+  <h2>⏱ Temps d'intervention par technicien</h2>
+
+  <ResponsiveContainer
+    width="100%"
+    height={350}
+  >
+
+    <BarChart
+      data={stats.statsTechniciens}
+    >
+
+      <CartesianGrid
+        strokeDasharray="3 3"
+      />
+
+      <XAxis
+        dataKey="technicien"
+      />
+
+      <YAxis />
+
+      <Tooltip
+        formatter={(value) => [
+          `${value} min`,
+          "Durée"
+        ]}
+      />
+
+      <Bar
+        dataKey="dureeTotaleMinutes"
+        fill="#00C49F"
+        radius={[8, 8, 0, 0]}
+      />
+
+    </BarChart>
+
+  </ResponsiveContainer>
+
+</div>
       </div>
 
       {/* TABLE */}
@@ -540,6 +686,76 @@ const statsEquipements = Object.values(
 
 </div>
       </div>
+<div className="espace">    </div>
+      <div className="table-card">
+
+<h3>👨‍🔧 Synthèse des intervenants</h3>
+
+<table className="dashboardo-table">
+
+  <thead>
+
+    <tr>
+      <th>Technicien</th>
+      <th>Matricule</th>
+      <th>Spécialité</th>
+      <th>Nombre interventions</th>
+      <th>Durée totale</th>
+    </tr>
+
+  </thead>
+
+  <tbody>
+
+    {stats.statsTechniciens?.map(
+      (tech, index) => (
+
+        <tr key={tech.technicienId || index}>
+
+          <td data-label="Technicien :">
+            {tech.technicien || "—"}
+          </td>
+
+          <td data-label="Matricule :">
+            ---
+            {/*{tech.matricule || "—"}*/}
+          </td>
+
+          <td data-label="Spécialité :">
+            ---
+           {/* {tech.specialite || "—"} */}
+          </td>
+
+          <td data-label="Interventions :">
+            {tech.nombreInterventions}
+          </td>
+
+          <td data-label="Durée :">
+            {tech.dureeTotaleMinutes} min
+          </td>
+
+        </tr>
+
+      )
+    )}
+
+  </tbody>
+
+</table>
+
+<div className="export-actions">
+
+  <button
+    className="btn-export"
+    onClick={exportTechniciensExcel}
+  >
+    📊 Export Intervenants Excel
+  </button>
+
+</div>
+
+</div>
+
 
 
       {
