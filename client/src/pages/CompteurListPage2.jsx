@@ -5,12 +5,13 @@ import "./CompteurListPage.css";
 import * as XLSX from "xlsx";
 
 
-export default function CompteurListPage() {
+export default function CompteurListPage2() {
   const [releves, setReleves] = useState([]);
   const [loading, setLoading] = useState(true);
   const [editingId, setEditingId] = useState(null);
   const [editValeur, setEditValeur] = useState("");
   const [editRemarque, setEditRemarque] = useState("");
+  const [ligneFiltre, setLigneFiltre] = useState("");
 
   const [dateDebut, setDateDebut] = useState("");
   const [dateFin, setDateFin] = useState("");
@@ -24,7 +25,7 @@ export default function CompteurListPage() {
 
   useEffect(() => {
     applyFilter();
-  }, [releves, dateDebut, dateFin]);
+  }, [releves, dateDebut, dateFin, ligneFiltre]);
 
   const fetchReleves = async () => {
     setLoading(true);
@@ -76,20 +77,40 @@ export default function CompteurListPage() {
     }
   };
 
+  
   const applyFilter = () => {
     const debut = dateDebut ? new Date(dateDebut) : null;
     const fin = dateFin ? new Date(dateFin) : null;
-
+  
+    if (fin) {
+      fin.setHours(23, 59, 59, 999);
+    }
+  
     const filtered = releves.filter((r) => {
       const dateReleve = new Date(r.dateReleve);
+  
+      // Filtre date début
       if (debut && dateReleve < debut) return false;
+  
+      // Filtre date fin
       if (fin && dateReleve > fin) return false;
+  
+      // Filtre ligne
+      if (ligneFiltre) {
+        const appartientALaLigne = r.equipement?.ligne?.some(
+          (ligne) => String(ligne._id) === String(ligneFiltre)
+        );
+  
+        if (!appartientALaLigne) {
+          return false;
+        }
+      }
+  
       return true;
     });
-
+  
     setFilteredReleves(filtered);
   };
-
   //export to excel
 
   const exportToExcel = () => {
@@ -116,9 +137,30 @@ export default function CompteurListPage() {
     );
   };
   
+
+  const lignesDisponibles = [
+    ...new Map(
+      releves
+        .flatMap((r) => r.equipement?.ligne || [])
+        .filter((ligne) => ligne && ligne._id && ligne.nom)
+        .map((ligne) => [
+          String(ligne._id),
+          ligne
+        ])
+    ).values()
+  ];
+
+
   return (
     <div className="compteur-list-container">
-      <h2>📊 Relevés compteur horaire</h2>
+     
+     <div className="page-title">
+  <h2>📊 Relevés compteur horaire </h2>
+
+  <span className="total-records">
+    ----{filteredReleves.length} relevé{filteredReleves.length > 1 ? "s" : ""}----
+  </span>
+</div>
 
       {/* Filtre par date */}
       <div className="filter-container1">
@@ -139,10 +181,34 @@ export default function CompteurListPage() {
             onChange={(e) => setDateFin(e.target.value)}
           />
         </label>
+
+        <label>
+  Ligne :
+  <select
+    value={ligneFiltre}
+    onChange={(e) => setLigneFiltre(e.target.value)}
+  >
+    <option value="">Toutes les lignes</option>
+
+    {lignesDisponibles.map((ligne) => (
+      <option key={ligne._id} value={String(ligne._id)}>
+        {ligne.nom}
+      </option>
+    ))}
+  </select>
+</label>
         </div>
         <div className="filter-container2">
-        <button onClick={applyFilter}>Filtrer</button>
-        <button onClick={() => { setDateDebut(""); setDateFin(""); setFilteredReleves(releves); }}>Réinitialiser</button>
+        <button onClick={applyFilter}>🔎 Filtrer</button>
+        <button
+    onClick={() => {
+      setDateDebut("");
+      setDateFin("");
+      setLigneFiltre("");
+      setFilteredReleves(releves);
+    }}
+  >
+         🔄 Réinitialiser</button>
       </div>
 
       {loading ? (
@@ -153,17 +219,23 @@ export default function CompteurListPage() {
         <table>
           <thead>
             <tr>
-              <th>Équipement</th>
+            <th>Ligne</th>
+              <th>Famille Équipement --- Code Équipement</th>
               <th>Date relevé</th>
               <th>Compteur (h)</th>
               <th>Remarque</th>
-              <th>Actions</th>
+              <th></th>
             </tr>
           </thead>
           <tbody>
             {filteredReleves.map((r) => (
               <tr key={r._id} className={editingId === r._id ? "editing" : ""}>
 
+<td>
+  {r.equipement?.ligne?.length > 0
+    ? r.equipement.ligne.map((ligne) => ligne.nom).join(" / ")
+    : "-"}
+</td>
                 <td>{r.equipement?.designation || "-"} --- {r.equipement?.code || "-"}</td>
                 <td>{new Date(r.dateReleve).toLocaleDateString()}</td>
 

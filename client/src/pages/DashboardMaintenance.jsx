@@ -32,7 +32,9 @@ export default function DashboardMaintenance() {
     statsTechniciens: [],
     nombreIntervenants: 0,
     nombreParticipations: 0,
-    dureeTotaleInterventions: 0
+    dureeTotaleInterventions: 0,
+
+  statsPrestataires: []
   });
 
   const [loading, setLoading] = useState(true);
@@ -756,7 +758,67 @@ const statsEquipements = Object.values(
 
 </div>
 
+<div className="espace">    </div>
+<div className="table-card">
 
+  <h3>🏢 Prestations externes</h3>
+
+  <table className="dashboardo-table">
+
+    <thead>
+      <tr>
+        <th>Prestataire</th>
+        
+        <th>Nombre de prestations</th>
+        <th>Montant total</th>
+      </tr>
+    </thead>
+
+    <tbody>
+
+      {stats.statsPrestataires?.length > 0 ? (
+
+        stats.statsPrestataires.map(
+          (prestataire, index) => (
+
+            <tr key={prestataire.fournisseurId || index}>
+
+<td data-label="Prestataire :">
+  <strong>{prestataire.prestataire}</strong>
+  <br />
+  <span>Specialité : {prestataire.specialite}</span>
+</td>
+
+              
+
+              <td data-label="Nombre prestations :">
+                {prestataire.nombrePrestations}
+              </td>
+
+              <td data-label="Montant total :">
+                {prestataire.montantTotal.toLocaleString("fr-FR")} DA
+              </td>
+
+            </tr>
+
+          )
+        )
+
+      ) : (
+
+        <tr>
+          <td colSpan="3" style={{ textAlign: "center" }}>
+            Aucune prestation pour cette période
+          </td>
+        </tr>
+
+      )}
+
+    </tbody>
+
+  </table>
+
+</div>
 
       {
   showModal && (

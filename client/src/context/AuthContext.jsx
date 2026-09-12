@@ -49,6 +49,9 @@ export const AuthProvider = ({ children }) => {
       case "admin":
         navigate("/menuadminpage");
         break;
+        case "pilote":
+          navigate("/menupilotepage");
+          break;
       case "maintenance":
         navigate("/menumaintenancepage");
         break;

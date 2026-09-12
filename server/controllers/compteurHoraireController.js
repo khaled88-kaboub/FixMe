@@ -60,10 +60,13 @@ export const getRelevesByEquipement = async (req, res) => {
 export const getAllReleves = async (req, res) => {
   try {
     const releves = await CompteurHoraire.find()
-  .populate("equipement", "designation code")
-  .populate({
-    path: 'equipement',
-    populate: { path: 'ligne' } // Peuple la ligne à l'intérieur de l'équipement
+      .populate({
+        path: "equipement",
+        select: "designation code ligne",
+        populate: {
+          path: "ligne",
+          select: "nom"
+        }
   })
   .sort({ dateReleve: -1 });
 

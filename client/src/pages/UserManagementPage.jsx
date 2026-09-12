@@ -122,6 +122,7 @@ const UserManagementPage = () => {
           required
         >
           <option value="admin">Admin</option>
+          <option value="pilote">Pilote</option>
           <option value="production">Production</option>
           <option value="maintenance">Maintenance</option>
           <option value="methode">Methode</option>

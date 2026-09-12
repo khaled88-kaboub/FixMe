@@ -18,6 +18,7 @@ import UserManagementPage from "./pages/UserManagementPage";
 import InterventionReceptionMaintenance from "./pages/InterventionReceptionMaintenance";
 import InterventionReceptionProduction from "./pages/InterventionReceptionProduction";
 import MenuAdminPage from "./pages/MenuAdminPage";
+import MenuPilotePage from "./pages/MenuPilotePage";
 import MenuMaintenancePage from "./pages/MenuMaintenancePage";
 import MenuProductionPage from "./pages/MenuProductionPage";
 import MenuMethodePage from "./pages/MenuMethodePage";
@@ -166,6 +167,34 @@ export default function App() {
               <Route path="mpinterventions" element={<InterventionPlist/>}/>
               <Route path="dashboard-maintenance" element={<DashboardMaintenance />} />
              </Route>
+
+
+{/* --- Role Pilote --- */}
+<Route
+               path="/menupilotepage"
+               element={
+              <ProtectedRoute allowedRoles={["pilote"]}>
+                <MenuPilotePage />
+              </ProtectedRoute>
+              }
+             >
+              <Route path="lignes" element={<AdminLignesPage />} />
+              <Route path="equipements" element={<AdminEquipementPage />} />
+              <Route path="techniciens" element={<TechniciensPage/>}/>
+              <Route path="tous" element={<InterventionEtRapport/>}/>
+              <Route path="rapport-interventions" element={<ListeReportPage/>}/>
+             
+              <Route path="compteurs/releve" element={<ReleveCompteurPage />} />
+              <Route path="compteurs" element={<CompteurListPage />} />
+              <Route path="fournisseurs" element={<AdminFournisseursPage />} />
+              <Route path="intervention_fournisseur" element={<AdminInterventionFournisseur />} />
+              <Route path="fiche_equipement" element={<FicheEquipement />} />
+              
+              <Route path="mpcalendarP" element={<MaintenancePreventiveCalendar/>}/>
+             
+              <Route path="dashboard-maintenance" element={<DashboardMaintenance />} />
+             </Route>
+
 
         {/* --- Role Maintenance --- */} 
           <Route

@@ -2,6 +2,7 @@
 
 import Intervention from "../models/Intervention.js";
 import RapportIntervention from "../models/RapportIntervention.js";
+import InterventionFournisseur from "../models/InterventionFournisseur.js";
 import mongoose from "mongoose";
 
 export const getDashboardStats = async (req, res) => {
@@ -314,6 +315,103 @@ const dureeTotaleInterventions =
     0
   );
   
+
+  // ==================================
+// 🏢 PRESTATIONS FOURNISSEURS
+// ==================================
+
+const statsPrestataires = await InterventionFournisseur.aggregate([
+
+  {
+    $match: {
+      dateIntervention: {
+        $gte: startMonth,
+        $lte: endMonth
+      }
+    }
+  },
+
+  // Récupérer les informations du fournisseur
+  {
+    $lookup: {
+      from: "fournisseurs",
+      localField: "fournisseur",
+      foreignField: "_id",
+      as: "fournisseurData"
+    }
+  },
+
+  {
+    $unwind: {
+      path: "$fournisseurData",
+      preserveNullAndEmptyArrays: true
+    }
+  },
+
+  // Regrouper par fournisseur
+  {
+    $group: {
+      _id: "$fournisseur",
+
+      nombrePrestations: {
+        $sum: 1
+      },
+
+      montantTotal: {
+        $sum: "$montant"
+      },
+
+      nomPrestataire: {
+        $first: "$fournisseurData.nom"
+      },
+      specialitePrestataire: {
+        $first: "$fournisseurData.specialite"
+      }
+    }
+  },
+
+  // Présentation finale
+  {
+    $project: {
+      _id: 0,
+
+      fournisseurId: "$_id",
+
+      prestataire: {
+        $ifNull: [
+          "$nomPrestataire",
+          "Prestataire inconnu"
+        ]
+      },
+
+
+      specialite: {
+        $ifNull: [
+          "$specialitePrestataire",
+          "Spcialté inconnue"
+        ]
+      },
+      nombrePrestations: 1,
+
+      montantTotal: {
+        $round: [
+          "$montantTotal",
+          2
+        ]
+      }
+    }
+  },
+
+  // Trier par montant décroissant
+  {
+    $sort: {
+      montantTotal: -1
+    }
+  }
+
+]);
+
+
     // ==========================
     // 📦 RESPONSE
     // ==========================
@@ -327,7 +425,10 @@ const dureeTotaleInterventions =
       statsTechniciens,
       nombreIntervenants,
       nombreParticipations,
-      dureeTotaleInterventions
+      dureeTotaleInterventions,
+
+  // 🏢 Prestataires
+  statsPrestataires
     });
 
   } catch (error) {
