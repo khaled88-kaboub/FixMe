@@ -271,7 +271,14 @@ const TechniciensPage = () => {
                 <option value="électrique">Électrique</option>
                 <option value="automatisme">Automatisme</option>
                 <option value="hydraulique">Hydraulique</option>
+                
+                <option value="electromecanique">Electromecanique</option>
+                <option value="Chef de quart">Chef de quart</option>
+                <option value="soudeur">soudeur</option>
+                <option value="methode">Méthode</option>
                 <option value="autre">Autre</option>
+
+                
               </select>
               <input
                 type="text"

@@ -24,6 +24,10 @@ const technicienSchema = new mongoose.Schema({
       "électrique",
       "automatisme",
       "hydraulique",
+      "electromecanique",
+      "Chef de quart",
+      "soudeur",
+      "methode",
       "autre"
     ],
     default: "autre"

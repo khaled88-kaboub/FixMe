@@ -314,7 +314,7 @@ export default function InterventionEtRapport() {
     const today = new Date().toLocaleDateString("fr-FR");
 
     doc.text(
-        `Date : ${today}`,
+        `Date : 25/01/2026`,
         startX + colLogo + colTitre + 10,
         startY + 15
     );

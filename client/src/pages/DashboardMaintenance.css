@@ -93,7 +93,35 @@
     color: #0f172a;
     line-height: 1;
   }
+  /* =========================
+     derniere ccolonne tableau preventif
+  ========================= */
+
+  .progress-container {
+    display: flex;
+    align-items: center;
+    gap: 10px;
+    min-width: 160px;
+  }
   
+  .progress-bar {
+    flex: 1;
+    height: 9px;
+    background: #e9ecef;
+    border-radius: 10px;
+    overflow: hidden;
+  }
+  
+  .progress-fill {
+    height: 100%;
+    border-radius: 10px;
+    background: #2e7d32;
+  }
+  
+  .progress-container strong {
+    min-width: 45px;
+    text-align: right;
+  }
   /* =========================
      CHARTS
   ========================= */

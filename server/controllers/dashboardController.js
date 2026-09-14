@@ -3,6 +3,8 @@
 import Intervention from "../models/Intervention.js";
 import RapportIntervention from "../models/RapportIntervention.js";
 import InterventionFournisseur from "../models/InterventionFournisseur.js";
+import InterventionP from "../models/InterventionP.js";
+
 import mongoose from "mongoose";
 
 export const getDashboardStats = async (req, res) => {
@@ -412,6 +414,170 @@ const statsPrestataires = await InterventionFournisseur.aggregate([
 ]);
 
 
+// ==========================================
+// KPI MAINTENANCE PRÉVENTIVE DU MOIS
+// ==========================================
+
+const actionsPreventivesPlanifiees = await InterventionP.countDocuments({
+  datePlanifiee: {
+    $gte: startMonth,
+    $lte: endMonth
+  },
+  statut: {
+    $ne: "annulee"
+  }
+});
+
+const actionsPreventivesRealisees = await InterventionP.countDocuments({
+  datePlanifiee: {
+    $gte: startMonth,
+    $lte: endMonth
+  },
+  statut: "terminee"
+});
+
+const tauxRealisationPreventive =
+  actionsPreventivesPlanifiees > 0
+    ? Math.round(
+        (actionsPreventivesRealisees /
+          actionsPreventivesPlanifiees) *
+          100
+      )
+    : 0;
+
+
+    const statsPreventifEquipements = await InterventionP.aggregate([
+      {
+        $match: {
+          datePlanifiee: {
+            $gte: startMonth,
+            $lte: endMonth
+          },
+          statut: {
+            $ne: "annulee"
+          }
+        }
+      },
+    
+      // Récupération de l'équipement
+      {
+        $lookup: {
+          from: "equipements",
+          localField: "equipement",
+          foreignField: "_id",
+          as: "equipementData"
+        }
+      },
+    
+      {
+        $unwind: {
+          path: "$equipementData",
+          preserveNullAndEmptyArrays: true
+        }
+      },
+    
+      // Récupération de la ligne
+      {
+        $lookup: {
+          from: "lignes",
+          localField: "ligne",
+          foreignField: "_id",
+          as: "ligneData"
+        }
+      },
+    
+      {
+        $unwind: {
+          path: "$ligneData",
+          preserveNullAndEmptyArrays: true
+        }
+      },
+    
+      // Regroupement par équipement
+      {
+        $group: {
+          _id: "$equipement",
+    
+          ligne: {
+            $first: {
+              $ifNull: ["$ligneData.nom", "Ligne inconnue"]
+            }
+          },
+    
+          equipement: {
+            $first: {
+              $ifNull: [
+                "$equipementData.designation",
+                "Équipement inconnu"
+              ]
+            }
+          },
+    
+          codeEquipement: {
+            $first: "$equipementData.code"
+          },
+    
+          nombrePlanifie: {
+            $sum: 1
+          },
+    
+          nombreRealise: {
+            $sum: {
+              $cond: [
+                { $eq: ["$statut", "terminee"] },
+                1,
+                0
+              ]
+            }
+          }
+        }
+      },
+    
+      // Calcul du taux
+      {
+        $addFields: {
+          tauxRealisation: {
+            $cond: [
+              { $gt: ["$nombrePlanifie", 0] },
+              {
+                $multiply: [
+                  {
+                    $divide: [
+                      "$nombreRealise",
+                      "$nombrePlanifie"
+                    ]
+                  },
+                  100
+                ]
+              },
+              0
+            ]
+          }
+        }
+      },
+    
+      {
+        $project: {
+          _id: 0,
+          equipementId: "$_id",
+          ligne: 1,
+          equipement: 1,
+          codeEquipement: 1,
+          nombrePlanifie: 1,
+          nombreRealise: 1,
+          tauxRealisation: {
+            $round: ["$tauxRealisation", 1]
+          }
+        }
+      },
+    
+      {
+        $sort: {
+          ligne: 1,
+          tauxRealisation: 1
+        }
+      }
+    ]);
     // ==========================
     // 📦 RESPONSE
     // ==========================
@@ -428,7 +594,14 @@ const statsPrestataires = await InterventionFournisseur.aggregate([
       dureeTotaleInterventions,
 
   // 🏢 Prestataires
-  statsPrestataires
+  statsPrestataires,
+
+   // KPI préventif
+   actionsPreventivesPlanifiees,
+   actionsPreventivesRealisees,
+   tauxRealisationPreventive,
+   //tableau preventif
+   statsPreventifEquipements
     });
 
   } catch (error) {

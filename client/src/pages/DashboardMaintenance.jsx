@@ -33,8 +33,16 @@ export default function DashboardMaintenance() {
     nombreIntervenants: 0,
     nombreParticipations: 0,
     dureeTotaleInterventions: 0,
+// 👨‍🔧 prestations
+  statsPrestataires: [],
 
-  statsPrestataires: []
+  // 👨‍🔧 preventif
+
+  actionsPreventivesPlanifiees: 0,
+  actionsPreventivesRealisees: 0,
+  tauxRealisationPreventive: 0,
+  statsPreventifEquipements: []
+
   });
 
   const [loading, setLoading] = useState(true);
@@ -169,6 +177,50 @@ const exportDetailsExcel = () => {
   );
 
 };
+
+// ======================================
+// 📄 EXPORT DETAILS prefentif equipements
+// ======================================
+const exporterPreventifExcel = () => {
+  if (!stats.statsPreventifEquipements?.length) {
+    toast.warning("Aucune donnée préventive à exporter.");
+    return;
+  }
+
+  const donneesExcel = stats.statsPreventifEquipements.map((item) => ({
+    "Ligne": item.ligne || "—",
+    "Équipement": item.equipement || "—",
+    "Code équipement": item.codeEquipement || "—",
+    "Tâches planifiées": item.nombrePlanifie || 0,
+    "Tâches réalisées": item.nombreRealise || 0,
+    "Taux de réalisation (%)": item.tauxRealisation || 0
+  }));
+
+  const worksheet = XLSX.utils.json_to_sheet(donneesExcel);
+
+  // Largeur des colonnes
+  worksheet["!cols"] = [
+    { wch: 25 },
+    { wch: 35 },
+    { wch: 20 },
+    { wch: 22 },
+    { wch: 22 },
+    { wch: 25 }
+  ];
+
+  const workbook = XLSX.utils.book_new();
+
+  XLSX.utils.book_append_sheet(
+    workbook,
+    worksheet,
+    "Suivi Préventif"
+  );
+
+  const nomFichier = `Suivi_Preventif_${mois}_${annee}.xlsx`;
+
+  XLSX.writeFile(workbook, nomFichier);
+};
+
 
 const exportTechniciensExcel = () => {
 
@@ -446,6 +498,53 @@ const statsEquipements = Object.values(
   <p>{stats.dureeTotaleInterventions} min</p>
 </div>
 
+
+
+<div className="kpi-card">
+    
+
+    <div>
+      <h3>Préventif planifié</h3>
+
+      <p>
+        {stats.actionsPreventivesPlanifiees || 0}
+      </p>
+
+    
+    </div>
+  </div>
+
+
+
+  <div className="kpi-card">
+   
+
+    <div>
+      <h3>Prventif réalisé</h3>
+
+      <p>
+        {stats.actionsPreventivesRealisees || 0}
+      </p>
+
+      
+    </div>
+  </div>
+
+
+  <div className="kpi-card">
+
+    <div>
+      <h3>Taux de réalisation  </h3>
+
+      <p>
+        {stats.tauxRealisationPreventive || 0}% 
+      </p>
+
+     
+    </div>
+  </div>
+
+
 </div>
 
       {/* CHARTS */}
@@ -689,6 +788,126 @@ const statsEquipements = Object.values(
 </div>
       </div>
 <div className="espace">    </div>
+
+
+<div className="table-card preventive-table-card">
+
+  <div className="table-header">
+    <div>
+      <h3>🛠️ Suivi du préventif par équipement</h3>
+
+      <p>
+        Réalisation des actions préventives du mois sélectionné
+      </p>
+    </div>
+  </div>
+
+  <div className="table-responsive">
+
+    <table className="dashboardo-table">
+
+      <thead>
+        <tr>
+          <th>Ligne</th>
+          <th>Équipement</th>
+          <th>Tâches planifiées</th>
+          <th>Tâches réalisées</th>
+          <th>Taux de réalisation</th>
+        </tr>
+      </thead>
+
+      <tbody>
+
+        {stats.statsPreventifEquipements?.length > 0 ? (
+
+          stats.statsPreventifEquipements.map((item, index) => (
+
+            <tr key={item.equipementId || index}>
+
+              <td data-label="Ligne">
+                {item.ligne || "—"}
+              </td>
+
+              <td data-label="Équipement">
+                <strong>
+                  {item.equipement || "—"}
+                </strong>
+
+                {item.codeEquipement && (
+                  <small>
+                    {" "}({item.codeEquipement})
+                  </small>
+                )}
+              </td>
+
+              <td data-label="Tâches planifiées">
+                {item.nombrePlanifie}
+              </td>
+
+              <td data-label="Tâches réalisées">
+                {item.nombreRealise}
+              </td>
+
+              <td data-label="Taux de réalisation">
+
+<div className="progress-container">
+
+  <div className="progress-bar">
+
+    <div
+      className="progress-fill"
+      style={{
+        width: `${Math.min(item.tauxRealisation, 100)}%`
+      }}
+    />
+
+  </div>
+
+  <strong>
+    {item.tauxRealisation} %
+  </strong>
+
+</div>
+
+</td>
+            </tr>
+
+          ))
+
+        ) : (
+
+          <tr>
+            <td
+              colSpan="5"
+              style={{ textAlign: "center" }}
+            >
+              Aucune action préventive pour cette période
+            </td>
+          </tr>
+
+        )}
+
+      </tbody>
+
+    </table>
+
+  </div>
+
+  <div className="export-actions">
+
+<button
+  className="btn-export"
+  onClick={exporterPreventifExcel}
+>
+  📊 Export Excel
+</button>
+
+</div>
+
+</div>
+
+<div className="espace">    </div>
+
       <div className="table-card">
 
 <h3>👨‍🔧 Synthèse des intervenants</h3>
