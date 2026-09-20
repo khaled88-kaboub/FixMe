@@ -4,6 +4,8 @@ import Intervention from "../models/Intervention.js";
 import RapportIntervention from "../models/RapportIntervention.js";
 import InterventionFournisseur from "../models/InterventionFournisseur.js";
 import InterventionP from "../models/InterventionP.js";
+import PlanificationProduction from "../models/PlanificationProduction.js";
+import ArretPlanifie from "../models/ArretPlanifie.js";
 
 import mongoose from "mongoose";
 
@@ -59,88 +61,199 @@ export const getDashboardStats = async (req, res) => {
     ]);
 
     // ==================================
-    // 📊 ARRÊTS + TEMPS PAR LIGNE
-    // ==================================
+// 📊 ARRÊTS + TEMPS PAR LIGNE
+// + TEMPS DE PRODUCTION PLANIFIÉ
+// ==================================
 
-    const statsLignes = await Intervention.aggregate([
+const statsLignes = await Intervention.aggregate([
 
-      {
-        $match: {
-          createdAt: {
-            $gte: startMonth,
-            $lte: endMonth
-          },
-          ligneAsubiArret: true,
-          dateHeureArretLigne: { $ne: null },
-          dateHeureDemarrageLigne: { $ne: null }
-        }
+  {
+    $match: {
+      createdAt: {
+        $gte: startMonth,
+        $lte: endMonth
       },
+      ligneAsubiArret: true,
+      dateHeureArretLigne: { $ne: null },
+      dateHeureDemarrageLigne: { $ne: null }
+    }
+  },
 
-      // Calcul durée arrêt
-      {
-        $addFields: {
-          dureeArretMinutes: {
-            $divide: [
-              {
-                $subtract: [
-                  "$dateHeureDemarrageLigne",
-                  "$dateHeureArretLigne"
-                ]
-              },
-              1000 * 60
+  // ===============================
+  // CALCUL TEMPS ARRÊT RÉEL
+  // ===============================
+
+  {
+    $addFields: {
+      dureeArretMinutes: {
+        $divide: [
+          {
+            $subtract: [
+              "$dateHeureDemarrageLigne",
+              "$dateHeureArretLigne"
             ]
-          }
-        }
-      },
-
-      // Grouper par ligne
-      {
-        $group: {
-          _id: "$ligne",
-
-          nombreArrets: { $sum: 1 },
-
-          tempsTotalArret: {
-            $sum: "$dureeArretMinutes"
-          }
-        }
-      },
-
-      // récupérer nom ligne
-      {
-        $lookup: {
-          from: "lignes",
-          localField: "_id",
-          foreignField: "_id",
-          as: "ligne"
-        }
-      },
-
-      {
-        $unwind: "$ligne"
-      },
-
-      {
-        $project: {
-          _id: 0,
-          ligneId: "$ligne._id",
-          ligne: "$ligne.nom",
-          nombreArrets: 1,
-
-          tempsTotalArret: {
-            $round: ["$tempsTotalArret", 0]
-          }
-        }
-      },
-
-      {
-        $sort: {
-          tempsTotalArret: -1
-        }
+          },
+          1000 * 60
+        ]
       }
+    }
+  },
 
-    ]);
+  // ===============================
+  // GROUPEMENT PAR LIGNE
+  // ===============================
 
+  {
+    $group: {
+      _id: "$ligne",
+
+      nombreArrets: {
+        $sum: 1
+      },
+
+      tempsTotalArret: {
+        $sum: "$dureeArretMinutes"
+      }
+    }
+  },
+
+  // ===============================
+  // NOM DE LA LIGNE
+  // ===============================
+
+  {
+    $lookup: {
+      from: "lignes",
+      localField: "_id",
+      foreignField: "_id",
+      as: "ligne"
+    }
+  },
+
+  {
+    $unwind: "$ligne"
+  },
+
+  // ===============================
+  // RÉCUPÉRER LES PLANIFICATIONS
+  // ===============================
+
+  {
+    $lookup: {
+      from: "planificationproductions",
+      let: {
+        ligneId: "$_id"
+      },
+      pipeline: [
+        {
+          $match: {
+            $expr: {
+              $and: [
+                {
+                  $eq: [
+                    "$ligne",
+                    "$$ligneId"
+                  ]
+                },
+                {
+                  $gte: [
+                    "$dateHeureDemarrage",
+                    startMonth
+                  ]
+                },
+                {
+                  $lte: [
+                    "$dateHeureDemarrage",
+                    endMonth
+                  ]
+                }
+              ]
+            }
+          }
+        }
+      ],
+      as: "planifications"
+    }
+  },
+
+  // ===============================
+  // TOTAL TEMPS PLANIFIÉ
+  // ===============================
+
+  {
+    $addFields: {
+      tempsPlanifieMinutes: {
+        $sum: "$planifications.dureeMinutes"
+      }
+    }
+  },
+
+  // ===============================
+  // PRÉSENTATION
+  // ===============================
+
+  {
+    $project: {
+      _id: 0,
+
+      ligneId: "$ligne._id",
+
+      ligne: "$ligne.nom",
+
+      nombreArrets: 1,
+
+      tempsTotalArret: {
+        $round: [
+          "$tempsTotalArret",
+          0
+        ]
+      },
+
+      tempsPlanifieMinutes: {
+        $round: [
+          "$tempsPlanifieMinutes",
+          0
+        ]
+      }
+    }
+  },
+
+  {
+    $sort: {
+      tempsTotalArret: -1
+    }
+  }
+
+]);
+
+
+const statsArretsPlanifies = await ArretPlanifie.aggregate([
+  {
+    $match: {
+      dateHeureArret: {
+        $gte: startMonth,
+        $lte: endMonth
+      }
+    }
+  },
+  {
+    $group: {
+      _id: "$ligne",
+      tempsArretPlanifieMinutes: {
+        $sum: "$dureeMinutes"
+      }
+    }
+  }
+]);
+
+statsLignes.forEach((ligne) => {
+  const arretPlanifie = statsArretsPlanifies.find(
+    (item) => item._id.toString() === ligne.ligneId.toString()
+  );
+
+  ligne.tempsArretPlanifieMinutes =
+    arretPlanifie?.tempsArretPlanifieMinutes || 0;
+});
 
     // ===============================
 // 📊 INTERVENTIONS PAR STATUT

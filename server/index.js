@@ -26,7 +26,10 @@ import fournisseurRoutes from "./routes/fournisseurRoute.js";
 import interventionFournisseurRoutes from "./routes/interventionFournisseurRoute.js";
 import ficheEquipementRoutes from "./routes/ficheEquipementRoute.js";
 import dashboardRoutes from "./routes/dashboardRoute.js";
+import typeArretRoutes from "./routes/typeArretRoute.js";
+import arretPlanifieRoutes from "./routes/arretPlanifieRoute.js";
 
+import planificationProductionRoutes from "./routes/planificationProductionRoute.js";
 
 import path from "path";
 
@@ -85,10 +88,15 @@ app.use("/api/compteurs", compteurRoutes)
 app.use("/api/fournisseurs", fournisseurRoutes);
 app.use("/api/fiches-equipements", ficheEquipementRoutes);
 app.use("/api/dashboard", dashboardRoutes);
+app.use("/api/types-arret", typeArretRoutes);
+
+app.use("/api/arrets-planifies", arretPlanifieRoutes);
+app.use("/api/planifications-production", planificationProductionRoutes);
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 app.set("io", io);
 
 app.use("/api/interventions-fournisseurs", interventionFournisseurRoutes);
+
 
 
 const PORT = process.env.PORT || 5000;

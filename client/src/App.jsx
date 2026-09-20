@@ -52,6 +52,8 @@ import Arret2 from "./pages/Arret2";
 import ListeReportPage2 from "./pages/ListReportPage2";
 import FicheEquipement from "./pages/FicheEquipement";
 import DashboardMaintenance from "./pages/DashboardMaintenance";
+import ArretsPlanifiesPage from "./pages/ArretsPlanifiesPage";
+import PlanificationProductionPage from "./pages/PlanificationProductionPage";
 
 
 
@@ -166,6 +168,8 @@ export default function App() {
               <Route path="mplist" element={<MaintenancePreventiveList/>}/>
               <Route path="mpinterventions" element={<InterventionPlist/>}/>
               <Route path="dashboard-maintenance" element={<DashboardMaintenance />} />
+              <Route path="arret-planifie" element={<ArretsPlanifiesPage />} />
+              <Route path="planifier-production" element={<PlanificationProductionPage />} />
              </Route>
 
 

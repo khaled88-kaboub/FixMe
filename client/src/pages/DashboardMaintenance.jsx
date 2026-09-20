@@ -279,10 +279,12 @@ const exportDashboardTable = () => {
     "N°": index + 1,
 
     "Ligne": ligne.ligne,
+    "Production planifiée": ligne.tempsPlanifieMinutes,
+    "Arrets planifiés": ligne.tempsArretPlanifieMinutes,
 
-    "Nombre arrêts": ligne.nombreArrets,
+    "Nombre arrêts pannes": ligne.nombreArrets,
 
-    "Temps arrêt total (min)": ligne.tempsTotalArret
+    "Temps arrêt pannes (min)": ligne.tempsTotalArret
 
   }));
 
@@ -738,43 +740,60 @@ const statsEquipements = Object.values(
 
         <table className="dashboardo-table">
 
-          <thead>
-            <tr>
-              <th>Ligne</th>
-              <th>Nombre arrêts</th>
-              <th>Temps arrêt total (min)</th>
-              <th>Action</th>
-            </tr>
-          </thead>
+  <thead>
+    <tr>
+      <th>Ligne</th>
+      <th>Production planifiée</th>
+      <th>Arrêts planifiés (min)</th>
+      <th>Nombre arrêts panne</th>
+      <th>Temps arrêt pannes (min)</th>
+      <th>Action</th>
+    </tr>
+  </thead>
 
-          <tbody>
+  <tbody>
 
-            {stats.statsLignes?.map((ligne, index) => (
+    {stats.statsLignes?.map((ligne, index) => (
 
-              <tr key={index}>
+      <tr key={index}>
 
-                <td data-label = "Ligne :">{ligne.ligne}</td>
+        <td data-label="Ligne :">
+          {ligne.ligne}
+        </td>
 
-                <td data-label = "Nombre des arrets :">{ligne.nombreArrets}</td>
+        <td data-label="Production planifiée">
+        {ligne.tempsPlanifieMinutes || 0} min
+        </td>
 
-                <td data-label = "Temps d'arret :">{ligne.tempsTotalArret} min</td>
-                <td>
 
-               <button
-             className="btn-details"
-             onClick={() => handleShowDetails(ligne)}
-               >
-              🔍 Détails
-               </button>
+        <td data-label="Arrêt planifié :">
+          {ligne.tempsArretPlanifieMinutes || 0} min
+        </td>
 
-              </td>
-              </tr>
+        <td data-label="Nombre des arrets :">
+          {ligne.nombreArrets}
+        </td>
 
-            ))}
+        <td data-label="Temps d'arret :">
+          {ligne.tempsTotalArret} min
+        </td>
 
-          </tbody>
+        <td>
+          <button
+            className="btn-details"
+            onClick={() => handleShowDetails(ligne)}
+          >
+            🔍 Détails
+          </button>
+        </td>
 
-        </table>
+      </tr>
+
+    ))}
+
+  </tbody>
+
+</table>
 
         <div className="export-actions">
 
