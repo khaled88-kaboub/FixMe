@@ -241,6 +241,8 @@ export default function App() {
           <Route path="mpcalendarR" element={<MaintenancePreventiveCalendar2/>}/>
           <Route path="mpcalendarR/interventionP/:id" element={<InterventionPDetails />} />
           <Route path="dashboard-maintenance" element={<DashboardMaintenance />} />
+          <Route path="arret-planifie" element={<ArretsPlanifiesPage />} />
+          <Route path="planifier-production" element={<PlanificationProductionPage />} />
           </Route>
 
          {/* --- Role Production --- */}

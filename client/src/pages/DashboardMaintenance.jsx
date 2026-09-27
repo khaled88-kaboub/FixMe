@@ -274,19 +274,80 @@ const exportTechniciensExcel = () => {
 
 const exportDashboardTable = () => {
 
-  const data = stats.statsLignes.map((ligne, index) => ({
+  const data = stats.statsLignes.map((ligne, index) => {
 
-    "N°": index + 1,
+    // ============================
+    // MTTR
+    // ============================
+    const mttr =
+      ligne.nombreArrets > 0
+        ? Math.round(
+            ligne.tempsTotalArret / ligne.nombreArrets
+          )
+        : 0;
 
-    "Ligne": ligne.ligne,
-    "Production planifiée": ligne.tempsPlanifieMinutes,
-    "Arrets planifiés": ligne.tempsArretPlanifieMinutes,
+    // ============================
+    // TEMPS DISPONIBLE
+    // Production planifiée - Arrêts planifiés
+    // ============================
+    const tempsDisponible = Math.max(
+      0,
+      (ligne.tempsPlanifieMinutes || 0) -
+      (ligne.tempsArretPlanifieMinutes || 0)
+    );
 
-    "Nombre arrêts pannes": ligne.nombreArrets,
+    // ============================
+    // MTBF
+    // Temps disponible / nombre de pannes
+    // Conversion en heures
+    // ============================
+    const mtbf =
+      ligne.nombreArrets > 0
+        ? tempsDisponible / ligne.nombreArrets / 60
+        : 0;
 
-    "Temps arrêt pannes (min)": ligne.tempsTotalArret
+    // ============================
+    // TEMPS DE FONCTIONNEMENT
+    // ============================
+    const tempsFonctionnement = Math.max(
+      0,
+      tempsDisponible - (ligne.tempsTotalArret || 0)
+    );
 
-  }));
+    // ============================
+    // DISPONIBILITÉ
+    // ============================
+    const disponibilite =
+      tempsDisponible > 0
+        ? (tempsFonctionnement / tempsDisponible) * 100
+        : 0;
+
+    return {
+
+      "N°": index + 1,
+
+      "Ligne": ligne.ligne,
+
+      "Production planifiée (min)":
+        ligne.tempsPlanifieMinutes || 0,
+
+      "Arrêts planifiés (min)":
+        ligne.tempsArretPlanifieMinutes || 0,
+
+      "Nombre arrêts pannes":
+        ligne.nombreArrets || 0,
+
+      "Temps arrêt pannes (min)":
+        ligne.tempsTotalArret || 0,
+
+      "MTTR (min)": mttr,
+
+      "MTBF (h)": Number(mtbf.toFixed(1)),
+
+      "Disponibilité (%)":
+        Number(disponibilite.toFixed(1))
+    };
+  });
 
   const ws = XLSX.utils.json_to_sheet(data);
 
@@ -302,7 +363,6 @@ const exportDashboardTable = () => {
     wb,
     "Dashboard_Arrets_Lignes.xlsx"
   );
-
 };
 // ======================================
 // 📈 EXPORT SYNTHESE EQUIPEMENTS
@@ -469,17 +529,17 @@ const statsEquipements = Object.values(
 <div className="kpi-grid">
 
 <div className="kpi-card">
-  <h3>Total interventions</h3>
+  <h3>Demandes d'interventions</h3>
   <p>{totalInterventions}</p>
 </div>
 
 <div className="kpi-card">
-  <h3>Total arrêts</h3>
+  <h3>Nombre arrêts lignes</h3>
   <p>{totalArrets}</p>
 </div>
 
 <div className="kpi-card">
-  <h3>Temps arrêt total</h3>
+  <h3>Temps arrêts lignes</h3>
   <p>{tempsTotalArret} min</p>
 </div>
 
@@ -747,51 +807,142 @@ const statsEquipements = Object.values(
       <th>Arrêts planifiés (min)</th>
       <th>Nombre arrêts panne</th>
       <th>Temps arrêt pannes (min)</th>
-      <th>Action</th>
+      <th>MTTR (min)</th>
+      <th>MTBF (h)</th>
+      <th>Disponibilité</th>
+
+      <th>Plus..</th>
     </tr>
   </thead>
 
   <tbody>
 
-    {stats.statsLignes?.map((ligne, index) => (
+{stats.statsLignes?.map((ligne, index) => {
 
-      <tr key={index}>
+  // ============================
+  // MTTR
+  // ============================
+  const mttr =
+    ligne.nombreArrets > 0
+      ? Math.round(
+          ligne.tempsTotalArret / ligne.nombreArrets
+        )
+      : 0;
 
-        <td data-label="Ligne :">
-          {ligne.ligne}
-        </td>
+  // ============================
+  // TEMPS DISPONIBLE
+  // Production planifiée
+  // - Arrêts planifiés
+  // ============================
+  const tempsDisponible =
+    Math.max(
+      0,
+      (ligne.tempsPlanifieMinutes || 0) -
+      (ligne.tempsArretPlanifieMinutes || 0)
+    );
 
-        <td data-label="Production planifiée">
+  // ============================
+  // MTBF
+  // Temps disponible / nombre de pannes
+  // Conversion minutes -> heures
+  // ============================
+  const mtbf =
+    ligne.nombreArrets > 0
+      ? tempsDisponible / ligne.nombreArrets / 60
+      : 0;
+
+  // ============================
+  // TEMPS DE FONCTIONNEMENT
+  // Temps disponible - temps des pannes
+  // ============================
+  const tempsFonctionnement = Math.max(
+    0,
+    tempsDisponible - (ligne.tempsTotalArret || 0)
+  );
+
+
+  // ============================
+  // DISPONIBILITÉ
+  // ============================
+      const disponibilite =
+      tempsDisponible > 0
+        ? (tempsFonctionnement / tempsDisponible) * 100
+        : 0;
+
+  return (
+    <tr key={index}>
+
+      <td data-label="Ligne :">
+        {ligne.ligne}
+      </td>
+
+      <td data-label="Production planifiée">
         {ligne.tempsPlanifieMinutes || 0} min
-        </td>
+      </td>
 
+      <td data-label="Arrêt planifié :">
+        {ligne.tempsArretPlanifieMinutes || 0} min
+      </td>
 
-        <td data-label="Arrêt planifié :">
-          {ligne.tempsArretPlanifieMinutes || 0} min
-        </td>
+      <td data-label="Nombre des arrets :">
+        {ligne.nombreArrets}
+      </td>
 
-        <td data-label="Nombre des arrets :">
-          {ligne.nombreArrets}
-        </td>
+      <td data-label="Temps d'arret :">
+        {ligne.tempsTotalArret} min
+      </td>
 
-        <td data-label="Temps d'arret :">
-          {ligne.tempsTotalArret} min
-        </td>
+      {/* MTTR */}
+      <td data-label="MTTR :">
+        <span
+          className={`mttr-badge ${
+            mttr > 30
+              ? "mttr-badge-danger"
+              : "mttr-badge-success"
+          }`}
+        >
+          {mttr} min
+        </span>
+      </td>
 
-        <td>
-          <button
-            className="btn-details"
-            onClick={() => handleShowDetails(ligne)}
-          >
-            🔍 Détails
-          </button>
-        </td>
+      {/* MTBF */}
+      <td data-label="MTBF :">
+        <span
+          className={`mtbf-badge ${
+            mtbf >= 6
+              ? "mtbf-badge-success"
+              : "mtbf-badge-danger"
+          }`}
+        >
+          {mtbf.toFixed(1)} h
+        </span>
+      </td>
+ {/* DISPONIBILITÉ */}
+      <td data-label="Disponibilité :">
+        <span
+          className={`disponibilite-badge ${
+            disponibilite > 90
+              ? "disponibilite-badge-success"
+              : "disponibilite-badge-danger"
+          }`}
+        >
+          {disponibilite.toFixed(1)} %
+        </span>
+      </td>
+      <td>
+        <button
+          className="btn-details"
+          onClick={() => handleShowDetails(ligne)}
+        >
+          🔍 Détails
+        </button>
+      </td>
 
-      </tr>
+    </tr>
+  );
+})}
 
-    ))}
-
-  </tbody>
+</tbody>
 
 </table>
 
@@ -804,10 +955,303 @@ const statsEquipements = Object.values(
   📊 Export Excel
 </button>
 
+
 </div>
       </div>
 <div className="espace">    </div>
 
+<div className="maintenance-objectives">
+
+  <div className="objectives-header">
+    <div>
+     {/* <span className="objectives-kicker">🎯 PERFORMANCE MAINTENANCE</span>*/}
+      <h3>🎯 Nos objectifs</h3>
+      <p>
+        Les objectifs de référence pour améliorer la fiabilité,
+        la réactivité et la disponibilité des équipements.
+      </p>
+    </div>
+  </div>
+
+  <div className="objectives-grid">
+
+    {/* MTTR */}
+    <div className="objective-card">
+
+      <div className="objective-icon">
+        🔧
+      </div>
+
+      <div className="objective-content">
+        <span className="objective-label">
+          MTTR
+        </span>
+
+        <strong className="objective-value">
+          ≤ 30 <small>min</small>
+        </strong>
+
+        <span className="objective-description">
+          Temps moyen de réparation
+        </span>
+      </div>
+
+      <div className="objective-target">
+        🎯 Objectif
+      </div>
+
+    </div>
+
+
+    {/* MTBF */}
+    <div className="objective-card">
+
+      <div className="objective-icon">
+        ⏱️
+      </div>
+
+      <div className="objective-content">
+        <span className="objective-label">
+          MTBF
+        </span>
+
+        <strong className="objective-value">
+          ≥ 6 <small>heures</small>
+        </strong>
+
+        <span className="objective-description">
+          Temps moyen entre deux pannes
+        </span>
+      </div>
+
+      <div className="objective-target">
+        🎯 Objectif
+      </div>
+
+    </div>
+
+
+    {/* Disponibilité */}
+    <div className="objective-card">
+
+      <div className="objective-icon">
+        📊
+      </div>
+
+      <div className="objective-content">
+        <span className="objective-label">
+          Disponibilité
+        </span>
+
+        <strong className="objective-value">
+          &gt; 90 <small>%</small>
+        </strong>
+
+        <span className="objective-description">
+          Disponibilité opérationnelle
+        </span>
+      </div>
+
+      <div className="objective-target">
+        🎯 Objectif
+      </div>
+
+    </div>
+
+  </div>
+
+</div>
+
+<div className="kpi-legend">
+
+  <div className="kpi-legend-title">
+  💡 Comprendre les indicateurs de performance maintenance
+  </div>
+
+  <div className="kpi-legend-intro">
+    Ces indicateurs permettent d'évaluer la fiabilité, la maintenabilité
+    et la disponibilité des équipements et des lignes de production.
+  </div>
+
+  <div className="kpi-legend-grid">
+
+    {/* MTTR */}
+    <div className="kpi-legend-item">
+
+      <div className="kpi-legend-icon">
+        🔧
+      </div>
+
+      <div>
+
+        <h4>MTTR — Mean Time To Repair</h4>
+
+        <p>
+          <strong>Temps moyen de réparation.</strong>{" "}
+          Il représente le temps moyen nécessaire pour réparer une panne
+          et remettre l'équipement en service.
+        </p>
+
+        <div className="kpi-formula">
+          MTTR = Temps total d'arrêt panne ÷ Nombre de pannes
+        </div>
+
+        <div className="kpi-example">
+          <strong>Exemple :</strong> 300 min d'arrêt pour 10 pannes
+          → MTTR = 30 min.
+        </div>
+
+      </div>
+
+    </div>
+
+
+    {/* MTBF méthode 1 */}
+    <div className="kpi-legend-item">
+
+      <div className="kpi-legend-icon">
+        ⏱️
+      </div>
+
+      <div>
+
+        <h4>MTBF — Méthode 1 : temps de fonctionnement</h4>
+
+        <p>
+          <strong>Mean Time Between Failures.</strong>{" "}
+          Temps moyen de fonctionnement entre deux pannes.
+        </p>
+
+        <div className="kpi-formula">
+          MTBF = Temps de fonctionnement ÷ Nombre de pannes
+        </div>
+
+        <div className="kpi-formula-detail">
+          Temps de fonctionnement =
+          Production planifiée − Arrêts planifiés − Arrêts pannes
+        </div>
+
+        <div className="kpi-example">
+          <strong>Exemple :</strong> 1 200 − 120 − 300 = 780 min
+          de fonctionnement.
+          <br />
+          MTBF = 780 ÷ 10 = <strong>78 min</strong>.
+        </div>
+
+      </div>
+
+    </div>
+
+
+    {/* MTBF méthode 2 */}
+    <div className="kpi-legend-item">
+
+      <div className="kpi-legend-icon">
+        📐
+      </div>
+
+      <div>
+
+        <h4>MTBF — Méthode 2 : temps disponible</h4>
+
+        <p>
+          Cette approche rapporte le temps disponible pour fonctionner
+          au nombre de pannes enregistrées.
+        </p>
+
+        <div className="kpi-formula">
+          MTBF = Temps disponible ÷ Nombre de pannes
+        </div>
+
+        <div className="kpi-formula-detail">
+          Temps disponible =
+          Production planifiée − Arrêts planifiés
+        </div>
+
+        <div className="kpi-example">
+          <strong>Exemple :</strong> 1 200 − 120 = 1 080 min disponibles.
+          <br />
+          MTBF = 1 080 ÷ 10 = <strong>108 min</strong>.
+        </div>
+
+      </div>
+
+    </div>
+
+
+    {/* Disponibilité */}
+    <div className="kpi-legend-item">
+
+      <div className="kpi-legend-icon">
+        📊
+      </div>
+
+      <div>
+
+        <h4>Disponibilité</h4>
+
+        <p>
+          La disponibilité représente la proportion du temps pendant
+          laquelle l'équipement est réellement disponible pour fonctionner,
+          par rapport au temps pendant lequel il était prévu pour fonctionner.
+        </p>
+
+        <div className="kpi-formula">
+          Disponibilité = Temps de fonctionnement ÷ Temps disponible × 100
+        </div>
+
+        <div className="kpi-formula-detail">
+          Temps de fonctionnement =
+          Temps disponible − Temps d'arrêt panne
+        </div>
+
+        <div className="kpi-example">
+          <strong>Exemple :</strong> 780 ÷ 1 080 × 100
+          = <strong>72,2 %</strong>.
+        </div>
+
+      </div>
+
+    </div>
+
+  </div>
+
+
+  {/* Lecture des indicateurs */}
+  <div className="kpi-legend-note">
+
+    <strong>💡 Interprétation des indicateurs</strong>
+
+    <ul>
+      <li>
+        <strong>MTTR faible :</strong> les interventions de réparation
+        sont réalisées rapidement.
+      </li>
+
+      <li>
+        <strong>MTBF élevé :</strong> les périodes de fonctionnement
+        entre les pannes sont plus longues.
+      </li>
+
+      <li>
+        <strong>Disponibilité élevée :</strong> l'équipement est disponible
+        pendant une plus grande proportion du temps prévu pour fonctionner.
+      </li>
+
+      <li>
+        <strong>Arrêt planifié :</strong> arrêt prévu à l'avance
+        (maintenance préventive, nettoyage, changement de format, etc.).
+      </li>
+
+      <li>
+        <strong>Arrêt panne :</strong> arrêt résultant d'une défaillance
+        nécessitant une intervention corrective.
+      </li>
+    </ul>
+
+  </div>
+
+</div>
 
 <div className="table-card preventive-table-card">
 

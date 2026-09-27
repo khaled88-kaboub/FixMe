@@ -79,6 +79,22 @@ export default function MenuMethodePage() {
               <FaChartPie /> Dashboard
             </Link>
           </li>
+
+          <li >
+          ------------
+          </li>
+
+          <li >
+            <Link to="planifier-production" onClick={closeMenu}>
+              <FaUser /> Planification production
+            </Link>
+          </li>
+
+          <li >
+            <Link to="arret-planifie" onClick={closeMenu}>
+              <FaUser /> Arrets planifiés
+            </Link>
+          </li>
         </ul>
         
       </aside>

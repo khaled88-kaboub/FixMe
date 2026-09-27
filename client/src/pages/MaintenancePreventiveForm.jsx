@@ -209,7 +209,7 @@ useEffect(() => {
           <option value="">-- Choisir --</option>
           {filteredEquipements.map((eq) => (
             <option key={eq._id} value={eq._id}>
-              {eq.designation}
+              {eq.designation} ( {eq.code} )
             </option>
           ))}
         </select>

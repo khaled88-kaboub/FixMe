@@ -35,6 +35,260 @@
     color: #64748b;
   }
   
+
+   /* =========================
+     lgende KPI
+  ========================= */
+  .kpi-legend {
+    margin-top: 25px;
+    margin-bottom: 30px;
+    padding: 24px;
+    background: #f8fafc;
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+  }
+  
+  .kpi-legend-title {
+    font-size: 19px;
+    font-weight: 700;
+    color: #1e293b;
+    margin-bottom: 8px;
+  }
+  
+  .kpi-legend-intro {
+    color: #64748b;
+    font-size: 13px;
+    margin-bottom: 22px;
+  }
+  
+  .kpi-legend-grid {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 18px;
+  }
+  
+  .kpi-legend-item {
+    display: flex;
+    gap: 15px;
+    padding: 20px;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-radius: 10px;
+  }
+  
+  .kpi-legend-icon {
+    font-size: 26px;
+    flex-shrink: 0;
+  }
+  
+  .kpi-legend-item h4 {
+    margin: 0 0 9px;
+    color: #1e293b;
+    font-size: 15px;
+  }
+  
+  .kpi-legend-item p {
+    margin: 0 0 12px;
+    color: #64748b;
+    font-size: 13px;
+    line-height: 1.6;
+  }
+  
+  .kpi-formula {
+    padding: 9px 12px;
+    margin-top: 8px;
+    background: #f1f5f9;
+    border-radius: 7px;
+    color: #334155;
+    font-size: 12px;
+    font-weight: 700;
+    line-height: 1.5;
+  }
+  
+  .kpi-formula-detail {
+    margin-top: 7px;
+    padding: 8px 12px;
+    background: #f8fafc;
+    border-left: 3px solid #94a3b8;
+    color: #475569;
+    font-size: 12px;
+    line-height: 1.5;
+  }
+  
+  .kpi-example {
+    margin-top: 10px;
+    color: #475569;
+    font-size: 12px;
+    line-height: 1.6;
+  }
+  
+  .kpi-legend-note {
+    margin-top: 20px;
+    padding: 15px 18px;
+    background: #fff;
+    border: 1px solid #e2e8f0;
+    border-left: 4px solid #64748b;
+    border-radius: 8px;
+  }
+  
+  .kpi-legend-note strong {
+    color: #1e293b;
+  }
+  
+  .kpi-legend-note ul {
+    margin: 12px 0 0;
+    padding-left: 20px;
+  }
+  
+  .kpi-legend-note li {
+    margin-bottom: 7px;
+    color: #475569;
+    font-size: 13px;
+    line-height: 1.5;
+  }
+  
+  @media (max-width: 900px) {
+    .kpi-legend-grid {
+      grid-template-columns: 1fr;
+    }
+  }
+  
+  @media (max-width: 600px) {
+    .kpi-legend {
+      padding: 16px;
+    }
+  
+    .kpi-legend-item {
+      padding: 15px;
+    }
+  }
+
+   /* =========================
+     Objectifs maintenances
+  ========================= */
+
+
+  .maintenance-objectives {
+    margin-top: 25px;
+    margin-bottom: 25px;
+    padding: 24px;
+    background: linear-gradient(135deg, #f8fafc, #ffffff);
+    border: 1px solid #e2e8f0;
+    border-radius: 14px;
+    box-shadow: 0 4px 15px rgba(15, 23, 42, 0.05);
+  }
+  
+  .objectives-header {
+    margin-bottom: 20px;
+  }
+  
+  .objectives-kicker {
+    display: inline-block;
+    margin-bottom: 5px;
+    font-size: 11px;
+    font-weight: 800;
+    letter-spacing: 1px;
+    color: #64748b;
+  }
+  
+  .objectives-header h3 {
+    margin: 0;
+    font-size: 20px;
+    color: #1e293b;
+  }
+  
+  .objectives-header p {
+    margin: 6px 0 0;
+    font-size: 13px;
+    color: #64748b;
+  }
+  
+  .objectives-grid {
+    display: grid;
+    grid-template-columns: repeat(3, 1fr);
+    gap: 18px;
+  }
+  
+  .objective-card {
+    position: relative;
+    display: flex;
+    align-items: center;
+    gap: 14px;
+    padding: 20px;
+    background: #ffffff;
+    border: 1px solid #e5e7eb;
+    border-radius: 12px;
+    overflow: hidden;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .objective-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 8px 20px rgba(15, 23, 42, 0.08);
+  }
+  
+  .objective-icon {
+    width: 48px;
+    height: 48px;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    flex-shrink: 0;
+    border-radius: 12px;
+    background: #f1f5f9;
+    font-size: 23px;
+  }
+  
+  .objective-content {
+    display: flex;
+    flex-direction: column;
+    min-width: 0;
+  }
+  
+  .objective-label {
+    font-size: 20px;
+    font-weight: 700;
+    color: #64748b;
+    text-transform: uppercase;
+    letter-spacing: 0.5px;
+  }
+  
+  .objective-value {
+    margin-top: 3px;
+    font-size: 25px;
+    line-height: 1.2;
+    color: #1e293b;
+  }
+  
+  .objective-value small {
+    font-size: 14px;
+    font-weight: 600;
+  }
+  
+  .objective-description {
+    margin-top: 4px;
+    font-size: 12px;
+    color: #94a3b8;
+  }
+  
+  .objective-target {
+    position: absolute;
+    top: 12px;
+    right: 12px;
+    padding: 10px 10px;
+    border-radius: 20px;
+    background: #f3f023;
+    color: #cc1981;
+    font-size: 12px;
+    font-weight: 700;
+    border-color: gray;
+  }
+  
+  @media (max-width: 900px) {
+    .objectives-grid {
+      grid-template-columns: 1fr;
+    }
+  }
   /* =========================
      KPI
   ========================= */
@@ -156,7 +410,89 @@
     margin-bottom: 18px;
     width: 100%;
   }
+
+  /* =========================
+     colorisation MTTR
+  ========================= */
+  .mttr-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 75px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
   
+  .mttr-badge-success {
+    color: #166534;
+    background: #dcfce7;
+    border: 1px solid #86efac;
+  }
+  
+  .mttr-badge-danger {
+    color: #991b1b;
+    background: #fee2e2;
+    border: 1px solid #fca5a5;
+  }
+
+
+  /* =========================
+     colorisation MTBF
+  ========================= */
+  .mtbf-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 75px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  
+  .mtbf-badge-success {
+    color: #166534;
+    background: #dcfce7;
+    border: 1px solid #86efac;
+  }
+  
+  .mtbf-badge-danger {
+    color: #991b1b;
+    background: #fee2e2;
+    border: 1px solid #fca5a5;
+  }
+
+  /* =========================
+  colorisation disponibilité
+  ========================= */
+
+  .disponibilite-badge {
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    min-width: 80px;
+    padding: 6px 12px;
+    border-radius: 20px;
+    font-size: 13px;
+    font-weight: 700;
+    white-space: nowrap;
+  }
+  
+  .disponibilite-badge-success {
+    color: #166534;
+    background: #dcfce7;
+    border: 1px solid #86efac;
+  }
+  
+  .disponibilite-badge-danger {
+    color: #991b1b;
+    background: #fee2e2;
+    border: 1px solid #fca5a5;
+  }
   /* =========================
      TABLE
   ========================= */
@@ -187,6 +523,8 @@
   .espace {
     height: 20px;
   }
+
+
   .dashboard-table thead {
     background: linear-gradient(to right, #2563eb, #3b82f6);
   }
