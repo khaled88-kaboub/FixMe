@@ -64,6 +64,14 @@ const [annee, setAnnee] = useState(
   currentDate.getFullYear()
 );
 
+
+const formatDuree = (minutes) => {
+  if (!minutes || isNaN(minutes)) return null;
+  const hrs = (minutes / 60).toFixed(1);
+  return `${hrs} h`;
+};
+
+
 useEffect(() => {
   fetchDashboard();
 }, [mois, annee]);
@@ -480,6 +488,9 @@ const statsEquipements = Object.values(
       </div>
     );
   }
+  const tauxRealisation = stats.tauxRealisationPreventive || 0;
+
+
 
   return (
     <div className="dashboard-container">
@@ -526,88 +537,139 @@ const statsEquipements = Object.values(
 </select>
 </div>
 </div>
-<div className="kpi-grid">
-
-<div className="kpi-card">
-  <h3>Demandes d'interventions</h3>
-  <p>{totalInterventions}</p>
-</div>
-
-<div className="kpi-card">
-  <h3>Nombre arrêts lignes</h3>
-  <p>{totalArrets}</p>
-</div>
-
-<div className="kpi-card">
-  <h3>Temps arrêts lignes</h3>
-  <p>{tempsTotalArret} min</p>
-</div>
-
-<div className="kpi-card">
-  <h3>Ligne critique</h3>
-  <p>{ligneCritique}</p>
-</div>
-
-{/* 👨‍🔧 NOUVEAU */}
-
-<div className="kpi-card">
-  <h3>Intervenants</h3>
-  <p>{stats.nombreIntervenants}</p>
-</div>
-
-<div className="kpi-card">
-  <h3>Temps d'intervention</h3>
-  <p>{stats.dureeTotaleInterventions} min</p>
-</div>
 
 
 
-<div className="kpi-card">
-    
+    <div className="kpi-grid">
+      {/* 1. Demandes d'interventions */}
+      <div className="kpi-card theme-blue">
+        <div className="kpi-header">
+          <h3>Demandes d'interventions</h3>
+          <div className="kpi-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M14.7 6.3a1 1 0 0 0 0 1.4l1.6 1.6a1 1 0 0 0 1.4 0l3.77-3.77a6 6 0 0 1-7.94 7.94l-6.91 6.91a2.12 2.12 0 0 1-3-3l6.91-6.91a6 6 0 0 1 7.94-7.94l-3.76 3.76z"/></svg>
+          </div>
+        </div>
+        <div className="kpi-value">{totalInterventions}</div>
+      </div>
 
-    <div>
-      <h3>Préventif planifié</h3>
+      {/* 2. Nombre arrêts lignes */}
+      <div className="kpi-card theme-amber">
+        <div className="kpi-header">
+          <h3>Nombre arrêts lignes</h3>
+          <div className="kpi-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polygon points="7.86 2 16.14 2 22 7.86 22 16.14 16.14 22 7.86 22 2 16.14 2 7.86 7.86 2"/><line x1="12" y1="8" x2="12" y2="12"/><line x1="12" y1="16" x2="12.01" y2="16"/></svg>
+          </div>
+        </div>
+        <div className="kpi-value">{totalArrets}</div>
+      </div>
 
-      <p>
-        {stats.actionsPreventivesPlanifiees || 0}
-      </p>
+      {/* 3. Temps arrêts lignes */}
+      <div className="kpi-card theme-red">
+        <div className="kpi-header">
+          <h3>Temps arrêts lignes</h3>
+          <div className="kpi-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+        </div>
+        <div className="kpi-value">{tempsTotalArret} <span className="unit">min</span></div>
+        <span className="kpi-subtext">≈ {formatDuree(tempsTotalArret)}</span>
+      </div>
 
-    
+      {/* 4. Ligne critique */}
+      <div className="kpi-card theme-purple">
+        <div className="kpi-header">
+          <h3>Ligne critique</h3>
+          <div className="kpi-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M10.29 3.86L1.82 18a2 2 0 0 0 1.71 3h16.94a2 2 0 0 0 1.71-3L13.71 3.86a2 2 0 0 0-3.42 0z"/><line x1="12" y1="9" x2="12" y2="13"/><line x1="12" y1="17" x2="12.01" y2="17"/></svg>
+          </div>
+        </div>
+        <div className="kpi-badge">{ligneCritique}</div>
+      </div>
+
+      {/* 5. Intervenants */}
+      <div className="kpi-card theme-indigo">
+        <div className="kpi-header">
+          <h3>Intervenants</h3>
+          <div className="kpi-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 0 0-3-3.87"/><path d="M16 3.13a4 4 0 0 1 0 7.75"/></svg>
+          </div>
+        </div>
+        <div className="kpi-value">{stats.nombreIntervenants || 0}</div>
+      </div>
+
+      {/* 6. Temps d'intervention */}
+      <div className="kpi-card theme-sky">
+        <div className="kpi-header">
+          <h3>Temps d'intervention</h3>
+          <div className="kpi-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><circle cx="12" cy="12" r="10"/><polyline points="12 6 12 12 16 14"/></svg>
+          </div>
+        </div>
+        <div className="kpi-value">{stats.dureeTotaleInterventions || 0} <span className="unit">min</span></div>
+        <span className="kpi-subtext">≈ {formatDuree(stats.dureeTotaleInterventions)}</span>
+      </div>
+
+      {/* 7. Préventif planifié */}
+      <div className="kpi-card theme-slate">
+        <div className="kpi-header">
+          <h3>Préventif planifié</h3>
+          <div className="kpi-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
+          </div>
+        </div>
+        <div className="kpi-value">{stats.actionsPreventivesPlanifiees || 0}</div>
+      </div>
+
+      {/* 8. Préventif réalisé */}
+      <div className="kpi-card theme-teal">
+        <div className="kpi-header">
+          <h3>Préventif réalisé</h3>
+          <div className="kpi-icon">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><path d="M22 11.08V12a10 10 0 1 1-5.93-9.14"/><polyline points="22 4 12 14.01 9 11.01"/></svg>
+          </div>
+        </div>
+        <div className="kpi-value">{stats.actionsPreventivesRealisees || 0}</div>
+      </div>
+
+      {/* 9. Taux de réalisation (Gawis/Cercle SVG) */}
+<div className="kpi-card theme-emerald">
+  <div className="kpi-header">
+    <h3>Taux de réalisation</h3>
+    <div className="kpi-icon">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+        <polyline points="23 6 13.5 15.5 8.5 10.5 1 18"/>
+        <polyline points="17 6 23 6 23 12"/>
+      </svg>
     </div>
   </div>
 
-
-
-  <div className="kpi-card">
-   
-
-    <div>
-      <h3>Prventif réalisé</h3>
-
-      <p>
-        {stats.actionsPreventivesRealisees || 0}
-      </p>
-
-      
+  <div className="circle-container">
+    <svg className="circle-chart" viewBox="0 0 36 36">
+      {/* Background circle */}
+      <path
+        className="circle-bg"
+        d="M18 2.0845
+          a 15.9155 15.9155 0 0 1 0 31.831
+          a 15.9155 15.9155 0 0 1 0 -31.831"
+      />
+      {/* Animated progress circle */}
+      <path
+        className="circle-progress"
+        strokeDasharray={`${Math.min(100, Math.max(0, tauxRealisation))}, 100`}
+        d="M18 2.0845
+          a 15.9155 15.9155 0 0 1 0 31.831
+          a 15.9155 15.9155 0 0 1 0 -31.831"
+      />
+    </svg>
+    {/* Percentage Text inside circle */}
+    <div className="circle-percentage">
+      {tauxRealisation}%
     </div>
   </div>
-
-
-  <div className="kpi-card">
-
-    <div>
-      <h3>Taux de réalisation  </h3>
-
-      <p>
-        {stats.tauxRealisationPreventive || 0}% 
-      </p>
-
-     
-    </div>
-  </div>
-
-
 </div>
+    </div>
+  
+
 
       {/* CHARTS */}
 

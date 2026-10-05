@@ -1,210 +1,239 @@
-/* 🎨 --- PAGE GLOBALE --- */
-.mp-container {
-    padding: 20px;
-    min-height: 100vh;
-    background: #f3f4f6;
-    font-family: "Poppins", sans-serif;
-    
+/* ==========================================================================
+   LAYOUT & CONTENEUR
+   ========================================================================== */
+   .mp-container {
+    max-width: 1200px;
+    margin: 2rem auto;
+    padding: 0 1.5rem;
+    font-family: system-ui, -apple-system, BlinkMacSystemFont, 'Segoe UI', Roboto, sans-serif;
+    color: #1f2937;
   }
   
-  .dark .mp-container {
-    background: #1f2937;
-  }
-  
-  /* --- HEADER --- */
+  /* En-tête */
   .mp-header {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    margin-bottom: 10px;
-    margin-top: 40px;
+    margin-bottom: 1.5rem;
+    padding-bottom: 1rem;
+    border-bottom: 1px solid #e5e7eb;
+    margin-top: 65px;
   }
   
-  /* --- TITRE --- */
   .mp-title {
     display: flex;
     align-items: center;
-    gap: 10px;
-    font-size: 26px;
+    gap: 0.75rem;
+    font-size: 1.75rem;
     font-weight: 700;
+    color: #111827;
+    margin: 0;
   }
   
-  /* --- BOUTON NOUVELLE MP --- */
-  .mp-btn-add {
-    background: #2563eb;
-    color: white;
-    padding: 10px 18px;
-    border-radius: 8px;
-    display: flex;
-    align-items: center;
-    gap: 8px;
-    transition: 0.25s;
+  .mp-title svg {
+    color: #2563eb;
   }
   
-  .mp-btn-add:hover {
-    background: #1d4ed8;
-  }
-  
-  /* 🎚️ --- FILTRES (modern horizontal layout) --- */
+  /* ==========================================================================
+     BARRE DE FILTRES
+     ========================================================================== */
   .mp-filters {
-    background: rgba(255,255,255,0.8);
-    padding: 18px;
-    border-radius: 14px;
-    margin-bottom: 25px;
     display: flex;
-    flex-direction: row;
-    justify-content: space-between;
-    gap: 15px;
-    align-items: center;
-    /*flex-wrap: wrap;*/
-    backdrop-filter: blur(6px);
-    box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+    flex-wrap: wrap;
+    gap: 1rem;
+    margin-bottom: 1.25rem;
+    background-color: #f9fafb;
+    padding: 1rem;
+    border-radius: 0.75rem;
+    border: 1px solid #f3f4f6;
   }
   
-  .dark .mp-filters {
-    background: rgba(31,41,55,0.8);
-  }
-  
-  /* --- Barre de recherche --- */
   .mp-searchbox {
+    position: relative;
+    flex: 1 1 250px;
     display: flex;
     align-items: center;
-    gap: 10px;
-    background: #e5e7eb;
-    padding: 8px 12px;
-    border-radius: 8px;
-    flex: 1;
   }
   
-  .dark .mp-searchbox {
-    background: #374151;
+  .mp-searchbox svg {
+    position: absolute;
+    left: 0.875rem;
+    color: #9ca3af;
+    font-size: 0.9rem;
+    pointer-events: none;
   }
   
   .mp-searchbox input {
-    background: transparent;
-    border: none;
-    outline: none;
     width: 100%;
-    font-size: 15px;
+    padding: 0.625rem 0.875rem 0.625rem 2.5rem;
+    font-size: 0.9rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    outline: none;
+    background-color: #ffffff;
+    transition: all 0.2s ease;
   }
   
-  /* --- Dropdowns --- */
-  .mp-select {
-    padding: 10px;
-    border-radius: 8px;
-    border: none;
-    background: #e5e7eb;
-    font-size: 15px;
-    width: 25%;
-  }
-  
-  .dark .mp-select {
-    background: #374151;
-    color: white;
-  }
-  
+  .mp-searchbox input:focus,
   .mp-select:focus {
-    outline: 2px solid #2563eb;
+    border-color: #2563eb;
+    box-shadow: 0 0 0 3px rgba(37, 99, 235, 0.15);
   }
   
-  /* 📋 --- TABLEAU --- */
+  .mp-select {
+    flex: 1 1 180px;
+    padding: 0.625rem 0.875rem;
+    font-size: 0.9rem;
+    border: 1px solid #d1d5db;
+    border-radius: 0.5rem;
+    background-color: #ffffff;
+    outline: none;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  /* ==========================================================================
+     TABLEAU
+     ========================================================================== */
   .mp-table-container {
+    width: 100%;
     overflow-x: auto;
+    background-color: #ffffff;
+    border-radius: 0.75rem;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    border: 1px solid #e5e7eb;
   }
   
   .mp-table {
     width: 100%;
     border-collapse: collapse;
-    background: white;
-    border-radius: 12px;
-    overflow: hidden;
-    box-shadow: 0 4px 15px rgba(0,0,0,0.06);
-  }
-  
-  .dark .mp-table {
-    background: #1f2937;
-  }
-  
-  /* --- Header --- */
-  .mp-table thead tr {
-    background: #e5e7eb;
-    font-weight: bold;
-  }
-  
-  .dark .mp-table thead tr {
-    background: #374151;
+    text-align: left;
+    font-size: 0.9rem;
   }
   
   .mp-table th {
-    padding: 12px;
-    text-align: left;
-    font-size: 15px;
-  }
-  
-  /* --- Body --- */
-  .mp-table td {
-    padding: 12px;
+    padding: 0.875rem 1rem;
+    font-weight: 600;
+    color: #374151;
     border-bottom: 1px solid #e5e7eb;
+    white-space: nowrap;
   }
   
-  .dark .mp-table td {
-    border-bottom: 1px solid #374151;
+  .mp-table td {
+    padding: 1rem;
+    vertical-align: middle;
   }
   
-  /* --- Hover row --- */
+  .mp-table tbody tr {
+    transition: background-color 0.15s ease;
+  }
+  
   .mp-table tbody tr:hover {
-    background: #f3f4f6;
+    background-color: #f8fafc;
   }
   
-  .dark .mp-table tbody tr:hover {
-    background: #111827;
-  }
-  
-  /* --- Actions --- */
-  .action-btns {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 12px;
-  }
-  
-  /* --- Status tag --- */
-  .status-tag {
-    padding: 4px 10px;
-    background: #6b7280;
-    color: white;
-    border-radius: 6px;
-    text-transform: capitalize;
-    font-size: 13px;
-  }
-  
-  /* --- Date next --- */
+  /* ==========================================================================
+     BADGES & DATES
+     ========================================================================== */
   .date-tag {
-    padding: 5px 10px;
-    border-radius: 8px;
-    color: white;
-    font-size: 13px;
     display: inline-flex;
     align-items: center;
-    gap: 4px;
-  }
-  
-  .date-green {
-    background: #16a34a;
+    padding: 0.25rem 0.625rem;
+    border-radius: 9999px;
+    font-size: 0.8rem;
+    font-weight: 600;
   }
   
   .date-red {
-    background: #dc2626;
+    background-color: #fef2f2;
+    color: #dc2626;
+    border: 1px solid #fecaca;
   }
   
-  /* 🌀 Message vide */
-  .mp-empty {
-    text-align: center;
-    padding: 25px;
-    color: #6b7280;
+  .date-green {
+    background-color: #f0fdf4;
+    color: #16a34a;
+    border: 1px solid #bbf7d0;
   }
   
-  .dark .mp-empty {
-    color: #9ca3af;
+  /* ==========================================================================
+     ACTIONS & BOUTONS
+     ========================================================================== */
+  
+  
+  .action-btns a,
+  .action-btns button {
+    background: transparent;
+    border: none;
+    cursor: pointer;
+    padding: 0.5rem;
+    border-radius: 0.375rem;
+    transition: background-color 0.2s ease, transform 0.1s ease;
+    color: orange;
   }
   
+  .action-btns a:hover,
+  .action-btns button:hover {
+    background-color: #c9103e;
+    transform: translateY(-1px);
+  }
+  
+  /* ==========================================================================
+     SUPPORT DU MODE SOMBRE (DARK MODE)
+     ========================================================================== */
+  @media (prefers-color-scheme: dark) {
+    .mp-container {
+      color: #e5e7eb;
+    }
+  
+    .mp-header {
+      border-bottom-color: #374151;
+    }
+  
+    .mp-title {
+      color: #f9fafb;
+    }
+  
+    .mp-filters {
+      background-color: #1f2937;
+      border-color: #374151;
+    }
+  
+    .mp-searchbox input,
+    .mp-select {
+      background-color: #111827;
+      border-color: #374151;
+      color: #f3f4f6;
+    }
+  
+    .mp-table-container {
+      background-color: #1f2937;
+      border-color: #374151;
+    }
+  
+    .mp-table th {
+      color: #d1d5db;
+      border-bottom-color: #374151;
+    }
+  
+    .mp-table tbody tr:hover {
+      background-color: #374151;
+    }
+  
+    .date-red {
+      background-color: rgba(220, 38, 38, 0.15);
+      color: #fca5a5;
+      border-color: rgba(220, 38, 38, 0.3);
+    }
+  
+    .date-green {
+      background-color: rgba(22, 163, 74, 0.15);
+      color: #86efac;
+      border-color: rgba(22, 163, 74, 0.3);
+    }
+  
+    .action-btns a:hover,
+    .action-btns button:hover {
+      background-color: #4b5563;
+    }
+  }
