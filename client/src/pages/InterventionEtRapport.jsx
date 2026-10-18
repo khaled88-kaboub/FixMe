@@ -9,6 +9,7 @@ import logo from "../assets/rmc.png";
 
 export default function InterventionEtRapport() {
   const API_URL = import.meta.env.VITE_API_URL;
+  const [loading, setLoading] = useState(true);
   const [interventions, setInterventions] = useState([]);
   const [rapports, setRapports] = useState([]);
   const [activeTab, setActiveTab] = useState("interventions");
@@ -40,6 +41,11 @@ export default function InterventionEtRapport() {
       if (Array.isArray(res.data)) setInterventions(res.data);
     } catch (err) {
       console.error(err);
+    }
+    finally {
+
+      setLoading(false);
+  
     }
   };
 
@@ -747,7 +753,15 @@ for (let i = 1; i <= pageCount; i++) {
     // EXPORT
     doc.save("Rapport_Interventions_Detaille.pdf");
   };
-      
+    
+  
+  if (loading) {
+    return (
+      <div className="dashboard-loading">
+        Chargement de toutes les demandes d'intervention...
+      </div>
+    );
+  }
   return (
     <div className="p-6">
       <h1 className="textes">

@@ -95,6 +95,12 @@ export default function MenuMethodePage() {
               <FaUser /> Arrets planifiés
             </Link>
           </li>
+
+          <li>
+            <Link to="passation" onClick={closeMenu} >
+              <FaChartPie /> Passation consignes
+            </Link>
+          </li>
         </ul>
         
       </aside>

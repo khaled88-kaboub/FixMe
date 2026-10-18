@@ -53,7 +53,10 @@ import ListeReportPage2 from "./pages/ListReportPage2";
 import FicheEquipement from "./pages/FicheEquipement";
 import DashboardMaintenance from "./pages/DashboardMaintenance";
 import ArretsPlanifiesPage from "./pages/ArretsPlanifiesPage";
+import ArretsnonPlanifiesPage from "./pages/ArretsnonPlanifiesPage";
 import PlanificationProductionPage from "./pages/PlanificationProductionPage";
+import AdminPassationConsigne from "./pages/AdminPassationConsigne";
+import AdminPassationConsigneUser from "./pages/AdminPassationConsigneUser";
 
 
 
@@ -169,7 +172,9 @@ export default function App() {
               <Route path="mpinterventions" element={<InterventionPlist/>}/>
               <Route path="dashboard-maintenance" element={<DashboardMaintenance />} />
               <Route path="arret-planifie" element={<ArretsPlanifiesPage />} />
+              <Route path="arret-non-planifie" element={<ArretsnonPlanifiesPage />} />
               <Route path="planifier-production" element={<PlanificationProductionPage />} />
+              <Route path="passation" element={<AdminPassationConsigne />} />
              </Route>
 
 
@@ -197,6 +202,7 @@ export default function App() {
               <Route path="mpcalendarP" element={<MaintenancePreventiveCalendar/>}/>
              
               <Route path="dashboard-maintenance" element={<DashboardMaintenance />} />
+              <Route path="passation" element={<AdminPassationConsigneUser />} />
              </Route>
 
 
@@ -217,6 +223,7 @@ export default function App() {
           <Route path="rapp" element={<ListeReportPage2/>}/>
           <Route path="compteurs2" element={<CompteurListPage2 />} />
           <Route path="dashboard-maintenance" element={<DashboardMaintenance />} />
+          <Route path="passation" element={<AdminPassationConsigneUser />} />
           </Route>
          
          {/* --- Role Méthodes --- */} 
@@ -243,6 +250,7 @@ export default function App() {
           <Route path="dashboard-maintenance" element={<DashboardMaintenance />} />
           <Route path="arret-planifie" element={<ArretsPlanifiesPage />} />
           <Route path="planifier-production" element={<PlanificationProductionPage />} />
+          <Route path="passation" element={<AdminPassationConsigneUser />} />
           </Route>
 
          {/* --- Role Production --- */}

@@ -398,13 +398,14 @@ export default function AdminInterventionFournisseur() {
       <ToastContainer />
       <div className="header">
       <h2 className="titre">
-  Prestations 
+  Prestations & Sous traitances
   <span className="count-badge">
   {interventionsFiltrees.length}
   </span>
 </h2>
+</div>
         <button
-  className="btno-add"
+  className="btn-export-pdf"
   onClick={() => {
     setEditMode(false);
     setCurrentId(null);
@@ -434,14 +435,25 @@ export default function AdminInterventionFournisseur() {
   <FaFilePdf />
    PDF
 </button>
-      </div>
-
+      
+<button
+    className="btn-export-pdf"
+    onClick={() =>
+      setFilters({
+        fournisseur: "",
+        dateDebut: "",
+        dateFin: "",
+      })
+    }
+  >
+    Réinitialiser
+  </button>
 
 {/* ===================== FILTRES ===================== */}
 
 <div className="filters-container">
-
-  <select
+<div>
+<select
     value={filters.fournisseur}
     onChange={(e) =>
       setFilters({
@@ -459,7 +471,9 @@ export default function AdminInterventionFournisseur() {
     ))}
   </select>
 
-  <input
+</div>
+ <div>
+ <input
     type="date"
     value={filters.dateDebut}
     onChange={(e) =>
@@ -469,8 +483,10 @@ export default function AdminInterventionFournisseur() {
       })
     }
   />
-
-  <input
+ </div>
+ 
+<div>
+<input
     type="date"
     value={filters.dateFin}
     onChange={(e) =>
@@ -480,19 +496,10 @@ export default function AdminInterventionFournisseur() {
       })
     }
   />
+</div>
+  
 
-  <button
-    className="btn-reset-filter"
-    onClick={() =>
-      setFilters({
-        fournisseur: "",
-        dateDebut: "",
-        dateFin: "",
-      })
-    }
-  >
-    Réinitialiser
-  </button>
+
 </div>
 
 <div className="table-separator"></div>

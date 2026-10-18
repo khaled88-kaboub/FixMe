@@ -160,6 +160,18 @@ export default function MenuAdminPage() {
               <FaUser /> Arrets planifiés
             </Link>
           </li>
+
+          <li >
+            <Link to="arret-non-planifie" onClick={closeMenu}>
+              <FaUser /> Arrets non planifiés
+            </Link>
+          </li>
+
+          <li>
+            <Link to="passation" onClick={closeMenu} >
+              <FaChartPie /> Passation consignes
+            </Link>
+          </li>
         </ul>
       </aside>
 

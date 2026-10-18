@@ -2,7 +2,7 @@
 
 @import url('https://fonts.googleapis.com/css2?family=Outfit:wght@500;600&display=swap');
 
-.kpi-card h3 {
+.kpi-card h3 , .dashboard-header h1 {
   font-family: 'Outfit', sans-serif;
 }
 .kpi-card h3 {

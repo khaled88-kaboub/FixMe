@@ -69,12 +69,12 @@ export default function AdminInterventionsPage() {
         { headers: { Authorization: `Bearer ${token}` } }
       );
       
-      // Mise à jour locale de la liste
       setInterventions(interventions.map(i => i._id === res.data._id ? res.data : i));
       setIsModalOpen(false);
       alert("✅ Mise à jour réussie !");
     } catch (err) {
-      alert("❌ Erreur lors de la mise à jour");
+      console.error("Erreur mise à jour:", err);
+      alert("❌ Erreur lors de la mise à jour : " + (err.response?.data?.message || err.message));
     }
   };
 
@@ -149,6 +149,47 @@ export default function AdminInterventionsPage() {
                   <option value="annule">annule</option>
                 </select>
               </div>
+
+
+              {/* Sélection de la Ligne */}
+<div className="forma-group">
+  <label>Ligne</label>
+  <select 
+    value={selectedIntervention.ligne?._id || selectedIntervention.ligne || ""}
+    onChange={(e) => setSelectedIntervention({
+      ...selectedIntervention, 
+      ligne: e.target.value 
+    })}
+  >
+    <option value="">-- Sélectionner une ligne --</option>
+    {lignes.map((l) => (
+      <option key={l._id} value={l._id}>
+        {l.nom}
+      </option>
+    ))}
+  </select>
+</div>
+
+{/* Sélection de l'Équipement */}
+<div className="forma-group">
+  <label>Équipement</label>
+  <select 
+    value={selectedIntervention.equipement?._id || selectedIntervention.equipement || ""}
+    onChange={(e) => setSelectedIntervention({
+      ...selectedIntervention, 
+      equipement: e.target.value 
+    })}
+  >
+    <option value="">-- Sélectionner un équipement --</option>
+    {equipements.map((eq) => (
+      <option key={eq._id} value={eq._id}>
+        {eq.designation } ({ eq.code}) {/* S'adapte selon si c'est `designation` ou `nom` dans votre base */}
+      </option>
+    ))}
+  </select>
+</div>
+
+             
 
               <div className="forma-group">
                 <label>Description Anomalie</label>
@@ -238,7 +279,7 @@ export default function AdminInterventionsPage() {
 
               <div className="modalo-footero">
                 <button type="button" className="cancel-btn" onClick={() => setIsModalOpen(false)}>Annuler</button>
-                <button type="submit" className="cancel-btn">Enregistrer les modifications</button>
+                <button type="submit" className="cancel-btn" >Enregistrer les modifications</button>
               </div>
             </form>
           </div>

@@ -53,6 +53,13 @@ export default function MenuMaintenancePage() {
               <FaChartPie /> Dashboard
             </Link>
           </li>
+
+          <li>
+            <Link to="passation" onClick={closeMenu} >
+              <FaChartPie /> Passation consignes
+            </Link>
+          </li>
+
         </ul>
       </aside>
 

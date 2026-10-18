@@ -6,6 +6,7 @@ import InterventionFournisseur from "../models/InterventionFournisseur.js";
 import InterventionP from "../models/InterventionP.js";
 import PlanificationProduction from "../models/PlanificationProduction.js";
 import ArretPlanifie from "../models/ArretPlanifie.js";
+import ArretnonPlanifie from "../models/ArretnonPlanifie.js";
 
 import mongoose from "mongoose";
 
@@ -189,7 +190,7 @@ const statsLignes = await Intervention.aggregate([
   },
 
   // ===============================
-  // PRÉSENTATION
+  // PRÉSENTATION arret planifies
   // ===============================
 
   {
@@ -246,6 +247,28 @@ const statsArretsPlanifies = await ArretPlanifie.aggregate([
   }
 ]);
 
+const statsArretsnonPlanifies = await ArretnonPlanifie.aggregate([
+  {
+    $match: {
+      dateHeureArret: {
+        $gte: startMonth,
+        $lte: endMonth
+      }
+    }
+  },
+  {
+    $group: {
+      _id: "$ligne",
+      tempsArretnonPlanifieMinutes: {
+        $sum: "$dureeMinutes"
+      }
+    }
+  }
+]);
+
+
+
+
 statsLignes.forEach((ligne) => {
   const arretPlanifie = statsArretsPlanifies.find(
     (item) => item._id.toString() === ligne.ligneId.toString()
@@ -253,6 +276,15 @@ statsLignes.forEach((ligne) => {
 
   ligne.tempsArretPlanifieMinutes =
     arretPlanifie?.tempsArretPlanifieMinutes || 0;
+});
+
+statsLignes.forEach((ligne) => {
+  const arretnonPlanifie = statsArretsnonPlanifies.find(
+    (item) => item._id.toString() === ligne.ligneId.toString()
+  );
+
+  ligne.tempsArretnonPlanifieMinutes =
+    arretnonPlanifie?.tempsArretnonPlanifieMinutes || 0;
 });
 
     // ===============================

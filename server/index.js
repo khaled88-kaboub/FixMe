@@ -28,7 +28,8 @@ import ficheEquipementRoutes from "./routes/ficheEquipementRoute.js";
 import dashboardRoutes from "./routes/dashboardRoute.js";
 import typeArretRoutes from "./routes/typeArretRoute.js";
 import arretPlanifieRoutes from "./routes/arretPlanifieRoute.js";
-
+import arretnonPlanifieRoutes from "./routes/arretnonPlanifieRoute.js";
+import consigneRoutes from "./routes/consigneRoute.js";
 import planificationProductionRoutes from "./routes/planificationProductionRoute.js";
 
 import path from "path";
@@ -91,12 +92,13 @@ app.use("/api/dashboard", dashboardRoutes);
 app.use("/api/types-arret", typeArretRoutes);
 
 app.use("/api/arrets-planifies", arretPlanifieRoutes);
+app.use("/api/arrets-non-planifies", arretnonPlanifieRoutes);
 app.use("/api/planifications-production", planificationProductionRoutes);
 app.use("/uploads", express.static(path.join(process.cwd(), "uploads")));
 app.set("io", io);
 
 app.use("/api/interventions-fournisseurs", interventionFournisseurRoutes);
-
+app.use("/api/consignes", consigneRoutes);
 
 
 const PORT = process.env.PORT || 5000;

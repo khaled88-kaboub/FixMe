@@ -158,6 +158,7 @@ export default function MaintenancePreventiveList() {
         <div className="mp-searchbox">
           <FaSearch />
           <input
+            type="text"
             placeholder="Rechercher titre..."
             value={q}
             onChange={(e) => setQ(e.target.value)}

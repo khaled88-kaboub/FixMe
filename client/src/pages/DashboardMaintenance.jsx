@@ -68,8 +68,10 @@ const [annee, setAnnee] = useState(
 const formatDuree = (minutes) => {
   if (!minutes || isNaN(minutes)) return null;
   const hrs = (minutes / 60).toFixed(1);
-  return `${hrs} h`;
+  const jr = (minutes / (60*24)).toFixed(1);
+  return `${hrs} h ≈ ${jr} j`;
 };
+
 
 
 useEffect(() => {
@@ -480,7 +482,7 @@ const statsEquipements = Object.values(
   }, {})
 
 );
-
+const tauxRealisation = stats.tauxRealisationPreventive || 0;
   if (loading) {
     return (
       <div className="dashboard-loading">
@@ -488,7 +490,7 @@ const statsEquipements = Object.values(
       </div>
     );
   }
-  const tauxRealisation = stats.tauxRealisationPreventive || 0;
+ 
 
 
 
@@ -867,8 +869,9 @@ const statsEquipements = Object.values(
       <th>Ligne</th>
       <th>Production planifiée</th>
       <th>Arrêts planifiés (min)</th>
-      <th>Nombre arrêts panne</th>
-      <th>Temps arrêt pannes (min)</th>
+      <th>Arrêts non planifiés (min)</th>
+      <th>Nombre pannes</th>
+      <th>Temps pannes (min)</th>
       <th>MTTR (min)</th>
       <th>MTBF (h)</th>
       <th>Disponibilité</th>
@@ -946,7 +949,11 @@ const statsEquipements = Object.values(
         {ligne.tempsArretPlanifieMinutes || 0} min
       </td>
 
-      <td data-label="Nombre des arrets :">
+      <td data-label="Arrêt non planifié :">
+        {ligne.tempsArretnonPlanifieMinutes || 0} min
+      </td>
+
+      <td data-label="Nombre des pannes :">
         {ligne.nombreArrets}
       </td>
 

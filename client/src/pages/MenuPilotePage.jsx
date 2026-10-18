@@ -96,6 +96,12 @@ export default function MenuPilotePage() {
               <FaUser /> Prestations Service
             </Link>
           </li>
+
+          <li>
+            <Link to="passation" onClick={closeMenu} >
+              <FaChartPie /> Passation consignes
+            </Link>
+          </li>
         </ul>
       </aside>
 
