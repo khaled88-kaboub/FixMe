@@ -74,6 +74,11 @@ export default function MenuMethodePage() {
             </Link>
           </li>
 
+          <li >
+            <Link to="mpform" className="prev" onClick={() => setOpen(!open)}>
+              <FaTools /> Creer MPS
+            </Link>
+          </li>
           <li>
             <Link to="dashboard-maintenance" onClick={closeMenu} >
               <FaChartPie /> Dashboard
@@ -81,7 +86,9 @@ export default function MenuMethodePage() {
           </li>
 
           <li >
-          ------------
+         
+          
+          
           </li>
 
           <li >

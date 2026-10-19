@@ -43,16 +43,18 @@
   }
   
   .dashboard-header h1 {
-    font-size: 34px;
+    font-size: 40px;
     font-weight: 800;
     color: #0f172a;
     margin-bottom: 8px;
     letter-spacing: -0.5px;
+    text-align: center;
   }
   
   .dashboard-header p {
     font-size: 15px;
-    color: #64748b;
+    color: #2a60aa;
+    text-align: center;
   }
   
 

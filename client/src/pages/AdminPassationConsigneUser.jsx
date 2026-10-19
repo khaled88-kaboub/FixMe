@@ -199,7 +199,7 @@ useEffect(() => {
     setForm({
       titre: "",
       description: "",
-      quart: "Matin",
+      quart: "A",
       dateConsigne: new Date().toISOString().slice(0, 10),
       priorite: "Moyenne",
       statut: "En cours",
@@ -478,9 +478,7 @@ useEffect(() => {
               </td>
               <td>
                 
-                <button className="btn-edit" onClick={() => handleEdit(c)}>
-                  <FaEdit />
-                </button>
+                
                 
                
                 
@@ -502,7 +500,7 @@ useEffect(() => {
             <form onSubmit={handleSubmit}>
               <div className="form-row">
                 <input
-                readOnly
+                
                   type="text"
                   placeholder="Émetteur / Responsable *"
                   required
@@ -512,7 +510,7 @@ useEffect(() => {
                   }
                 />
                 <select
-                disabled
+                
                   value={form.quart}
                   onChange={(e) => setForm({ ...form, quart: e.target.value })}
                 >
@@ -526,7 +524,7 @@ useEffect(() => {
 
               <div className="form-row">
                 <input
-                disabled
+                
                   type="date"
                   required
                   value={form.dateConsigne}
@@ -535,7 +533,7 @@ useEffect(() => {
                   }
                 />
                 <select
-                disabled
+                
                   value={form.priorite}
                   onChange={(e) =>
                     setForm({ ...form, priorite: e.target.value })
@@ -549,7 +547,7 @@ useEffect(() => {
               </div>
 
               <input
-              disabled
+              
                 type="text"
                 placeholder="Titre de la consigne *"
                 required
@@ -558,7 +556,7 @@ useEffect(() => {
               />
 
               <textarea
-              disabled
+             
                 placeholder="Détails importants / Consignes transmises... *"
                 required
                 value={form.description}
@@ -569,7 +567,7 @@ useEffect(() => {
 
               <div className="form-row">
                 <select
-                disabled
+                
                   value={form.ligne}
                   onChange={(e) =>
                     setForm({ ...form, ligne: e.target.value, equipement: "" })
@@ -585,7 +583,7 @@ useEffect(() => {
 
                 <select
                   value={form.equipement}
-                  disabled={!form.ligne}
+                  
                   onChange={(e) =>
                     setForm({ ...form, equipement: e.target.value })
                   }
@@ -604,7 +602,7 @@ useEffect(() => {
               </div>
 
               <select
-              disabled
+              
                 value={form.statut}
                 onChange={(e) => setForm({ ...form, statut: e.target.value })}
               >
@@ -614,7 +612,7 @@ useEffect(() => {
               </select>
 
               <input
-              disabled
+              
                 type="file"
                 onChange={(e) => {
                   const file = e.target.files[0];
@@ -635,7 +633,9 @@ useEffect(() => {
               )}
 
               <div className="actions">
-               
+              <button type="submit">
+                  {editMode ? "Enregistrer les modifications" : "Créer la consigne"}
+                </button>
                 <button type="button" className="cancel" onClick={closeModal}>
                   Fermer
                 </button>

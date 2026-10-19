@@ -940,10 +940,15 @@ const tauxRealisation = stats.tauxRealisationPreventive || 0;
       <td data-label="Ligne :">
         {ligne.ligne}
       </td>
-
       <td data-label="Production planifiée">
-        {ligne.tempsPlanifieMinutes || 0} min
-      </td>
+  <div>{ligne.tempsPlanifieMinutes || 0} min</div>
+  <small style={{ color: "#6c757d", fontSize: "0.85em", display: "block" }}>
+    {(
+      (ligne.tempsPlanifieMinutes || 0) /
+      (ligne.ligne?.toUpperCase() === "GALDI" ? 480 : 1440)
+    ).toFixed(2)} j
+  </small>
+</td>
 
       <td data-label="Arrêt planifié :">
         {ligne.tempsArretPlanifieMinutes || 0} min

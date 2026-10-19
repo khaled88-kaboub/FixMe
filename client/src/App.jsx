@@ -1,4 +1,5 @@
 import { BrowserRouter, Routes, Route } from "react-router-dom";
+import  { useState } from 'react';
 import { AuthProvider } from "./context/AuthContext";
 import LoginPage from "./pages/LoginPage";
 import RegisterPage from "./pages/RegisterPage";
@@ -63,12 +64,16 @@ import AdminPassationConsigneUser from "./pages/AdminPassationConsigneUser";
 
 import "react-toastify/dist/ReactToastify.css";
 import AdminInterventionFournisseur from "./pages/AdminInterventionFournisseur";
+import HomeSplash from "./components/HomeSplash";
 
 
+ 
 
 
 export default function App() {
 
+
+  
   useEffect(() => {
     // ⚡ Connexion au backend Socket.IO
     const socket = io("https://fixme-1.onrender.com", {
@@ -103,14 +108,15 @@ export default function App() {
   }, []);
 
   const user = JSON.parse(localStorage.getItem("user"));
-
   
+  const [showSplash, setShowSplash] = useState(true);
 
 
   return (
     <AuthProvider>
       <ToastContainer/>
       <UserContext.Provider value={{ user }}>
+        
         <Navbar />
         <Routes>
           <Route path="/login" element={<LoginPage />} />
@@ -251,6 +257,7 @@ export default function App() {
           <Route path="arret-planifie" element={<ArretsPlanifiesPage />} />
           <Route path="planifier-production" element={<PlanificationProductionPage />} />
           <Route path="passation" element={<AdminPassationConsigneUser />} />
+          <Route path="mpform" element={<MaintenancePreventiveForm/>}/>
           </Route>
 
          {/* --- Role Production --- */}
@@ -283,7 +290,7 @@ export default function App() {
           </Route>
 
           {/* --- OPTIONNEL : PAGE PAR DÉFAUT --- */}
-          <Route path="/" element={<LoginPage />} />
+          <Route path="/" element={<HomeSplash />} />
 
 
 
