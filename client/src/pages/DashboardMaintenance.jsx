@@ -3,6 +3,7 @@
 import React, { useEffect, useState } from "react";
 import axios from "axios";
 import * as XLSX from "xlsx";
+import html2pdf from "html2pdf.js";
 import {
   BarChart,
   Bar,
@@ -483,6 +484,104 @@ const statsEquipements = Object.values(
 
 );
 const tauxRealisation = stats.tauxRealisationPreventive || 0;
+
+
+const exportDashboardPDF = async () => {
+  const element = document.getElementById("dashboard-pdf");
+
+  if (!element) {
+    alert("Dashboard introuvable.");
+    return;
+  }
+
+  const moisNoms = [
+    "Janvier", "Fevrier", "Mars", "Avril",
+    "Mai", "Juin", "Juillet", "Aout",
+    "Septembre", "Octobre", "Novembre", "Decembre"
+  ];
+
+  const nomMois = moisNoms[mois - 1];
+
+  const options = {
+    margin: [8, 7, 12, 7],
+
+    filename: `Dashboard_Maintenance_${nomMois}_${annee}.pdf`,
+
+    image: {
+      type: "jpeg",
+      quality: 0.98
+    },
+
+    html2canvas: {
+      scale: 2,
+      useCORS: true,
+      backgroundColor: "#ffffff",
+      logging: false,
+      scrollY: 0,
+      windowWidth: element.scrollWidth
+    },
+
+    jsPDF: {
+      unit: "mm",
+      format: "a4",
+      orientation: "landscape"
+    },
+
+    pagebreak: {
+      mode: ["css", "legacy"],
+      avoid: [
+        ".kpi-card",
+        ".chart-card",
+        ".objective-card",
+        ".kpi-legend-item",
+        ".table-card",
+        ".maintenance-objectives",
+        ".kpi-legend",
+        "tr",
+        "thead"
+      ]
+    }
+  };
+
+  try {
+    await html2pdf()
+      .set(options)
+      .from(element)
+      .toPdf()
+      .get("pdf")
+      .then((pdf) => {
+        const nombrePages = pdf.internal.getNumberOfPages();
+
+        for (let i = 1; i <= nombrePages; i++) {
+          pdf.setPage(i);
+
+          pdf.setFontSize(8);
+          pdf.setTextColor(100);
+
+          pdf.text(
+            `Dashboard Maintenance - ${nomMois} ${annee}`,
+            7,
+            205
+          );
+
+          pdf.text(
+            `Page ${i} / ${nombrePages}`,
+            290,
+            205,
+            { align: "right" }
+          );
+        }
+      })
+      .save();
+
+  } catch (error) {
+    console.error("Erreur export PDF :", error);
+    alert("Une erreur est survenue pendant la génération du PDF.");
+  }
+};
+
+
+
   if (loading) {
     return (
       <div className="dashboard-loading">
@@ -495,13 +594,15 @@ const tauxRealisation = stats.tauxRealisationPreventive || 0;
 
 
   return (
-    <div className="dashboard-container">
+    <div className="dashboard-container"  id="dashboard-pdf">
 
       {/* HEADER */}
 
       <div className="dashboard-header">
         <h1>📊 Dashboard Maintenance</h1>
         <p>Statistiques du mois actuel</p>
+
+       
       </div>
 
       {/* KPI */}
@@ -1822,6 +1923,15 @@ const tauxRealisation = stats.tauxRealisationPreventive || 0;
   )
 }
 
+<div>
+<button
+    className="btn-export"
+    onClick={exportDashboardPDF}
+    data-html2canvas-ignore="true"
+  >
+    📄 Exporter tout le dashboard en PDF
+  </button>
+</div>
 
     </div>
   );

@@ -41,7 +41,7 @@ export default function AdminPassationConsigne() {
   const [form, setForm] = useState({
     titre: "",
     description: "",
-    quart: "Matin",
+    quart: "A",
     dateConsigne: new Date().toISOString().slice(0, 10),
     priorite: "Moyenne",
     statut: "En cours",

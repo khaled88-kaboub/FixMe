@@ -11,6 +11,21 @@
   overflow: hidden;
 }
 
+.auth-avatar-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 25px; /* Espace avant le formulaire */
+}
+
+.auth-avatar {
+  width: 180px;              /* Taille de l'image (ajustable) */
+  height: 100px;
+  object-fit: cover;        /* Évite la déformation de l'image */
+  border-radius: 20%;       /* Rend l'image parfaitement ronde */
+  border: 3px solid #ffffff;/* Bordure blanche pour le relief */
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15); /* Ombre douce assortie au thème */
+}
+
 /* 🫧 Bulles décoratives en fond */
 .auth-page::before,
 .auth-page::after {
@@ -23,7 +38,7 @@
 }
 
 .auth-page::before {
-  width: 350px;
+  width: 400px;
   height: 350px;
   top: -100px;
   left: -80px;
@@ -45,7 +60,7 @@
   border-radius: 20px;
   padding: 40px 45px;
   width: 100%;
-  max-width: 420px;
+  max-width: 460px;
   box-shadow: 0 8px 40px rgba(0, 0, 0, 0.1);
   text-align: center;
   color: #333;
@@ -272,4 +287,122 @@
 
 .error-message {
   animation: shake 0.4s ease-in-out;
+}
+
+
+/* 🌟 Effet de brillance / flash sur l'image */
+.auth-avatar-container {
+  display: flex;
+  justify-content: center;
+  margin-bottom: 25px;
+}
+
+.auth-avatar-wrapper {
+  position: relative;
+  width: 230px;              /* Taille de l'image (ajustable) */
+  height: 130px;
+  border-radius: 20%;
+  overflow: hidden; /* Important pour contenir le flash à l'intérieur du cercle */
+  border: 3px solid #ffffff;
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
+}
+
+.auth-avatar {
+  width: 230px;              /* Taille de l'image (ajustable) */
+  height: 130px;
+  object-fit: cover;        /* Évite la déformation de l'image */
+  border-radius: 20%;       /* Rend l'image parfaitement ronde */
+  border: 3px solid #ffffff;/* Bordure blanche pour le relief */
+  box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15); /* Ombre douce assortie au thème */
+}
+
+/* Bande lumineuse animée */
+.auth-avatar-wrapper::after {
+  content: "";
+  position: absolute;
+  top: -50%;
+  left: -150%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    60deg,
+    transparent 0%,
+    rgba(255, 255, 255, 0.6) 50%,
+    transparent 100%
+  );
+  transform: rotate(30deg);
+  animation: shineFlash 4s ease-in-out infinite; /* S'exécute en boucle toutes les 4 secondes */
+}
+
+@keyframes shineFlash {
+  0% {
+    left: -150%;
+    top: -50%;
+  }
+  20% {
+    left: 150%;
+    top: 50%;
+  }
+  100% {
+    left: 150%;
+    top: 50%;
+  }
+}
+
+
+
+/* ------------------------------------------------------ */
+/* 📜 PIED DE PAGE & POLITIQUE QUALITÉ */
+/* ------------------------------------------------------ */
+
+.auth-footer {
+  margin-top: 20px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 12px;
+}
+
+/* Ligne de séparation très fine */
+.auth-footer-divider {
+  width: 60px;
+  height: 1px;
+  background: linear-gradient(90deg, transparent, #e5e7eb, transparent);
+  margin: 4px 0;
+}
+
+/* Lien Politique Qualité Style Minimaliste & Chic */
+.quality-policy-link {
+  display: inline-flex;
+  align-items: center;
+  gap: 6px;
+  font-size: 13px;
+  color: #6b7280;
+  text-decoration: none;
+  font-weight: 500;
+  padding: 6px 14px;
+  border-radius: 20px;
+  background: rgba(243, 244, 246, 0.6);
+  border: 1px solid rgba(229, 231, 235, 0.8);
+  transition: all 0.25s ease;
+}
+
+.quality-icon {
+  width: 15px;
+  height: 15px;
+  stroke: #2563eb;
+  transition: transform 0.25s ease;
+}
+
+/* Effet Hover Élégant */
+.quality-policy-link:hover {
+  color: #2563eb;
+  background: rgba(37, 99, 235, 0.08);
+  border-color: rgba(37, 99, 235, 0.2);
+  transform: translateY(-1px);
+  box-shadow: 0 2px 8px rgba(37, 99, 235, 0.1);
+}
+
+.quality-policy-link:hover .quality-icon {
+  transform: scale(1.15) rotate(5deg);
 }

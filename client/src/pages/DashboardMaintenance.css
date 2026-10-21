@@ -1030,3 +1030,85 @@
   border-radius: 12px;
   background: white;
 }
+
+
+
+/* Préparation du dashboard pour l'export PDF */
+#dashboard-pdf {
+  background: #ffffff;
+  color: #222222;
+  width: 100%;
+}
+
+#dashboard-pdf .kpi-card,
+#dashboard-pdf .chart-card,
+#dashboard-pdf .objective-card,
+#dashboard-pdf .kpi-legend-item {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+#dashboard-pdf table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#dashboard-pdf thead {
+  display: table-header-group;
+}
+
+#dashboard-pdf tr {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
+
+#dashboard-pdf .table-card,
+#dashboard-pdf .maintenance-objectives,
+#dashboard-pdf .kpi-legend {
+  margin-bottom: 12px;
+}
+
+
+/* Éviter les coupures dans les blocs du PDF */
+#dashboard-pdf {
+  background: #fff !important;
+  overflow: visible !important;
+  height: auto !important;
+}
+
+/* Conserver chaque carte sur une même page si possible */
+#dashboard-pdf .kpi-card,
+#dashboard-pdf .chart-card,
+#dashboard-pdf .objective-card,
+#dashboard-pdf .kpi-legend-item {
+  break-inside: avoid !important;
+  page-break-inside: avoid !important;
+}
+
+/* Éviter les coupures dans les tableaux */
+#dashboard-pdf table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+#dashboard-pdf thead {
+  display: table-header-group;
+}
+
+#dashboard-pdf tr {
+  break-inside: avoid !important;
+  page-break-inside: avoid !important;
+}
+
+/* Ne pas masquer le contenu qui dépasse */
+#dashboard-pdf .table-card,
+#dashboard-pdf .chart-card {
+  overflow: visible !important;
+  height: auto;
+}
+
+/* Garder les graphiques ensemble */
+#dashboard-pdf .recharts-wrapper {
+  break-inside: avoid;
+  page-break-inside: avoid;
+}
