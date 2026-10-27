@@ -62,7 +62,7 @@ import ProcessCoverPage from "./pages/ProcessCoverPage"
 import ProcessLogigrammePage from "./pages/ProcessLogigrammePage";
 import ProcessIndicators from "./pages/ProcessIndicators";
 import Iso9001 from "./pages/Iso9001";
-import ProcessRisques from "./Pages/ProcessRisques";
+import ProcessRisques from "./pages/ProcessRisques";
 import "react-toastify/dist/ReactToastify.css";
 import AdminInterventionFournisseur from "./pages/AdminInterventionFournisseur";
 import HomeSplash from "./components/HomeSplash";
