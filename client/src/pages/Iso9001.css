@@ -1,0 +1,75 @@
+.iso9001-container {
+    max-width: 100%;
+    margin: 0 auto;
+    padding: 30px 20px;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: #f1f5f9;
+    min-height: 100vh;
+  }
+  
+  .iso9001-header {
+    text-align: center;
+    margin-bottom: 30px;
+  }
+  
+  .iso9001-header h1 {
+    font-size: 2.2rem;
+    color: #0f172a;
+    margin: 0 0 8px 0;
+    font-weight: 800;
+  }
+  
+  .iso9001-header p {
+    color: #64748b;
+    font-size: 1rem;
+    margin: 0;
+  }
+  
+  /* Barre de navigation / Onglets */
+  .iso-tabs-nav {
+    display: flex;
+    justify-content: center;
+    gap: 12px;
+    margin-bottom: 30px;
+    flex-wrap: wrap;
+    background: #ffffff;
+    padding: 10px;
+    border-radius: 14px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
+  }
+  
+  .iso-tab-btn {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+    background: transparent;
+    border: none;
+    padding: 12px 20px;
+    font-size: 0.95rem;
+    font-weight: 600;
+    color: #64748b;
+    border-radius: 8px;
+    cursor: pointer;
+    transition: all 0.2s ease;
+  }
+  
+  .iso-tab-btn:hover {
+    background: #f8fafc;
+    color: #0f172a;
+  }
+  
+  .iso-tab-btn.active {
+    background: #3b82f6;
+    color: #ffffff;
+    box-shadow: 0 4px 12px rgba(59, 130, 246, 0.3);
+  }
+  
+  /* Zone d'affichage du contenu */
+  .iso-tab-content {
+    background: #ffffff;
+    border-radius: 16px;
+    padding: 24px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05);
+    border: 1px solid #e2e8f0;
+  }

@@ -18,8 +18,8 @@
 }
 
 .auth-avatar {
-  width: 180px;              /* Taille de l'image (ajustable) */
-  height: 100px;
+  width: 160px;              /* Taille de l'image (ajustable) */
+  height: 90px;
   object-fit: cover;        /* Évite la déformation de l'image */
   border-radius: 20%;       /* Rend l'image parfaitement ronde */
   border: 3px solid #ffffff;/* Bordure blanche pour le relief */
@@ -301,7 +301,7 @@
   position: relative;
   width: 230px;              /* Taille de l'image (ajustable) */
   height: 130px;
-  border-radius: 20%;
+  border-radius: 10%;
   overflow: hidden; /* Important pour contenir le flash à l'intérieur du cercle */
   border: 3px solid #ffffff;
   box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15);
@@ -311,7 +311,7 @@
   width: 230px;              /* Taille de l'image (ajustable) */
   height: 130px;
   object-fit: cover;        /* Évite la déformation de l'image */
-  border-radius: 20%;       /* Rend l'image parfaitement ronde */
+  border-radius: 10%;       /* Rend l'image parfaitement ronde */
   border: 3px solid #ffffff;/* Bordure blanche pour le relief */
   box-shadow: 0 4px 12px rgba(37, 99, 235, 0.15); /* Ombre douce assortie au thème */
 }

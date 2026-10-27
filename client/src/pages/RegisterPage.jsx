@@ -2,7 +2,7 @@ import "./AuthPage.css";
 import { useState } from "react";
 import axios from "axios";
 import { useNavigate, Link } from "react-router-dom";
-import logo from '../assets/rmc.png';
+import logo from '../assets/rmc.jpg';
 // 📂 Importation du fichier de politique qualité depuis les assets
 import qualiteFile from "../assets/politique.pdf"; // Mettez l'extension exacte (ex: .pdf, .png, .jpg)
 

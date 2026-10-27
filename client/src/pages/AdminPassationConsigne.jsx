@@ -9,6 +9,7 @@ import {
   FaExclamationTriangle,
   FaCheckCircle,
   FaClock,
+  FaComments,
 } from "react-icons/fa";
 import { toast, ToastContainer } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
@@ -26,6 +27,14 @@ export default function AdminPassationConsigne() {
   const [editMode, setEditMode] = useState(false);
   const [currentId, setCurrentId] = useState(null);
   const [showModal, setShowModal] = useState(false);
+
+  // Suivi des réponses aux consignes
+  const [showReponsesModal, setShowReponsesModal] = useState(false);
+  const [consigneSelectionnee, setConsigneSelectionnee] = useState(null);
+  const [commentaire, setCommentaire] = useState("");
+  const [statutVise, setStatutVise] = useState("En cours");
+  const [emetteurReponse, setEmetteurReponse] = useState("");
+  const [reponseEnEditionId, setReponseEnEditionId] = useState(null);
 
   // Filtres
   const [filters, setFilters] = useState({
@@ -81,11 +90,10 @@ useEffect(() => {
     if (storedUser) {
       try {
         const user = JSON.parse(storedUser);
-        if (user && user.name) {
-          setForm((prevForm) => ({
-            ...prevForm,
-            emetteur: user.name,
-          }));
+        const nomUtilisateur = user?.name || user?.nom || user?.username || "";
+        if (nomUtilisateur) {
+          setForm((prevForm) => ({ ...prevForm, emetteur: nomUtilisateur }));
+          setEmetteurReponse(nomUtilisateur);
         }
       } catch (error) {
         console.error("Erreur lors de la lecture de l'utilisateur dans localStorage", error);
@@ -174,6 +182,70 @@ useEffect(() => {
     }
     setPieceJointe(null);
     setShowModal(true);
+  };
+
+  /* ===================== RÉPONSES AUX CONSIGNES ===================== */
+  const ouvrirReponses = (consigne) => {
+    setConsigneSelectionnee(consigne);
+    setCommentaire("");
+    setStatutVise(consigne.statut || "En cours");
+    setShowReponsesModal(true);
+  };
+
+  const fermerReponses = () => {
+    setShowReponsesModal(false);
+    setConsigneSelectionnee(null);
+    setCommentaire("");
+    setReponseEnEditionId(null);
+  };
+
+  const ouvrirEditionReponse = (reponse) => {
+    setReponseEnEditionId(reponse._id);
+    setCommentaire(reponse.commentaire || "");
+    setStatutVise(reponse.statutVise || "En cours");
+    setEmetteurReponse(reponse.emetteur || "");
+  };
+
+  const annulerEditionReponse = () => {
+    setReponseEnEditionId(null);
+    setCommentaire("");
+    setStatutVise(consigneSelectionnee?.statut || "En cours");
+  };
+
+  const ajouterReponse = async (e) => {
+    e.preventDefault();
+    if (!consigneSelectionnee?._id) return;
+    if (!commentaire.trim()) return toast.error("Veuillez saisir un commentaire");
+    if (!emetteurReponse.trim()) return toast.error("Veuillez renseigner le nom de l'auteur");
+
+    try {
+      const payload = {
+        commentaire: commentaire.trim(),
+        emetteur: emetteurReponse.trim(),
+        statutVise,
+      };
+
+      const response = reponseEnEditionId
+        ? await axios.put(
+            `${API_URL}/api/consignes/${consigneSelectionnee._id}/reponses/${reponseEnEditionId}`,
+            payload
+          )
+        : await axios.post(
+            `${API_URL}/api/consignes/${consigneSelectionnee._id}/reponses`,
+            payload
+          );
+
+      const consigneMiseAJour = response.data;
+      setConsignes((prev) => prev.map((c) => c._id === consigneMiseAJour._id ? consigneMiseAJour : c));
+      setConsigneSelectionnee(consigneMiseAJour);
+      setCommentaire("");
+      setReponseEnEditionId(null);
+      setStatutVise(consigneMiseAJour.statut || statutVise);
+      toast.success(reponseEnEditionId ? "Réponse modifiée avec succès" : "Réponse ajoutée avec succès");
+    } catch (err) {
+      console.error(err.response?.data || err);
+      toast.error(err.response?.data?.message || "Erreur lors de l'ajout de la réponse");
+    }
   };
 
   /* ===================== SUPPRESSION ===================== */
@@ -304,6 +376,45 @@ useEffect(() => {
     }
   };
 
+
+  
+const supprimerReponse = async (reponseId) => {
+    if (!consigneSelectionnee) return;
+  
+    const confirmation = window.confirm(
+      "Voulez-vous vraiment supprimer cette réponse ?"
+    );
+  
+    if (!confirmation) return;
+  
+    try {
+      const { data } = await axios.delete(
+        `${API_URL}/api/consignes/${consigneSelectionnee._id}/reponses/${reponseId}`
+      );
+  
+      const consigneMaj = data.consigne;
+  
+      // Actualiser le tableau principal
+      setConsignes((prev) =>
+        prev.map((c) =>
+          c._id === consigneMaj._id ? consigneMaj : c
+        )
+      );
+  
+      // Actualiser l'historique affiché dans la modale
+      setConsigneSelectionnee(consigneMaj);
+  
+      toast.success("Réponse supprimée avec succès.");
+    } catch (error) {
+      console.error(error);
+  
+      toast.error(
+        error.response?.data?.message ||
+        "Erreur lors de la suppression de la réponse."
+      );
+    }
+  };
+  
   return (
     <div className="consigne-container">
       <ToastContainer />
@@ -477,19 +588,20 @@ useEffect(() => {
                 )}
               </td>
               <td>
-                
-                <button className="btn-edit" onClick={() => handleEdit(c)}>
+               <button
+                  type="button"
+                  className="btn-edit"
+                  title="Voir les réponses / ajouter une réponse"
+                  onClick={() => ouvrirReponses(c)}
+                >
+                  <FaComments /> {c.reponses?.length || 0}
+                </button> 
+                <button className="btn-edit" onClick={() => handleEdit(c)} title="Modifier">
                   <FaEdit />
                 </button>
-                
-               
-                <button
-                  className="btn-delete"
-                  onClick={() => handleDelete(c._id)}
-                >
+                 <button className="btn-delete" onClick={() => handleDelete(c._id)} title="Supprimer">
                   <FaTrash />
                 </button>
-                    
               </td>
             </tr>
           ))}
@@ -636,6 +748,88 @@ useEffect(() => {
                 <button type="button" className="cancel" onClick={closeModal}>
                   Annuler
                 </button>
+              </div>
+            </form>
+          </div>
+        </div>
+      )}
+
+
+      {/* MODALE DE SUIVI / RÉPONSES */}
+      {showReponsesModal && consigneSelectionnee && (
+        <div className="modalo-overlayo" onClick={fermerReponses}>
+          <div className="modalo" onClick={(e) => e.stopPropagation()}>
+            <h3>Suivi de la consigne</h3>
+
+            <div className="modal-reponses-header">
+              <h4>{consigneSelectionnee.titre}</h4>
+              <p>{consigneSelectionnee.description}</p>
+              </div>
+              
+            <div className="modal-reponses-header">
+              <small>Émetteur : {consigneSelectionnee.emetteur || "-"} · Quart : {consigneSelectionnee.quart || "-"}</small>
+              <p>Statut actuel : <strong>{consigneSelectionnee.statut || "En cours"}</strong></p>
+            </div>
+            
+           
+            <div className="modal-reponses-body">
+              <h2>Historique des réponses (Total: {consigneSelectionnee.reponses?.length || 0})</h2>
+              {consigneSelectionnee.reponses?.length ? (
+                [...consigneSelectionnee.reponses]
+                  .sort((a, b) => new Date(b.dateReponse) - new Date(a.dateReponse))
+                  .map((rep, index) => (
+                    <div className="reponse-item" key={rep._id || index}>
+                      <div className="reponse-item-header">
+                        <strong className="nom">* {rep.emetteur || "Utilisateur"}</strong>
+                        <small>---------- créé le: {rep.dateReponse ? new Date(rep.dateReponse).toLocaleString() : "Date inconnue"}</small>
+                      </div>
+                      <p>{rep.commentaire}</p>
+                      <span className="reponse-statut">Statut proposé : <strong>{rep.statutVise || "En cours"}</strong></span>
+                      {rep._id && (
+                       <div className="reponse-actions">
+  <button
+    type="button"
+    className="btn-modifier-reponse"
+    onClick={() => ouvrirEditionReponse(rep)}
+  >
+    <FaEdit /> Modifier
+  </button>
+
+  <button
+    type="button"
+    className="btn-supprimer-reponse"
+    onClick={() => supprimerReponse(rep._id)}
+  >
+    <FaTrash /> Supprimer
+  </button>
+</div>
+                      )}
+                       <h2>******************</h2>
+                    </div>
+                  ))
+              ) : <p className="aucune-reponse">Aucune réponse pour le moment.</p>}
+             
+            </div>
+            
+            <form onSubmit={ajouterReponse} className="form-reponse">
+              <h4>{reponseEnEditionId ? "Modifier la réponse" : "Ajouter une réponse"}</h4>
+              <input type="text" placeholder="Nom de l'auteur *" value={emetteurReponse}
+                onChange={(e) => setEmetteurReponse(e.target.value)} required />
+              <textarea placeholder="Votre commentaire / réponse *" value={commentaire}
+                onChange={(e) => setCommentaire(e.target.value)} required rows={4} />
+              <select value={statutVise} onChange={(e) => setStatutVise(e.target.value)}>
+                <option value="En cours">Statut : En cours</option>
+                <option value="A surveiller">Statut : À surveiller</option>
+                <option value="Traitee">Statut : Traitée</option>
+              </select>
+              <div className="actions">
+                <button type="submit">{reponseEnEditionId ? "Enregistrer les modifications" : "Ajouter la réponse"}</button>
+                {reponseEnEditionId && (
+                  <button type="button" className="cancel" onClick={annulerEditionReponse}>
+                    Annuler la modification
+                  </button>
+                )}
+                <button type="button" className="cancel" onClick={fermerReponses}>Fermer</button>
               </div>
             </form>
           </div>

@@ -6,7 +6,7 @@ const router = express.Router();
 //const path = require("path");
 
 
-import { getConsignes, createConsigne, updateConsigne, deleteConsigne } from "../controllers/consigneController.js";
+import { getConsignes, createConsigne, updateConsigne, deleteConsigne,  ajouterReponseConsigne,  modifierReponseConsigne, supprimerReponseConsigne, } from "../controllers/consigneController.js";
 // Configuration stockage Multer pour les pièces jointes
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
@@ -24,6 +24,12 @@ router.get("/", getConsignes);
 router.post("/", upload.single("pieceJointe"), createConsigne);
 router.put("/:id", upload.single("pieceJointe"), updateConsigne);
 router.delete("/:id", deleteConsigne);
-
-
+// Ajouter une réponse à une consigne
+router.post("/:id/reponses", ajouterReponseConsigne);
+router.put("/:id/reponses/:reponseId", modifierReponseConsigne
+);
+router.delete(
+  "/:id/reponses/:reponseId",
+  supprimerReponseConsigne
+);
 export default router;

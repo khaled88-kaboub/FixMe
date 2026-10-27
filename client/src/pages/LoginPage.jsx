@@ -2,7 +2,7 @@ import { useState, useContext } from "react";
 import { AuthContext } from "../context/AuthContext";
 import { Link } from "react-router-dom";
 import "./AuthPage.css";
-import logo from '../assets/rmc.png';
+import logo from '../assets/rmc.jpg';
 // 📂 Importation du fichier de politique qualité depuis les assets
 import qualiteFile from "../assets/politique.pdf"; // Mettez l'extension exacte (ex: .pdf, .png, .jpg)
 

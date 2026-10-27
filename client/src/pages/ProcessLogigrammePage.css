@@ -1,0 +1,247 @@
+.flowchart-container {
+    max-width: 900px;
+    margin: 0 auto;
+    padding: 40px 20px;
+    font-family: 'Inter', system-ui, -apple-system, sans-serif;
+    background-color: #f8fafc;
+    color: #1e293b;
+  }
+  
+  .flowchart-header {
+    text-align: center;
+    margin-bottom: 50px;
+  }
+  
+  .flowchart-badge {
+    display: inline-block;
+    background-color: #e0e7ff;
+    color: #4338ca;
+    padding: 6px 16px;
+    border-radius: 20px;
+    font-size: 0.85rem;
+    font-weight: 700;
+    text-transform: uppercase;
+    margin-bottom: 12px;
+    letter-spacing: 0.5px;
+  }
+  
+  .flowchart-header h1 {
+    font-size: 2.2rem;
+    color: #0f172a;
+    margin: 0 0 10px 0;
+    font-weight: 800;
+  }
+  
+  .flowchart-header p {
+    color: #64748b;
+    font-size: 1rem;
+    margin: 0;
+  }
+  
+  /* Pipeline du Logigramme vertical centré */
+  .flowchart-pipeline {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    position: relative;
+  }
+  
+  .flow-card {
+    width: 100%;
+    max-width: 650px;
+    background: #ffffff;
+    border-radius: 14px;
+    padding: 24px;
+    box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.05), 0 2px 4px -1px rgba(0, 0, 0, 0.03);
+    border: 1px solid #e2e8f0;
+    cursor: pointer;
+    transition: all 0.3s ease;
+    position: relative;
+    display: flex;
+    gap: 20px;
+    align-items: flex-start;
+  }
+  
+  .flow-card:hover {
+    transform: translateY(-4px);
+    box-shadow: 0 12px 20px -3px rgba(0, 0, 0, 0.1);
+    border-color: #6366f1;
+  }
+  
+  .flow-card.active {
+    border-color: #4338ca;
+    box-shadow: 0 0 0 3px rgba(99, 102, 241, 0.2);
+  }
+  
+  /* Couleurs de bordure selon le type d'étape du logigramme */
+  .flow-card.start { border-left: 6px solid #10b981; }
+  .flow-card.process { border-left: 6px solid #3b82f6; }
+  .flow-card.decision { border-left: 6px solid #f59e0b; }
+  .flow-card.end { border-left: 6px solid #8b5cf6; }
+  
+  .flow-card-top {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    background: #f1f5f9;
+    padding: 10px 14px;
+    border-radius: 10px;
+    min-width: 60px;
+  }
+  
+  .step-number {
+    font-size: 0.85rem;
+    font-weight: 800;
+    color: #64748b;
+  }
+  
+  .step-icon {
+    font-size: 1.8rem;
+    margin-top: 6px;
+  }
+  
+  .flow-card-body {
+    flex-grow: 1;
+  }
+  
+  .step-actor {
+    display: inline-block;
+    font-size: 0.75rem;
+    text-transform: uppercase;
+    font-weight: 700;
+    color: #4338ca;
+    background: #eef2ff;
+    padding: 3px 8px;
+    border-radius: 6px;
+    margin-bottom: 6px;
+  }
+  
+  .flow-card-body h3 {
+    margin: 4px 0 8px 0;
+    font-size: 1.15rem;
+    color: #0f172a;
+  }
+  
+  .flow-card-body p {
+    margin: 0;
+    font-size: 0.92rem;
+    color: #475569;
+    line-height: 1.5;
+  }
+  
+  /* Flèche de liaison */
+  .flow-arrow {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    height: 40px;
+    justify-content: center;
+  }
+  
+  .arrow-line {
+    width: 3px;
+    height: 24px;
+    background-color: #cbd5e1;
+  }
+  
+  .arrow-head {
+    font-size: 0.8rem;
+    color: #cbd5e1;
+    margin-top: -6px;
+  }
+  
+  /* Modale de détails */
+  .flow-modal-overlay {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background: rgba(15, 23, 42, 0.6);
+    backdrop-filter: blur(4px);
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    z-index: 1000;
+    padding: 20px;
+  }
+  
+  .flow-modal-content {
+    background: white;
+    width: 100%;
+    max-width: 500px;
+    padding: 30px;
+    border-radius: 16px;
+    box-shadow: 0 20px 25px -5px rgba(0, 0, 0, 0.1);
+    position: relative;
+    animation: modalScale 0.25s ease-out;
+  }
+  
+  @keyframes modalScale {
+    from { transform: scale(0.95); opacity: 0; }
+    to { transform: scale(1); opacity: 1; }
+  }
+  
+  .modal-close {
+    position: absolute;
+    top: 20px;
+    right: 20px;
+    background: #f1f5f9;
+    border: none;
+    width: 32px;
+    height: 32px;
+    border-radius: 50%;
+    font-size: 1rem;
+    cursor: pointer;
+    color: #64748b;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    transition: background 0.2s;
+  }
+  
+  .modal-close:hover {
+    background: #e2e8f0;
+    color: #0f172a;
+  }
+  
+  .modal-icon {
+    font-size: 3rem;
+    margin-bottom: 12px;
+  }
+  
+  .modal-step {
+    font-size: 0.85rem;
+    font-weight: 700;
+    color: #4338ca;
+    text-transform: uppercase;
+  }
+  
+  .flow-modal-content h2 {
+    margin: 6px 0 16px 0;
+    font-size: 1.4rem;
+    color: #0f172a;
+  }
+  
+  .flow-modal-content p {
+    margin: 8px 0;
+    font-size: 0.95rem;
+    color: #475569;
+    line-height: 1.5;
+  }
+  
+  .modal-footer {
+    margin-top: 24px;
+    padding-top: 16px;
+    border-top: 1px solid #f1f5f9;
+  }
+  
+  .tag-type {
+    display: inline-block;
+    background: #f1f5f9;
+    color: #475569;
+    font-size: 0.8rem;
+    font-weight: 700;
+    padding: 4px 10px;
+    border-radius: 6px;
+  }

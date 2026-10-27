@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
-import logo from '../assets/rmc.png';
+import logo from '../assets/rmc.jpg';
 import logoSecondaire from '../assets/FixMe.png'; // 👈 Remplacez par le chemin de votre deuxième logo
 
 const HomeSplash = () => {

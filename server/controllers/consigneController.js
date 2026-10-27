@@ -1,5 +1,6 @@
 
 import Consigne from "../models/Consigne.js";
+import mongoose from "mongoose";
 // @desc    Obtenir toutes les consignes (avec filtres optionnels)
 // @route   GET /api/consignes
 export const getConsignes = async (req, res) => {
@@ -139,3 +140,212 @@ export const deleteConsigne = async (req, res) => {
     });
   }
 };
+
+// =========================================================================
+// NOUVEAU CONTRÔLEUR : Ajouter une réponse / commentaire à une consigne
+// @route   POST /api/consignes/:id/reponses
+// =========================================================================
+
+export const ajouterReponseConsigne = async (req, res) => {
+    try {
+      const { id } = req.params;
+      const { commentaire, emetteur, statutVise } = req.body;
+  
+      // Vérifier les champs obligatoires
+      if (
+        typeof commentaire !== "string" ||
+        !commentaire.trim() ||
+        typeof emetteur !== "string" ||
+        !emetteur.trim()
+      ) {
+        return res.status(400).json({
+          message: "Le commentaire et l'émetteur sont obligatoires.",
+        });
+      }
+  
+      // Vérifier le statut transmis, s'il existe
+      const statutsAutorises = ["En cours", "Traitee", "A surveiller"];
+  
+      if (
+        statutVise !== undefined &&
+        !statutsAutorises.includes(statutVise)
+      ) {
+        return res.status(400).json({
+          message: "Le statut fourni est invalide.",
+        });
+      }
+  
+      // Construire la réponse
+      const nouvelleReponse = {
+        commentaire: commentaire.trim(),
+        emetteur: emetteur.trim(),
+        dateReponse: new Date(),
+        statutVise: statutVise || "En cours",
+      };
+  
+      // Ajouter la réponse et actualiser le statut global
+      const updateQuery = {
+        $push: { reponses: nouvelleReponse },
+      };
+  
+      // Ne modifier le statut global que si le frontend en transmet un
+      if (statutVise !== undefined) {
+        updateQuery.$set = { statut: statutVise };
+      }
+  
+      const consigneMaj = await Consigne.findByIdAndUpdate(
+        id,
+        updateQuery,
+        {
+          new: true,
+          runValidators: true,
+        }
+      )
+        .populate("ligne", "nom")
+        .populate("equipement", "designation code");
+  
+      if (!consigneMaj) {
+        return res.status(404).json({
+          message: "Consigne non trouvée.",
+        });
+      }
+  
+      return res.status(200).json(consigneMaj);
+    } catch (error) {
+      console.error("Erreur ajout réponse :", error);
+  
+      return res.status(400).json({
+        message: "Erreur lors de l'ajout de la réponse.",
+        error: error.message,
+      });
+    }
+  };
+ 
+  //Modifier reponse controller
+export const modifierReponseConsigne = async (req, res) => {
+    try {
+      const { id, reponseId } = req.params;
+      const { commentaire, emetteur, statutVise } = req.body;
+  
+      if (
+        typeof commentaire !== "string" ||
+        !commentaire.trim() ||
+        typeof emetteur !== "string" ||
+        !emetteur.trim()
+      ) {
+        return res.status(400).json({
+          message: "Le commentaire et l'émetteur sont obligatoires.",
+        });
+      }
+  
+      const statutsAutorises = ["En cours", "Traitee", "A surveiller"];
+  
+      if (
+        statutVise !== undefined &&
+        !statutsAutorises.includes(statutVise)
+      ) {
+        return res.status(400).json({
+          message: "Le statut fourni est invalide.",
+        });
+      }
+  
+      const consigne = await Consigne.findById(id);
+  
+      if (!consigne) {
+        return res.status(404).json({
+          message: "Consigne non trouvée.",
+        });
+      }
+  
+      const reponse = consigne.reponses.id(reponseId);
+  
+      if (!reponse) {
+        return res.status(404).json({
+          message: "Réponse non trouvée.",
+        });
+      }
+  
+      // Modifier la réponse existante
+      reponse.commentaire = commentaire.trim();
+      reponse.emetteur = emetteur.trim();
+  
+      if (statutVise !== undefined) {
+        reponse.statutVise = statutVise;
+  
+        // Maintenir le statut global cohérent avec la réponse modifiée
+        consigne.statut = statutVise;
+      }
+  
+      await consigne.save();
+  
+      await consigne.populate([
+        { path: "ligne", select: "nom" },
+        { path: "equipement", select: "designation code" },
+      ]);
+  
+      return res.status(200).json(consigne);
+    } catch (error) {
+      console.error("Erreur modification réponse :", error);
+  
+      return res.status(400).json({
+        message: "Erreur lors de la modification de la réponse.",
+        error: error.message,
+      });
+    }
+  };
+  
+
+  // supprimer reponse
+  export const supprimerReponseConsigne = async (req, res) => {
+    try {
+      const { id, reponseId } = req.params;
+  
+      // Vérifier la validité des identifiants
+      if (
+        !mongoose.isValidObjectId(id) ||
+        !mongoose.isValidObjectId(reponseId)
+      ) {
+        return res.status(400).json({
+          message: "Identifiant de consigne ou de réponse invalide.",
+        });
+      }
+  
+      const consigne = await Consigne.findById(id);
+  
+      if (!consigne) {
+        return res.status(404).json({
+          message: "Consigne non trouvée.",
+        });
+      }
+  
+      const reponse = consigne.reponses.id(reponseId);
+  
+      if (!reponse) {
+        return res.status(404).json({
+          message: "Réponse non trouvée.",
+        });
+      }
+  
+      // Supprimer uniquement la réponse ciblée
+      reponse.deleteOne();
+  
+      await consigne.save();
+  
+      await consigne.populate([
+        { path: "ligne", select: "nom" },
+        { path: "equipement", select: "designation code" },
+      ]);
+  
+      return res.status(200).json({
+        message: "Réponse supprimée avec succès.",
+        consigne,
+      });
+    } catch (error) {
+      console.error("Erreur lors de la suppression de la réponse :", error);
+  
+      return res.status(500).json({
+        message: "Erreur lors de la suppression de la réponse.",
+        error: error.message,
+      });
+    }
+  };

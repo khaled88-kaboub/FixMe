@@ -5,7 +5,7 @@ import jsPDF from "jspdf";
 import autoTable from "jspdf-autotable";
 import Chart from "chart.js/auto";
 import "./InterventionEtRapport.css";
-import logo from "../assets/rmc.png";
+import logo from "../assets/rmc.jpg";
 
 export default function InterventionEtRapport() {
   const API_URL = import.meta.env.VITE_API_URL;

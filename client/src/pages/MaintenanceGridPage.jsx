@@ -289,10 +289,62 @@ const MaintenanceGridPage = () => {
             <p><strong>Description :</strong> {selected.descriptionAnomalie || "-"}</p>
             <p><strong>Statut :</strong> {selected.statut || "-"}</p>
             <p><strong>Créée le :</strong> {selected.createdAt ? new Date(selected.createdAt).toLocaleString() : "-"}</p>
-            <p><strong>Arrêt ligne :</strong> {String(selected.ligneAsubiArret ?? "false")}</p>
-            <p><strong>Date & Heure Arrêt ligne :</strong> {selected.dateHeureArretLigne ? selected.dateHeureArretLigne.replace('T', ' ').slice(0, 16) : "-"}</p>
-            <p><strong>Arrêt equipement :</strong> {String(selected.equipementAsubiArret ?? "false")}</p>
-            <p><strong>Date & Heure Arrêt equipement :</strong> {selected.dateHeureArretEquipement ? selected.dateHeureArretEquipement.replace('T', ' ').slice(0, 16) : "-"}</p>
+            <p><strong className="neutre">Arrêt ligne :</strong> {String(selected.ligneAsubiArret ?? "false")}</p>
+            <p><strong className="rouge">Date & Heure Arrêt ligne :</strong> {selected.dateHeureArretLigne ? selected.dateHeureArretLigne.replace('T', ' ').slice(0, 16) : "-"}</p>
+            <p><strong className="vert">Date & Heure Démarrage ligne :</strong> {selected.dateHeureDemarrageLigne ? selected.dateHeureDemarrageLigne.replace('T', ' ').slice(0, 16) : "-"}</p>
+            
+            <p><strong className="neutre">Arrêt equipement :</strong> {String(selected.equipementAsubiArret ?? "false")}</p>
+            <p><strong className="rouge">Date & Heure Arrêt equipement :</strong> {selected.dateHeureArretEquipement ? selected.dateHeureArretEquipement.replace('T', ' ').slice(0, 16) : "-"}</p>
+            <p><strong className="vert">Date & Heure Démarrage equipement :</strong> {selected.dateHeureDemarrageEquipement ? selected.dateHeureDemarrageEquipement.replace('T', ' ').slice(0, 16) : "-"}</p>
+      
+      {/* =================================================== */}
+  {/* DESSIN / FRISE CHRONOLOGIQUE DE L'ARRÊT LIGNE       */}
+  {/* =================================================== */}
+  {selected.ligneAsubiArret && selected.dateHeureArretLigne && selected.dateHeureDemarrageLigne && (
+    <div style={{ marginTop: "20px", padding: "15px", background: "#f8fafc", borderRadius: "8px", border: "1px solid #e2e8f0" }}>
+      <p style={{ fontSize: "0.85rem", fontWeight: "bold", color: "#64748b", marginBottom: "8px", textAlign: "center", textTransform: "uppercase" }}>
+        Chronométrie de l'Arrêt Ligne
+      </p>
+      
+      <div style={{ display: "flex", justifyContent: "space-between", alignItems: "center", position: "relative", margin: "25px 10px 10px 10px" }}>
+        {/* Ligne horizontale */}
+        <div style={{ position: "absolute", top: "50%", left: "0", right: "0", height: "4px", backgroundColor: "#ef4444", transform: "translateY(-50%)", zIndex: 1 }}></div>
+        
+        {/* Point de départ (Arrêt) */}
+        <div style={{ zIndex: 2, background: "#ffffff", padding: "0 5px", textAlign: "left" }}>
+          <span style={{ display: "inline-block", width: "12px", height: "12px", borderRadius: "50%", backgroundColor: "#ef4444", marginRight: "5px" }}></span>
+          <strong style={{ fontSize: "0.85rem", color: "#ef4444" }}>Arrêt</strong>
+          <div style={{ fontSize: "0.8rem", color: "#1e293b", fontWeight: "600" }}>
+            {selected.dateHeureArretLigne.replace('T', ' ').slice(0, 16)}
+          </div>
+        </div>
+
+        {/* Badge durée au centre */}
+        <div style={{ zIndex: 3, background: "#1e293b", color: "#ffffff", padding: "6px 14px", borderRadius: "20px", fontSize: "0.85rem", fontWeight: "bold", boxShadow: "0 2px 4px rgba(0,0,0,0.1)" }}>
+          ⏱️ {(() => {
+            const start = new Date(selected.dateHeureArretLigne);
+            const end = new Date(selected.dateHeureDemarrageLigne);
+            const diffMs = end - start;
+            if (isNaN(diffMs) || diffMs < 0) return "Durée invalide";
+            const diffMins = Math.floor(diffMs / 60000);
+            const hours = Math.floor(diffMins / 60);
+            const mins = diffMins % 60;
+            return hours > 0 ? `${hours}h ${mins}min` : `${diffMins} min`;
+          })()}
+        </div>
+
+        {/* Point d'arrivée (Démarrage) */}
+        <div style={{ zIndex: 2, background: "#ffffff", padding: "0 5px", textAlign: "right" }}>
+          <div style={{ fontSize: "0.8rem", color: "#1e293b", fontWeight: "600" }}>
+            {selected.dateHeureDemarrageLigne.replace('T', ' ').slice(0, 16)}
+          </div>
+          <strong style={{ fontSize: "0.85rem", color: "#10b981" }}>Démarrage</strong>
+          <span style={{ display: "inline-block", width: "12px", height: "12px", borderRadius: "50%", backgroundColor: "#10b981", marginLeft: "5px" }}></span>
+        </div>
+      </div>
+    </div>
+  )}
+
       <button className="btn-mod" onClick={() => setSelected(null)}>Fermer</button>
     </div>
   </div>

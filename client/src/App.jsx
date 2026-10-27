@@ -58,10 +58,11 @@ import ArretsnonPlanifiesPage from "./pages/ArretsnonPlanifiesPage";
 import PlanificationProductionPage from "./pages/PlanificationProductionPage";
 import AdminPassationConsigne from "./pages/AdminPassationConsigne";
 import AdminPassationConsigneUser from "./pages/AdminPassationConsigneUser";
-
-
-
-
+import ProcessCoverPage from "./pages/ProcessCoverPage"
+import ProcessLogigrammePage from "./pages/ProcessLogigrammePage";
+import ProcessIndicators from "./pages/ProcessIndicators";
+import Iso9001 from "./pages/Iso9001";
+import ProcessRisques from "./Pages/ProcessRisques";
 import "react-toastify/dist/ReactToastify.css";
 import AdminInterventionFournisseur from "./pages/AdminInterventionFournisseur";
 import HomeSplash from "./components/HomeSplash";
@@ -151,9 +152,11 @@ export default function App() {
                element={
               <ProtectedRoute allowedRoles={["admin"]}>
                 <MenuAdminPage />
+                
               </ProtectedRoute>
               }
              >
+              
               <Route path="lignes" element={<AdminLignesPage />} />
               <Route path="equipements" element={<AdminEquipementPage />} />
               <Route path="techniciens" element={<TechniciensPage/>}/>
@@ -181,6 +184,11 @@ export default function App() {
               <Route path="arret-non-planifie" element={<ArretsnonPlanifiesPage />} />
               <Route path="planifier-production" element={<PlanificationProductionPage />} />
               <Route path="passation" element={<AdminPassationConsigne />} />
+              <Route path="page-garde" element={<ProcessCoverPage />} />
+              <Route path="logigramme" element={<ProcessLogigrammePage />} />
+              <Route path="tableau-board" element={<ProcessIndicators />} />
+              <Route path="iso" element={<Iso9001 />} />
+              <Route path="risque" element={<ProcessRisques />} />
              </Route>
 
 
@@ -209,6 +217,12 @@ export default function App() {
              
               <Route path="dashboard-maintenance" element={<DashboardMaintenance />} />
               <Route path="passation" element={<AdminPassationConsigneUser />} />
+             
+              <Route path="page-garde" element={<ProcessCoverPage />} />
+              <Route path="logigramme" element={<ProcessLogigrammePage />} />
+              <Route path="tableau-board" element={<ProcessIndicators />} />
+              <Route path="iso" element={<Iso9001 />} />
+              <Route path="risque" element={<ProcessRisques />} />
              </Route>
 
 
@@ -230,6 +244,11 @@ export default function App() {
           <Route path="compteurs2" element={<CompteurListPage2 />} />
           <Route path="dashboard-maintenance" element={<DashboardMaintenance />} />
           <Route path="passation" element={<AdminPassationConsigneUser />} />
+          <Route path="page-garde" element={<ProcessCoverPage />} />
+              <Route path="logigramme" element={<ProcessLogigrammePage />} />
+              <Route path="tableau-board" element={<ProcessIndicators />} />
+              <Route path="iso" element={<Iso9001 />} />
+              <Route path="risque" element={<ProcessRisques />} />
           </Route>
          
          {/* --- Role Méthodes --- */} 

@@ -1,0 +1,125 @@
+.process-cover-container {
+    max-width: 1200px;
+    margin: 50px auto;
+    padding: 24px;
+    font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+    background-color: #f8f9fa;
+    color: #333;
+  }
+  
+  .process-header {
+    background: linear-gradient(135deg, #0f172a, #1e293b);
+    color: white;
+    padding: 24px 32px;
+    border-radius: 12px;
+    margin-bottom: 24px;
+    box-shadow: 0 4px 6px rgba(0,0,0,0.1);
+  }
+  
+  .process-badge {
+    display: inline-block;
+    align-items: center;
+    background-color: #3b82f6;
+    color: white;
+    font-size: 1.80rem;
+    font-weight: 600;
+    padding: 8px 16px;
+    border-radius: 20px;
+    margin-bottom: 12px;
+    text-transform: uppercase;
+  }
+  
+  .process-header h1 {
+    margin: 0 0 12px 0;
+    font-size: 1.8rem;
+    color: #e0f2fe;
+  }
+  
+  .process-ref {
+    display: flex;
+    justify-content: space-between;
+    font-size: 0.95rem;
+    opacity: 0.9;
+  }
+  
+  .process-section-title {
+    font-size: 1.2rem;
+    font-weight: 700;
+    margin: 24px 0 12px 0;
+    color: #1e293b;
+    border-left: 4px solid #3b82f6;
+    padding-left: 10px;
+  }
+  
+  .process-grid {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  
+  .process-grid-2 {
+    display: grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    gap: 16px;
+    margin-bottom: 16px;
+  }
+  
+  .process-card {
+    background: white;
+    padding: 20px;
+    border-radius: 10px;
+    box-shadow: 0 2px 4px rgba(0,0,0,0.05);
+    border: 1px solid #e2e8f0;
+    transition: transform 0.2s ease, box-shadow 0.2s ease;
+  }
+  
+  .process-card:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 6px 12px rgba(0,0,0,0.08);
+  }
+  
+  .process-card h3 {
+    margin-top: 0;
+    margin-bottom: 10px;
+    font-size: 1.05rem;
+    color: #1e293b;
+  }
+  
+  .process-card p {
+    margin: 8px 0;
+    font-size: 0.95rem;
+    color: #475569;
+    line-height: 1.5;
+  }
+  
+  .highlight-card {
+    background: linear-gradient(to bottom right, #ffffff, #f1f5f9);
+    border-left: 4px solid #10b981;
+  }
+  
+  .flow-card ul {
+    margin: 0;
+    padding-left: 20px;
+    color: #475569;
+    font-size: 0.92rem;
+  }
+  
+  .flow-card li {
+    margin-bottom: 6px;
+  }
+  
+  .full-width {
+    grid-column: 1 / -1;
+    margin-top: 16px;
+  }
+  
+  .badge-support {
+    display: inline-block;
+    background-color: #e0f2fe;
+    color: #0369a1;
+    padding: 4px 10px;
+    border-radius: 6px;
+    font-weight: 600;
+    font-size: 0.9rem;
+  }

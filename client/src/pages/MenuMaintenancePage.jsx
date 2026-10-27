@@ -60,6 +60,11 @@ export default function MenuMaintenancePage() {
             </Link>
           </li>
 
+          <li >
+          <Link to="iso" onClick={closeMenu} >
+                -- Processus ISO 9001 --
+            </Link>
+          </li>
         </ul>
       </aside>
 
